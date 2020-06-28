@@ -9,7 +9,7 @@
     <meta name="generator" content="Hugo 0.73.0" />
     
     
-      <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+      <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
     
 
     
@@ -44,10 +44,23 @@
 <meta name="twitter:title" content="Hiding XXE in Spreadsheets"/>
 <meta name="twitter:description" content="Recently I tried to poke holes in a service. I found myself laughing out loud. This was a vulnerability whereby modifying a SAML authentication while being rePOSTed via the browser allowed me to inject a malicious payload (see XML External Entity (XXE) Processing and XML External Entity (XXE) Prevention Cheat Sheet) that could be used to use up a service&rsquo;s memory and CPU. Health checks and automatic service restarts would have healed the service but it still would have allowed an attacker to mount a Denial of Service attack without needing a lot of requests."/>
 
+      
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-171035600-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+    
 	
   </head>
 
-  <body class="ma0 avenir bg-near-white">
+  <body class="ma0 avenir bg-near-white production">
 
     
    
