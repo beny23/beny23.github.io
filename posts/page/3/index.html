@@ -1,13 +1,278 @@
-<!doctype html><html lang=en-gb><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>Tales about Software Engineering</title><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=generator content="Hugo 0.73.0"><meta name=ROBOTS content="INDEX, FOLLOW"><link href=/dist/css/app.4fc0b62e4b82c997bb0041217cd6b979.css rel=stylesheet><link href=/posts/index.xml rel=alternate type=application/rss+xml title="Tales about Software Engineering"><link href=/posts/index.xml rel=feed type=application/rss+xml title="Tales about Software Engineering"><meta property="og:title" content="Posts"><meta property="og:description" content="Writings about software: development and security"><meta property="og:type" content="website"><meta property="og:url" content="https://beny23.github.io/posts/"><meta property="og:updated_time" content="2022-01-23T01:19:35+00:00"><meta itemprop=name content="Posts"><meta itemprop=description content="Writings about software: development and security"><meta name=twitter:card content="summary"><meta name=twitter:title content="Posts"><meta name=twitter:description content="Writings about software: development and security"><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;ga('create','UA-171035600-1','auto');ga('send','pageview');}</script><script async src=https://www.google-analytics.com/analytics.js></script></head><body class="ma0 avenir bg-near-white production"><header class="cover bg-top" style=background-image:url(https://beny23.github.io/images/background.png)><div class=bg-black-60><nav class="pv3 ph3 ph4-ns" role=navigation><div class="flex-l justify-between items-center center"><a href=/ class="f3 fw2 hover-white no-underline white-90 dib">Tales about Software Engineering</a><div class="flex-l items-center"><ul class="pl0 mr3"><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white no-underline white-90" href=/about/ title="About page">About</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white no-underline white-90" href=/posts/ title="Blog page">Blog</a></li></ul><a href=https://stackoverflow.com/users/227140/beny23 target=_blank class="link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Stack Overflow link" rel=noopener aria-label="follow on Stack Overflow——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32"><path d="M12 0C5.373.0.0 5.373.0 12s5.373 12 12 12 12-5.373 12-12S18.627.0 12 0zm.869 5.903 3.114 4.567-.975.665-3.115-4.567.976-.665zm-2.812 2.585 4.84 2.838-.6 1.017-4.842-2.838.602-1.017zm-1.276 2.724 5.413 1.521-.291 1.077-5.428-1.458.306-1.14zm-.588 2.461 5.687.569-.103 1.12-5.691-.513.107-1.176zm-.169 2.16h5.835V17h-5.835v-1.167zM16 19H6v-6h1v5h8v-5h1v6zm.195-8.602-.945-5.446 1.162-.202.947 5.446-1.164.202z"/></svg><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a><a href=https://twitter.com/giskard23 target=_blank class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel=noopener aria-label="follow on Twitter——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a><a href=https://www.linkedin.com/in/gerald-benischke-9811b663 target=_blank class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel=noopener aria-label="follow on LinkedIn——Opens in a new window"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30C64 50.568 50.568 64 34 64zM26.354 48.137V27.71h-6.789v20.427H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a><a href=https://github.com/beny23 target=_blank class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel=noopener aria-label="follow on Github——Opens in a new window"><svg height="32" style="enable-background:new 0 0 512 512" viewBox="0 0 512 512" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M256 32C132.3 32 32 134.8 32 261.7c0 101.5 64.2 187.5 153.2 217.9 11.2 2.1 15.3-5 15.3-11.1.0-5.5-.2-19.9-.3-39.1-62.3 13.9-75.5-30.8-75.5-30.8-10.2-26.5-24.9-33.6-24.9-33.6-20.3-14.3 1.5-14 1.5-14 22.5 1.6 34.3 23.7 34.3 23.7 20 35.1 52.4 25 65.2 19.1 2-14.8 7.8-25 14.2-30.7-49.7-5.8-102-25.5-102-113.5.0-25.1 8.7-45.6 23-61.6-2.3-5.8-10-29.2 2.2-60.8.0.0 18.8-6.2 61.6 23.5 17.9-5.1 37-7.6 56.1-7.7 19 .1 38.2 2.6 56.1 7.7 42.8-29.7 61.5-23.5 61.5-23.5 12.2 31.6 4.5 55 2.2 60.8 14.3 16.1 23 36.6 23 61.6.0 88.2-52.4 107.6-102.3 113.3 8 7.1 15.2 21.1 15.2 42.5.0 30.7-.3 55.5-.3 63 0 6.1 4 13.3 15.4 11C415.9 449.1 480 363.1 480 261.7 480 134.8 379.7 32 256 32z"/></svg><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a></div></div></nav><div class="tc-l pv4 pv6-l ph3 ph4-ns"><h1 class="f2 f-subheadline-l fw2 white-90 mb0 lh-title">Posts</h1></div></div></header><main class=pb7 role=main><article class="pa3 pa4-ns nested-copy-line-height nested-img"><section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy mid-gray"></section><section class="flex-ns flex-wrap justify-around mt5"><div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height"><div class="bg-white mb3 pa4 gray overflow-hidden"><span class="f6 db">Posts</span><h1 class="f3 near-black"><a href=https://beny23.github.io/posts/screen_record_meetings/ class="link black dim">Record and publish your meeting</a></h1><div class="nested-links f5 lh-copy nested-copy-line-height">Scenario: You&rsquo;re in a handover session and explain everything in great detail but Dave is too hungover, Jim is on holiday and Jane is at another meeting and Chris isn&rsquo;t asking any questions and in any case Trevor (who is actually going to be looking after this system after handover) hasn&rsquo;t been recruited yet.
-Wouldn&rsquo;t it be useful to record the session and make it available? Now, this piece of writing does not explore whether we should be recording meetings, nor does it attempt to answer the question of whether good documentation wouldn&rsquo;t be preferable to having to sit and spend hours watching someone droning on about something that could be condensed into a five minute read of a blog post.</div></div></div></div><div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height"><div class="bg-white mb3 pa4 gray overflow-hidden"><span class="f6 db">Posts</span><h1 class="f3 near-black"><a href=https://beny23.github.io/posts/fizzbuzz_without_ifs/ class="link black dim">Fizzbuzz without if clauses</a></h1><div class="nested-links f5 lh-copy nested-copy-line-height">In this writing I aim to complete a Fizzbuzz without if statements, conditionals, pattern matching or even using modulus calculations. And if that isn&rsquo;t enough I thought I&rsquo;d use the opportunity to explore Haskell.
-The idea originated in the Friday lunchtime &ldquo;Curry Club&rdquo; at HMRC Digital where a few like-minded software engineers are getting together to teach themselves Haskell. (For those not in on the joke, the language is named after the logician Haskell Curry).</div></div></div></div><div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height"><div class="bg-white mb3 pa4 gray overflow-hidden"><span class="f6 db">Posts</span><h1 class="f3 near-black"><a href=https://beny23.github.io/posts/one_plus_one_is_crash/ class="link black dim">Exponential exploit: Why AppSec is hard</a></h1><div class="nested-links f5 lh-copy nested-copy-line-height">In this blog post, I would like to explore how missing input validation even in a trivial service can leave parts of server infrastructure crumbling.
-In my opinion, this why securing applications (AppSec) is very difficult. Put supply chain attacks, unpatched systems and misconfiguring services to one side for a minute and consider that a lot of software is written by developers who do not necessarily consider all the edge cases or implications of what can go wrong even in the simplest of pieces of code (or just copy/paste from Stackoverflow).</div></div></div></div><div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height"><div class="bg-white mb3 pa4 gray overflow-hidden"><span class="f6 db">Posts</span><h1 class="f3 near-black"><a href=https://beny23.github.io/posts/rds_tcps_db_link/ class="link black dim">Fixing Oracle DB Link Certificate Errors in RDS</a></h1><div class="nested-links f5 lh-copy nested-copy-line-height">After upgrading my AWS RDS instance from Oracle 11g Oracle 19c, my DB Link stopped working with a certificate error. Uh-oh.
+<!doctype html><html lang=en-gb>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>Tales about Software Engineering</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=generator content="Hugo 0.92.0">
+<meta name=ROBOTS content="INDEX, FOLLOW">
+<link href=/dist/css/app.4fc0b62e4b82c997bb0041217cd6b979.css rel=stylesheet>
+<link href=/posts/index.xml rel=alternate type=application/rss+xml title="Tales about Software Engineering">
+<link href=/posts/index.xml rel=feed type=application/rss+xml title="Tales about Software Engineering">
+<meta property="og:title" content="Posts">
+<meta property="og:description" content="Writings about software: development and security">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://beny23.github.io/posts/">
+<meta itemprop=name content="Posts">
+<meta itemprop=description content="Writings about software: development and security"><meta name=twitter:card content="summary">
+<meta name=twitter:title content="Posts">
+<meta name=twitter:description content="Writings about software: development and security">
+<script type=application/javascript>var doNotTrack=!1;doNotTrack||(window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga('create','UA-171035600-1','auto'),ga('send','pageview'))</script>
+<script async src=https://www.google-analytics.com/analytics.js></script>
+</head>
+<body class="ma0 avenir bg-near-white production">
+<header class="cover bg-top" style=background-image:url(https://beny23.github.io/images/background.png)>
+<div class=bg-black-60>
+<nav class="pv3 ph3 ph4-ns" role=navigation>
+<div class="flex-l justify-between items-center center">
+<a href=/ class="f3 fw2 hover-white no-underline white-90 dib">
+Tales about Software Engineering
+</a>
+<div class="flex-l items-center">
+<ul class="pl0 mr3">
+<li class="list f5 f4-ns fw4 dib pr3">
+<a class="hover-white no-underline white-90" href=/about/ title="About page">
+About
+</a>
+</li>
+<li class="list f5 f4-ns fw4 dib pr3">
+<a class="hover-white no-underline white-90" href=/posts/ title="Blog page">
+Blog
+</a>
+</li>
+<li class="list f5 f4-ns fw4 dib pr3">
+<a class="hover-white no-underline white-90" href=/tags/ title="Tags page">
+Tags
+</a>
+</li>
+</ul>
+<a href=https://stackoverflow.com/users/227140/beny23 target=_blank class="link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Stack Overflow link" rel=noopener aria-label="follow on Stack Overflow——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32"><path d="M12 0C5.373.0.0 5.373.0 12s5.373 12 12 12 12-5.373 12-12S18.627.0 12 0zm.869 5.903 3.114 4.567-.975.665-3.115-4.567.976-.665zm-2.812 2.585 4.84 2.838-.6 1.017-4.842-2.838.602-1.017zm-1.276 2.724 5.413 1.521-.291 1.077-5.428-1.458.306-1.14zm-.588 2.461 5.687.569-.103 1.12-5.691-.513.107-1.176zm-.169 2.16h5.835V17H8.024v-1.167zM16 19H6v-6h1v5h8v-5h1v6zm.195-8.602-.945-5.446 1.162-.202.947 5.446-1.164.202z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://twitter.com/giskard23 target=_blank class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel=noopener aria-label="follow on Twitter——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://www.linkedin.com/in/gerald-benischke-9811b663 target=_blank class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel=noopener aria-label="follow on LinkedIn——Opens in a new window"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://github.com/beny23 target=_blank class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel=noopener aria-label="follow on Github——Opens in a new window"><svg height="32" style="enable-background:new 0 0 512 512" viewBox="0 0 512 512" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M256 32C132.3 32 32 134.8 32 261.7c0 101.5 64.2 187.5 153.2 217.9 11.2 2.1 15.3-5 15.3-11.1.0-5.5-.2-19.9-.3-39.1-62.3 13.9-75.5-30.8-75.5-30.8-10.2-26.5-24.9-33.6-24.9-33.6-20.3-14.3 1.5-14 1.5-14 22.5 1.6 34.3 23.7 34.3 23.7 20 35.1 52.4 25 65.2 19.1 2-14.8 7.8-25 14.2-30.7-49.7-5.8-102-25.5-102-113.5.0-25.1 8.7-45.6 23-61.6-2.3-5.8-10-29.2 2.2-60.8.0.0 18.8-6.2 61.6 23.5 17.9-5.1 37-7.6 56.1-7.7 19 .1 38.2 2.6 56.1 7.7 42.8-29.7 61.5-23.5 61.5-23.5 12.2 31.6 4.5 55 2.2 60.8 14.3 16.1 23 36.6 23 61.6.0 88.2-52.4 107.6-102.3 113.3 8 7.1 15.2 21.1 15.2 42.5.0 30.7-.3 55.5-.3 63 0 6.1 4 13.3 15.4 11C415.9 449.1 480 363.1 480 261.7 480 134.8 379.7 32 256 32z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+</div>
+</div>
+</nav>
+<div class="tc-l pv4 pv6-l ph3 ph4-ns">
+<h1 class="f2 f-subheadline-l fw2 white-90 mb0 lh-title">
+Posts
+</h1>
+</div>
+</div>
+</header>
+<main class=pb7 role=main>
+<article class="pa3 pa4-ns nested-copy-line-height nested-img">
+<section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy mid-gray"></section>
+<section class="flex-ns flex-wrap justify-around mt5">
+<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
+<div class="bg-white mb3 pa4 gray overflow-hidden">
+<span class="f6 db">Posts</span>
+<h1 class="f3 near-black">
+<a href=https://beny23.github.io/posts/screen_record_meetings/ class="link black dim">
+Record and publish your meeting
+</a>
+</h1>
+<div class="nested-links f5 lh-copy nested-copy-line-height">
+Scenario: You&rsquo;re in a handover session and explain everything in great detail but Dave is too hungover, Jim is on holiday and Jane is at another meeting and Chris isn&rsquo;t asking any questions and in any case Trevor (who is actually going to be looking after this system after handover) hasn&rsquo;t been recruited yet.
+Wouldn&rsquo;t it be useful to record the session and make it available? Now, this piece of writing does not explore whether we should be recording meetings, nor does it attempt to answer the question of whether good documentation wouldn&rsquo;t be preferable to having to sit and spend hours watching someone droning on about something that could be condensed into a five minute read of a blog post.
+</div>
+</div>
+</div>
+</div>
+<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
+<div class="bg-white mb3 pa4 gray overflow-hidden">
+<span class="f6 db">Posts</span>
+<h1 class="f3 near-black">
+<a href=https://beny23.github.io/posts/fizzbuzz_without_ifs/ class="link black dim">
+Fizzbuzz without if clauses
+</a>
+</h1>
+<div class="nested-links f5 lh-copy nested-copy-line-height">
+In this writing I aim to complete a Fizzbuzz without if statements, conditionals, pattern matching or even using modulus calculations. And if that isn&rsquo;t enough I thought I&rsquo;d use the opportunity to explore Haskell.
+The idea originated in the Friday lunchtime &ldquo;Curry Club&rdquo; at HMRC Digital where a few like-minded software engineers are getting together to teach themselves Haskell. (For those not in on the joke, the language is named after the logician Haskell Curry).
+</div>
+</div>
+</div>
+</div>
+<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
+<div class="bg-white mb3 pa4 gray overflow-hidden">
+<span class="f6 db">Posts</span>
+<h1 class="f3 near-black">
+<a href=https://beny23.github.io/posts/one_plus_one_is_crash/ class="link black dim">
+Exponential exploit: Why AppSec is hard
+</a>
+</h1>
+<div class="nested-links f5 lh-copy nested-copy-line-height">
+In this blog post, I would like to explore how missing input validation even in a trivial service can leave parts of server infrastructure crumbling.
+In my opinion, this why securing applications (AppSec) is very difficult. Put supply chain attacks, unpatched systems and misconfiguring services to one side for a minute and consider that a lot of software is written by developers who do not necessarily consider all the edge cases or implications of what can go wrong even in the simplest of pieces of code (or just copy/paste from Stackoverflow).
+</div>
+</div>
+</div>
+</div>
+<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
+<div class="bg-white mb3 pa4 gray overflow-hidden">
+<span class="f6 db">Posts</span>
+<h1 class="f3 near-black">
+<a href=https://beny23.github.io/posts/rds_tcps_db_link/ class="link black dim">
+Fixing Oracle DB Link Certificate Errors in RDS
+</a>
+</h1>
+<div class="nested-links f5 lh-copy nested-copy-line-height">
+After upgrading my AWS RDS instance from Oracle 11g Oracle 19c, my DB Link stopped working with a certificate error. Uh-oh.
 The symptoms of the problem that I encountered are best summed up by this SQL*Plus snippet:
 SQL> select * from dual@test1; select * from dual@test1 * ERROR at line 1: ORA-29024: Certificate validation failure A bit of context:
-The above is testing an Oracle Database Link &ldquo;test1&rdquo; which was created using the TCPS protocol (i.</div></div></div></div><div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height"><div class="bg-white mb3 pa4 gray overflow-hidden"><span class="f6 db">Posts</span><h1 class="f3 near-black"><a href=https://beny23.github.io/posts/social_network_distance/ class="link black dim">Social network distance</a></h1><div class="nested-links f5 lh-copy nested-copy-line-height">It&rsquo;s now about two weeks since the HMRCs splurge on getting the UK to go out for a meal has finished. In discount dining finder I showed how to make a map-based tool to search all Eat Out to Help Out (EOTHO) establishments in very little time.
+The above is testing an Oracle Database Link &ldquo;test1&rdquo; which was created using the TCPS protocol (i.
+</div>
+</div>
+</div>
+</div>
+<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
+<div class="bg-white mb3 pa4 gray overflow-hidden">
+<span class="f6 db">Posts</span>
+<h1 class="f3 near-black">
+<a href=https://beny23.github.io/posts/social_network_distance/ class="link black dim">
+Social network distance
+</a>
+</h1>
+<div class="nested-links f5 lh-copy nested-copy-line-height">
+It&rsquo;s now about two weeks since the HMRCs splurge on getting the UK to go out for a meal has finished. In discount dining finder I showed how to make a map-based tool to search all Eat Out to Help Out (EOTHO) establishments in very little time.
 What follows is the story of what happened after the site launched, and how I failed to make a dent at marketing.
-To recap:</div></div></div></div><div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height"><div class="bg-white mb3 pa4 gray overflow-hidden"><span class="f6 db">Posts</span><h1 class="f3 near-black"><a href=https://beny23.github.io/posts/discounted_dining_finder/ class="link black dim">Discounted Dining Finder</a></h1><div class="nested-links f5 lh-copy nested-copy-line-height">This post describes how I developed the Discount Dining Finder a lookup map tool for the Eat Out to Help Out scheme in my spare time. I currently work with Equal Experts and HMRC. The aim of this writing is to provide an insight into how problems of scaling services can be solved by having no servers and not using &ldquo;serverless services&rdquo; either.
-Aperitif A really nice side effect in working in a high functioning environment is that sometimes you&rsquo;re involved in bouncing ideas off each other.</div></div></div></div><div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height"><div class="bg-white mb3 pa4 gray overflow-hidden"><span class="f6 db">Posts</span><h1 class="f3 near-black"><a href=https://beny23.github.io/posts/the_shield_and_the_sword/ class="link black dim">The Shield and the Sword</a></h1><div class="nested-links f5 lh-copy nested-copy-line-height">To successfully deliver software a developer needs a shield and a sword.
-A good product owner, delivery manager or alike that will shield the engineers from having to attend too many meetings, giving long-winded status updates and essentially allow them to get on with it. Shields go to all the meetings with the &ldquo;business&rdquo; and explain what can and cannot be done, without the engineer having to attend. A shield would also filter all the last-minute requirements or requests for gold plating without having to be dragged into endless meetings.</div></div></div></div><div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height"><div class="bg-white mb3 pa4 gray overflow-hidden"><span class="f6 db">Posts</span><h1 class="f3 near-black"><a href=https://beny23.github.io/posts/making_software_quickly/ class="link black dim">Making Software. Quickly.</a></h1><div class="nested-links f5 lh-copy nested-copy-line-height">In this post, I describe my personal experience of being part of a software development team working with Equal Experts and HMRC during Covid-19. Under normal circumstances, we&rsquo;re responsible for tax services such as Self Assessment, PAYE Expenses and Benefits, VAT submissions amongst others. These services run on the Multi-channel Digital Tax Platform (MDTP). This platform is hosted in a hyperscale cloud (the cloud provider has a sideline selling books), run in-house by HMRC teams made up of permanent staff and consultants.</div></div></div></div><div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height"><div class="bg-white mb3 pa4 gray overflow-hidden"><span class="f6 db">Posts</span><h1 class="f3 near-black"><a href=https://beny23.github.io/posts/one_million_records_in_15s/ class="link black dim">One million records in 15 seconds</a></h1><div class="nested-links f5 lh-copy nested-copy-line-height">In this post, I&rsquo;d like to talk about optimisations that I recently used to provide a Scala Microservice that surfaced payment events. The events were held in an Oracle backend and the Microservice was in a docker container with (1 vCPU) allocated 512MB to the container and 256MB to the JVM that was running it. In this writing I&rsquo;m not going to talk about the Oracle optimisations to make the underlying query fly but rather would like to concentrate on the kinds of things that can make service code quick.</div></div></div></div><div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height"><div class="bg-white mb3 pa4 gray overflow-hidden"><span class="f6 db">Posts</span><h1 class="f3 near-black"><a href=https://beny23.github.io/posts/coerced_to_make_xerces_think/ class="link black dim">Coerced to make Xerces think</a></h1><div class="nested-links f5 lh-copy nested-copy-line-height">More and more I&rsquo;m thinking that XML is evil! This is the third part of my series on why, as a software engineer, it is very useful to think about the potentially dangerous combination of outdated libraries and XML.
+To recap:
+</div>
+</div>
+</div>
+</div>
+<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
+<div class="bg-white mb3 pa4 gray overflow-hidden">
+<span class="f6 db">Posts</span>
+<h1 class="f3 near-black">
+<a href=https://beny23.github.io/posts/discounted_dining_finder/ class="link black dim">
+Discounted Dining Finder
+</a>
+</h1>
+<div class="nested-links f5 lh-copy nested-copy-line-height">
+This post describes how I developed the Discount Dining Finder a lookup map tool for the Eat Out to Help Out scheme in my spare time. I currently work with Equal Experts and HMRC. The aim of this writing is to provide an insight into how problems of scaling services can be solved by having no servers and not using &ldquo;serverless services&rdquo; either.
+Aperitif A really nice side effect in working in a high functioning environment is that sometimes you&rsquo;re involved in bouncing ideas off each other.
+</div>
+</div>
+</div>
+</div>
+<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
+<div class="bg-white mb3 pa4 gray overflow-hidden">
+<span class="f6 db">Posts</span>
+<h1 class="f3 near-black">
+<a href=https://beny23.github.io/posts/the_shield_and_the_sword/ class="link black dim">
+The Shield and the Sword
+</a>
+</h1>
+<div class="nested-links f5 lh-copy nested-copy-line-height">
+To successfully deliver software a developer needs a shield and a sword.
+A good product owner, delivery manager or alike that will shield the engineers from having to attend too many meetings, giving long-winded status updates and essentially allow them to get on with it. Shields go to all the meetings with the &ldquo;business&rdquo; and explain what can and cannot be done, without the engineer having to attend. A shield would also filter all the last-minute requirements or requests for gold plating without having to be dragged into endless meetings.
+</div>
+</div>
+</div>
+</div>
+<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
+<div class="bg-white mb3 pa4 gray overflow-hidden">
+<span class="f6 db">Posts</span>
+<h1 class="f3 near-black">
+<a href=https://beny23.github.io/posts/making_software_quickly/ class="link black dim">
+Making Software. Quickly.
+</a>
+</h1>
+<div class="nested-links f5 lh-copy nested-copy-line-height">
+In this post, I describe my personal experience of being part of a software development team working with Equal Experts and HMRC during Covid-19. Under normal circumstances, we&rsquo;re responsible for tax services such as Self Assessment, PAYE Expenses and Benefits, VAT submissions amongst others. These services run on the Multi-channel Digital Tax Platform (MDTP). This platform is hosted in a hyperscale cloud (the cloud provider has a sideline selling books), run in-house by HMRC teams made up of permanent staff and consultants.
+</div>
+</div>
+</div>
+</div>
+<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
+<div class="bg-white mb3 pa4 gray overflow-hidden">
+<span class="f6 db">Posts</span>
+<h1 class="f3 near-black">
+<a href=https://beny23.github.io/posts/one_million_records_in_15s/ class="link black dim">
+One million records in 15 seconds
+</a>
+</h1>
+<div class="nested-links f5 lh-copy nested-copy-line-height">
+In this post, I&rsquo;d like to talk about optimisations that I recently used to provide a Scala Microservice that surfaced payment events. The events were held in an Oracle backend and the Microservice was in a docker container with (1 vCPU) allocated 512MB to the container and 256MB to the JVM that was running it. In this writing I&rsquo;m not going to talk about the Oracle optimisations to make the underlying query fly but rather would like to concentrate on the kinds of things that can make service code quick.
+</div>
+</div>
+</div>
+</div>
+<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
+<div class="bg-white mb3 pa4 gray overflow-hidden">
+<span class="f6 db">Posts</span>
+<h1 class="f3 near-black">
+<a href=https://beny23.github.io/posts/coerced_to_make_xerces_think/ class="link black dim">
+Coerced to make Xerces think
+</a>
+</h1>
+<div class="nested-links f5 lh-copy nested-copy-line-height">
+More and more I&rsquo;m thinking that XML is evil! This is the third part of my series on why, as a software engineer, it is very useful to think about the potentially dangerous combination of outdated libraries and XML.
 I recently carried out a review of the dependency scanning results CVE-2012-0881:
-Apache Xerces2 Java allows remote attackers to cause a denial of service (CPU consumption) via a crafted message to an XML service, which triggers hash table collisions.</div></div></div></div></section><ul class=pagination><li class=page-item><a href=/posts/ class=page-link aria-label=First><span aria-hidden=true>&#171;&#171;</span></a></li><li class=page-item><a href=/posts/page/2/ class=page-link aria-label=Previous><span aria-hidden=true>&#171;</span></a></li><li class=page-item><a class=page-link href=/posts/>1</a></li><li class=page-item><a class=page-link href=/posts/page/2/>2</a></li><li class="page-item active"><a class=page-link href=/posts/page/3/>3</a></li><li class=page-item><a class=page-link href=/posts/page/4/>4</a></li><li class=page-item><a href=/posts/page/4/ class=page-link aria-label=Next><span aria-hidden=true>&#187;</span></a></li><li class=page-item><a href=/posts/page/4/ class=page-link aria-label=Last><span aria-hidden=true>&#187;&#187;</span></a></li></ul></article></main><footer class="bg-black bottom-0 w-100 pa3" role=contentinfo><div class="flex justify-between"><a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href=https://beny23.github.io/>&copy; Software Design Systems 2022</a><div><a href=https://stackoverflow.com/users/227140/beny23 target=_blank class="link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Stack Overflow link" rel=noopener aria-label="follow on Stack Overflow——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32"><path d="M12 0C5.373.0.0 5.373.0 12s5.373 12 12 12 12-5.373 12-12S18.627.0 12 0zm.869 5.903 3.114 4.567-.975.665-3.115-4.567.976-.665zm-2.812 2.585 4.84 2.838-.6 1.017-4.842-2.838.602-1.017zm-1.276 2.724 5.413 1.521-.291 1.077-5.428-1.458.306-1.14zm-.588 2.461 5.687.569-.103 1.12-5.691-.513.107-1.176zm-.169 2.16h5.835V17h-5.835v-1.167zM16 19H6v-6h1v5h8v-5h1v6zm.195-8.602-.945-5.446 1.162-.202.947 5.446-1.164.202z"/></svg><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a><a href=https://twitter.com/giskard23 target=_blank class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel=noopener aria-label="follow on Twitter——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a><a href=https://www.linkedin.com/in/gerald-benischke-9811b663 target=_blank class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel=noopener aria-label="follow on LinkedIn——Opens in a new window"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30C64 50.568 50.568 64 34 64zM26.354 48.137V27.71h-6.789v20.427H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a><a href=https://github.com/beny23 target=_blank class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel=noopener aria-label="follow on Github——Opens in a new window"><svg height="32" style="enable-background:new 0 0 512 512" viewBox="0 0 512 512" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M256 32C132.3 32 32 134.8 32 261.7c0 101.5 64.2 187.5 153.2 217.9 11.2 2.1 15.3-5 15.3-11.1.0-5.5-.2-19.9-.3-39.1-62.3 13.9-75.5-30.8-75.5-30.8-10.2-26.5-24.9-33.6-24.9-33.6-20.3-14.3 1.5-14 1.5-14 22.5 1.6 34.3 23.7 34.3 23.7 20 35.1 52.4 25 65.2 19.1 2-14.8 7.8-25 14.2-30.7-49.7-5.8-102-25.5-102-113.5.0-25.1 8.7-45.6 23-61.6-2.3-5.8-10-29.2 2.2-60.8.0.0 18.8-6.2 61.6 23.5 17.9-5.1 37-7.6 56.1-7.7 19 .1 38.2 2.6 56.1 7.7 42.8-29.7 61.5-23.5 61.5-23.5 12.2 31.6 4.5 55 2.2 60.8 14.3 16.1 23 36.6 23 61.6.0 88.2-52.4 107.6-102.3 113.3 8 7.1 15.2 21.1 15.2 42.5.0 30.7-.3 55.5-.3 63 0 6.1 4 13.3 15.4 11C415.9 449.1 480 363.1 480 261.7 480 134.8 379.7 32 256 32z"/></svg><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a></div></div></footer><script src=/dist/js/app.3fc0f988d21662902933.js></script></body></html>
+Apache Xerces2 Java allows remote attackers to cause a denial of service (CPU consumption) via a crafted message to an XML service, which triggers hash table collisions.
+</div>
+</div>
+</div>
+</div>
+</section>
+<ul class="pagination pagination-default">
+<li class=page-item>
+<a href=/posts/ aria-label=First class=page-link role=button><span aria-hidden=true>&#171;&#171;</span></a>
+</li>
+<li class=page-item>
+<a href=/posts/page/2/ aria-label=Previous class=page-link role=button><span aria-hidden=true>&#171;</span></a>
+</li>
+<li class=page-item>
+<a href=/posts/ aria-label="Page 1" class=page-link role=button>1</a>
+</li>
+<li class=page-item>
+<a href=/posts/page/2/ aria-label="Page 2" class=page-link role=button>2</a>
+</li>
+<li class="page-item active">
+<a aria-current=page aria-label="Page 3" class=page-link role=button>3</a>
+</li>
+<li class=page-item>
+<a href=/posts/page/4/ aria-label="Page 4" class=page-link role=button>4</a>
+</li>
+<li class=page-item>
+<a href=/posts/page/4/ aria-label=Next class=page-link role=button><span aria-hidden=true>&#187;</span></a>
+</li>
+<li class=page-item>
+<a href=/posts/page/4/ aria-label=Last class=page-link role=button><span aria-hidden=true>&#187;&#187;</span></a>
+</li>
+</ul></article>
+</main>
+<footer class="bg-black bottom-0 w-100 pa3" role=contentinfo>
+<div class="flex justify-between">
+<a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href=https://beny23.github.io/>
+&copy; Software Design Systems 2022
+</a>
+<div>
+<a href=https://stackoverflow.com/users/227140/beny23 target=_blank class="link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Stack Overflow link" rel=noopener aria-label="follow on Stack Overflow——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32"><path d="M12 0C5.373.0.0 5.373.0 12s5.373 12 12 12 12-5.373 12-12S18.627.0 12 0zm.869 5.903 3.114 4.567-.975.665-3.115-4.567.976-.665zm-2.812 2.585 4.84 2.838-.6 1.017-4.842-2.838.602-1.017zm-1.276 2.724 5.413 1.521-.291 1.077-5.428-1.458.306-1.14zm-.588 2.461 5.687.569-.103 1.12-5.691-.513.107-1.176zm-.169 2.16h5.835V17H8.024v-1.167zM16 19H6v-6h1v5h8v-5h1v6zm.195-8.602-.945-5.446 1.162-.202.947 5.446-1.164.202z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://twitter.com/giskard23 target=_blank class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel=noopener aria-label="follow on Twitter——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://www.linkedin.com/in/gerald-benischke-9811b663 target=_blank class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel=noopener aria-label="follow on LinkedIn——Opens in a new window"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://github.com/beny23 target=_blank class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel=noopener aria-label="follow on Github——Opens in a new window"><svg height="32" style="enable-background:new 0 0 512 512" viewBox="0 0 512 512" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M256 32C132.3 32 32 134.8 32 261.7c0 101.5 64.2 187.5 153.2 217.9 11.2 2.1 15.3-5 15.3-11.1.0-5.5-.2-19.9-.3-39.1-62.3 13.9-75.5-30.8-75.5-30.8-10.2-26.5-24.9-33.6-24.9-33.6-20.3-14.3 1.5-14 1.5-14 22.5 1.6 34.3 23.7 34.3 23.7 20 35.1 52.4 25 65.2 19.1 2-14.8 7.8-25 14.2-30.7-49.7-5.8-102-25.5-102-113.5.0-25.1 8.7-45.6 23-61.6-2.3-5.8-10-29.2 2.2-60.8.0.0 18.8-6.2 61.6 23.5 17.9-5.1 37-7.6 56.1-7.7 19 .1 38.2 2.6 56.1 7.7 42.8-29.7 61.5-23.5 61.5-23.5 12.2 31.6 4.5 55 2.2 60.8 14.3 16.1 23 36.6 23 61.6.0 88.2-52.4 107.6-102.3 113.3 8 7.1 15.2 21.1 15.2 42.5.0 30.7-.3 55.5-.3 63 0 6.1 4 13.3 15.4 11C415.9 449.1 480 363.1 480 261.7 480 134.8 379.7 32 256 32z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+</div>
+</div>
+</footer>
+<script src=/dist/js/app.3fc0f988d21662902933.js></script>
+</body>
+</html>

@@ -1,61 +1,286 @@
-<!doctype html><html lang=en-gb><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>Record and publish your meeting | Tales about Software Engineering</title><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=generator content="Hugo 0.73.0"><meta name=ROBOTS content="INDEX, FOLLOW"><link href=/dist/css/app.4fc0b62e4b82c997bb0041217cd6b979.css rel=stylesheet><meta property="og:title" content="Record and publish your meeting"><meta property="og:description" content="Scenario: You&rsquo;re in a handover session and explain everything in great detail but Dave is too hungover, Jim is on holiday and Jane is at another meeting and Chris isn&rsquo;t asking any questions and in any case Trevor (who is actually going to be looking after this system after handover) hasn&rsquo;t been recruited yet.
-Wouldn&rsquo;t it be useful to record the session and make it available? Now, this piece of writing does not explore whether we should be recording meetings, nor does it attempt to answer the question of whether good documentation wouldn&rsquo;t be preferable to having to sit and spend hours watching someone droning on about something that could be condensed into a five minute read of a blog post."><meta property="og:type" content="article"><meta property="og:url" content="https://beny23.github.io/posts/screen_record_meetings/"><meta property="article:published_time" content="2021-08-22T21:43:47+01:00"><meta property="article:modified_time" content="2021-08-22T21:43:47+01:00"><meta itemprop=name content="Record and publish your meeting"><meta itemprop=description content="Scenario: You&rsquo;re in a handover session and explain everything in great detail but Dave is too hungover, Jim is on holiday and Jane is at another meeting and Chris isn&rsquo;t asking any questions and in any case Trevor (who is actually going to be looking after this system after handover) hasn&rsquo;t been recruited yet.
-Wouldn&rsquo;t it be useful to record the session and make it available? Now, this piece of writing does not explore whether we should be recording meetings, nor does it attempt to answer the question of whether good documentation wouldn&rsquo;t be preferable to having to sit and spend hours watching someone droning on about something that could be condensed into a five minute read of a blog post."><meta itemprop=datePublished content="2021-08-22T21:43:47+01:00"><meta itemprop=dateModified content="2021-08-22T21:43:47+01:00"><meta itemprop=wordCount content="1058"><meta itemprop=keywords content><meta name=twitter:card content="summary"><meta name=twitter:title content="Record and publish your meeting"><meta name=twitter:description content="Scenario: You&rsquo;re in a handover session and explain everything in great detail but Dave is too hungover, Jim is on holiday and Jane is at another meeting and Chris isn&rsquo;t asking any questions and in any case Trevor (who is actually going to be looking after this system after handover) hasn&rsquo;t been recruited yet.
-Wouldn&rsquo;t it be useful to record the session and make it available? Now, this piece of writing does not explore whether we should be recording meetings, nor does it attempt to answer the question of whether good documentation wouldn&rsquo;t be preferable to having to sit and spend hours watching someone droning on about something that could be condensed into a five minute read of a blog post."><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;ga('create','UA-171035600-1','auto');ga('send','pageview');}</script><script async src=https://www.google-analytics.com/analytics.js></script></head><body class="ma0 avenir bg-near-white production"><header><div class=bg-black><nav class="pv3 ph3 ph4-ns" role=navigation><div class="flex-l justify-between items-center center"><a href=/ class="f3 fw2 hover-white no-underline white-90 dib">Tales about Software Engineering</a><div class="flex-l items-center"><ul class="pl0 mr3"><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white no-underline white-90" href=/about/ title="About page">About</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white no-underline white-90" href=/posts/ title="Blog page">Blog</a></li></ul><a href=https://stackoverflow.com/users/227140/beny23 target=_blank class="link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Stack Overflow link" rel=noopener aria-label="follow on Stack Overflow——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32"><path d="M12 0C5.373.0.0 5.373.0 12s5.373 12 12 12 12-5.373 12-12S18.627.0 12 0zm.869 5.903 3.114 4.567-.975.665-3.115-4.567.976-.665zm-2.812 2.585 4.84 2.838-.6 1.017-4.842-2.838.602-1.017zm-1.276 2.724 5.413 1.521-.291 1.077-5.428-1.458.306-1.14zm-.588 2.461 5.687.569-.103 1.12-5.691-.513.107-1.176zm-.169 2.16h5.835V17h-5.835v-1.167zM16 19H6v-6h1v5h8v-5h1v6zm.195-8.602-.945-5.446 1.162-.202.947 5.446-1.164.202z"/></svg><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a><a href=https://twitter.com/giskard23 target=_blank class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel=noopener aria-label="follow on Twitter——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a><a href=https://www.linkedin.com/in/gerald-benischke-9811b663 target=_blank class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel=noopener aria-label="follow on LinkedIn——Opens in a new window"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30C64 50.568 50.568 64 34 64zM26.354 48.137V27.71h-6.789v20.427H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a><a href=https://github.com/beny23 target=_blank class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel=noopener aria-label="follow on Github——Opens in a new window"><svg height="32" style="enable-background:new 0 0 512 512" viewBox="0 0 512 512" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M256 32C132.3 32 32 134.8 32 261.7c0 101.5 64.2 187.5 153.2 217.9 11.2 2.1 15.3-5 15.3-11.1.0-5.5-.2-19.9-.3-39.1-62.3 13.9-75.5-30.8-75.5-30.8-10.2-26.5-24.9-33.6-24.9-33.6-20.3-14.3 1.5-14 1.5-14 22.5 1.6 34.3 23.7 34.3 23.7 20 35.1 52.4 25 65.2 19.1 2-14.8 7.8-25 14.2-30.7-49.7-5.8-102-25.5-102-113.5.0-25.1 8.7-45.6 23-61.6-2.3-5.8-10-29.2 2.2-60.8.0.0 18.8-6.2 61.6 23.5 17.9-5.1 37-7.6 56.1-7.7 19 .1 38.2 2.6 56.1 7.7 42.8-29.7 61.5-23.5 61.5-23.5 12.2 31.6 4.5 55 2.2 60.8 14.3 16.1 23 36.6 23 61.6.0 88.2-52.4 107.6-102.3 113.3 8 7.1 15.2 21.1 15.2 42.5.0 30.7-.3 55.5-.3 63 0 6.1 4 13.3 15.4 11C415.9 449.1 480 363.1 480 261.7 480 134.8 379.7 32 256 32z"/></svg><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a></div></div></nav></div></header><main class=pb7 role=main><article class="flex-l flex-wrap justify-between mw8 center ph3"><header class="mt4 w-100"><aside class="instapaper_ignoref b helvetica tracked">POSTS</aside><div id=sharing class=mt3><a href="https://www.facebook.com/sharer.php?u=https://beny23.github.io/posts/screen_record_meetings/" class="facebook no-underline" aria-label="share on Facebook"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M28.765 50.32h6.744V33.998h4.499l.596-5.624h-5.095l.007-2.816c0-1.466.14-2.253 2.244-2.253h2.812V17.68h-4.5c-5.405.0-7.307 2.729-7.307 7.317v3.377h-3.369v5.625h3.369V50.32zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd"/></svg></a><a href="https://twitter.com/share?url=https://beny23.github.io/posts/screen_record_meetings/&text=Record%20and%20publish%20your%20meeting" class="twitter no-underline" aria-label="share on Twitter"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></a><a href="https://www.linkedin.com/shareArticle?mini=true&url=https://beny23.github.io/posts/screen_record_meetings/&title=Record%20and%20publish%20your%20meeting" class="linkedin no-underline" aria-label="share on LinkedIn"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30C64 50.568 50.568 64 34 64zM26.354 48.137V27.71h-6.789v20.427H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></a></div><h1 class="f1 athelas mt3 mb1">Record and publish your meeting</h1><time class="f6 mv4 dib tracked" datetime=2021-08-22T21:43:47+01:00>August 22, 2021</time>
-<span class="f6 mv4 dib tracked">- 5 minutes read</span>
-<span class="f6 mv4 dib tracked">- 1058 words</span></header><div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p><img src=/images/screen_record_meetings_title.png alt></p><p>Scenario: You&rsquo;re in a handover session and explain everything in great detail but Dave is too hungover,
+<!doctype html><html lang=en-gb>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>Record and publish your meeting | Tales about Software Engineering</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=generator content="Hugo 0.92.0">
+<meta name=ROBOTS content="INDEX, FOLLOW">
+<link href=/dist/css/app.4fc0b62e4b82c997bb0041217cd6b979.css rel=stylesheet>
+<meta property="og:title" content="Record and publish your meeting">
+<meta property="og:description" content="Scenario: You&rsquo;re in a handover session and explain everything in great detail but Dave is too hungover, Jim is on holiday and Jane is at another meeting and Chris isn&rsquo;t asking any questions and in any case Trevor (who is actually going to be looking after this system after handover) hasn&rsquo;t been recruited yet.
+Wouldn&rsquo;t it be useful to record the session and make it available? Now, this piece of writing does not explore whether we should be recording meetings, nor does it attempt to answer the question of whether good documentation wouldn&rsquo;t be preferable to having to sit and spend hours watching someone droning on about something that could be condensed into a five minute read of a blog post.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://beny23.github.io/posts/screen_record_meetings/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2021-08-22T21:43:47+01:00">
+<meta property="article:modified_time" content="2021-08-22T21:43:47+01:00">
+<meta itemprop=name content="Record and publish your meeting">
+<meta itemprop=description content="Scenario: You&rsquo;re in a handover session and explain everything in great detail but Dave is too hungover, Jim is on holiday and Jane is at another meeting and Chris isn&rsquo;t asking any questions and in any case Trevor (who is actually going to be looking after this system after handover) hasn&rsquo;t been recruited yet.
+Wouldn&rsquo;t it be useful to record the session and make it available? Now, this piece of writing does not explore whether we should be recording meetings, nor does it attempt to answer the question of whether good documentation wouldn&rsquo;t be preferable to having to sit and spend hours watching someone droning on about something that could be condensed into a five minute read of a blog post."><meta itemprop=datePublished content="2021-08-22T21:43:47+01:00">
+<meta itemprop=dateModified content="2021-08-22T21:43:47+01:00">
+<meta itemprop=wordCount content="1058">
+<meta itemprop=keywords content="meetings,recording,agile,"><meta name=twitter:card content="summary">
+<meta name=twitter:title content="Record and publish your meeting">
+<meta name=twitter:description content="Scenario: You&rsquo;re in a handover session and explain everything in great detail but Dave is too hungover, Jim is on holiday and Jane is at another meeting and Chris isn&rsquo;t asking any questions and in any case Trevor (who is actually going to be looking after this system after handover) hasn&rsquo;t been recruited yet.
+Wouldn&rsquo;t it be useful to record the session and make it available? Now, this piece of writing does not explore whether we should be recording meetings, nor does it attempt to answer the question of whether good documentation wouldn&rsquo;t be preferable to having to sit and spend hours watching someone droning on about something that could be condensed into a five minute read of a blog post.">
+<script type=application/javascript>var doNotTrack=!1;doNotTrack||(window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga('create','UA-171035600-1','auto'),ga('send','pageview'))</script>
+<script async src=https://www.google-analytics.com/analytics.js></script>
+</head>
+<body class="ma0 avenir bg-near-white production">
+<header class="cover bg-top" style=background-image:url(https://beny23.github.io/images/screen_record_meetings_title.png)>
+<div class="pb3-m pb6-l bg-black-60">
+<nav class="pv3 ph3 ph4-ns" role=navigation>
+<div class="flex-l justify-between items-center center">
+<a href=/ class="f3 fw2 hover-white no-underline white-90 dib">
+Tales about Software Engineering
+</a>
+<div class="flex-l items-center">
+<ul class="pl0 mr3">
+<li class="list f5 f4-ns fw4 dib pr3">
+<a class="hover-white no-underline white-90" href=/about/ title="About page">
+About
+</a>
+</li>
+<li class="list f5 f4-ns fw4 dib pr3">
+<a class="hover-white no-underline white-90" href=/posts/ title="Blog page">
+Blog
+</a>
+</li>
+<li class="list f5 f4-ns fw4 dib pr3">
+<a class="hover-white no-underline white-90" href=/tags/ title="Tags page">
+Tags
+</a>
+</li>
+</ul>
+<a href=https://stackoverflow.com/users/227140/beny23 target=_blank class="link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Stack Overflow link" rel=noopener aria-label="follow on Stack Overflow——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32"><path d="M12 0C5.373.0.0 5.373.0 12s5.373 12 12 12 12-5.373 12-12S18.627.0 12 0zm.869 5.903 3.114 4.567-.975.665-3.115-4.567.976-.665zm-2.812 2.585 4.84 2.838-.6 1.017-4.842-2.838.602-1.017zm-1.276 2.724 5.413 1.521-.291 1.077-5.428-1.458.306-1.14zm-.588 2.461 5.687.569-.103 1.12-5.691-.513.107-1.176zm-.169 2.16h5.835V17H8.024v-1.167zM16 19H6v-6h1v5h8v-5h1v6zm.195-8.602-.945-5.446 1.162-.202.947 5.446-1.164.202z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://twitter.com/giskard23 target=_blank class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel=noopener aria-label="follow on Twitter——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://www.linkedin.com/in/gerald-benischke-9811b663 target=_blank class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel=noopener aria-label="follow on LinkedIn——Opens in a new window"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://github.com/beny23 target=_blank class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel=noopener aria-label="follow on Github——Opens in a new window"><svg height="32" style="enable-background:new 0 0 512 512" viewBox="0 0 512 512" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M256 32C132.3 32 32 134.8 32 261.7c0 101.5 64.2 187.5 153.2 217.9 11.2 2.1 15.3-5 15.3-11.1.0-5.5-.2-19.9-.3-39.1-62.3 13.9-75.5-30.8-75.5-30.8-10.2-26.5-24.9-33.6-24.9-33.6-20.3-14.3 1.5-14 1.5-14 22.5 1.6 34.3 23.7 34.3 23.7 20 35.1 52.4 25 65.2 19.1 2-14.8 7.8-25 14.2-30.7-49.7-5.8-102-25.5-102-113.5.0-25.1 8.7-45.6 23-61.6-2.3-5.8-10-29.2 2.2-60.8.0.0 18.8-6.2 61.6 23.5 17.9-5.1 37-7.6 56.1-7.7 19 .1 38.2 2.6 56.1 7.7 42.8-29.7 61.5-23.5 61.5-23.5 12.2 31.6 4.5 55 2.2 60.8 14.3 16.1 23 36.6 23 61.6.0 88.2-52.4 107.6-102.3 113.3 8 7.1 15.2 21.1 15.2 42.5.0 30.7-.3 55.5-.3 63 0 6.1 4 13.3 15.4 11C415.9 449.1 480 363.1 480 261.7 480 134.8 379.7 32 256 32z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+</div>
+</div>
+</nav>
+<div class="tc-l pv6 ph3 ph4-ns">
+<h1 class="f2 f1-l fw2 white-90 mb0 lh-title">Record and publish your meeting</h1>
+</div>
+</div>
+</header>
+<main class=pb7 role=main>
+<article class="flex-l flex-wrap justify-between mw8 center ph3">
+<header class="mt4 w-100">
+<aside class="instapaper_ignoref b helvetica tracked">
+POSTS
+</aside>
+<div id=sharing class=mt3>
+<a href="https://www.facebook.com/sharer.php?u=https://beny23.github.io/posts/screen_record_meetings/" class="facebook no-underline" aria-label="share on Facebook"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M28.765 50.32h6.744V33.998h4.499l.596-5.624h-5.095l.007-2.816c0-1.466.14-2.253 2.244-2.253h2.812V17.68h-4.5c-5.405.0-7.307 2.729-7.307 7.317v3.377h-3.369v5.625h3.369V50.32zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd"/></svg>
+</a>
+<a href="https://twitter.com/share?url=https://beny23.github.io/posts/screen_record_meetings/&text=Record%20and%20publish%20your%20meeting" class="twitter no-underline" aria-label="share on Twitter"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</a>
+<a href="https://www.linkedin.com/shareArticle?mini=true&url=https://beny23.github.io/posts/screen_record_meetings/&title=Record%20and%20publish%20your%20meeting" class="linkedin no-underline" aria-label="share on LinkedIn"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</a>
+</div>
+<h1 class="f1 athelas mt3 mb1">Record and publish your meeting</h1>
+<time class="f6 mv4 dib tracked" datetime=2021-08-22T21:43:47+01:00>August 22, 2021</time>
+<span class="f6 mv4 dib tracked"> - 5 minutes read</span>
+<span class="f6 mv4 dib tracked"> - 1058 words</span>
+</header>
+<div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>Scenario: You&rsquo;re in a handover session and explain everything in great detail but Dave is too hungover,
 Jim is on holiday and Jane is at another meeting and Chris isn&rsquo;t asking any questions and in any case
 Trevor (who is actually going to be looking after this system after handover) hasn&rsquo;t
-been recruited yet.</p><h2 id=wouldnt-it-be-useful-to-record-the-session-and-make-it-available>Wouldn&rsquo;t it be useful to record the session and make it available?</h2><p>Now, this piece of writing does not explore whether we should be recording meetings,
+been recruited yet.</p>
+<h2 id=wouldnt-it-be-useful-to-record-the-session-and-make-it-available>Wouldn&rsquo;t it be useful to record the session and make it available?</h2>
+<p>Now, this piece of writing does not explore whether we should be recording meetings,
 nor does it attempt to answer the question of whether good documentation wouldn&rsquo;t be preferable
 to having to sit and spend hours watching someone droning on about something that could be condensed
-into a five minute read of a blog post. So&mldr;</p><h2 id=assuming-it-would-be-useful-how-do-i-got-about-it>Assuming it would be useful, how do I got about it?</h2><p>Yes, I know that pro versions of Zoom, Meet and Teams can probably do this at a click of a button,
+into a five minute read of a blog post. So&mldr;</p>
+<h2 id=assuming-it-would-be-useful-how-do-i-got-about-it>Assuming it would be useful, how do I got about it?</h2>
+<p>Yes, I know that pro versions of Zoom, Meet and Teams can probably do this at a click of a button,
 but as luck would have it, we&rsquo;ve not paid for the enterprise edition or no administrator is around
-to actually enable the feature.</p><h2 id=assuming-i-dont-want-to-spend-any-money-to-do-it>Assuming I don&rsquo;t want to spend any money to do it?</h2><p>Let&rsquo;s say I don&rsquo;t actually know yet whether anyone will be finding such recordings useful, and
+to actually enable the feature.</p>
+<h2 id=assuming-i-dont-want-to-spend-any-money-to-do-it>Assuming I don&rsquo;t want to spend any money to do it?</h2>
+<p>Let&rsquo;s say I don&rsquo;t actually know yet whether anyone will be finding such recordings useful, and
 I don&rsquo;t want to spend money on the off-chance, how would I go about doing it without needing to
-spend hours research different recording solutions.</p><p>If this sounds too contrived, this is exactly the situation that I found myself in recently. To make it even
-more complicated, I&rsquo;ll add in a few more requirements:</p><ul><li>I am using a Mac</li><li>QuickTime screen recording didn&rsquo;t fit the bill (not sure why it didn&rsquo;t work, possibly because I wasn&rsquo;t
-on the latest OSX)</li><li>I&rsquo;d like to add some title graphics at the beginning of the &ldquo;end product&rdquo;</li></ul><h1 id=obs>OBS</h1><p><img src=/images/screen_record_meetings_obs.png alt="Open Broadcaster Software"></p><p>The <a href=https://obsproject.com>OBS project</a> was recommended to me when I asked around about how to
+spend hours research different recording solutions.</p>
+<p>If this sounds too contrived, this is exactly the situation that I found myself in recently. To make it even
+more complicated, I&rsquo;ll add in a few more requirements:</p>
+<ul>
+<li>I am using a Mac</li>
+<li>QuickTime screen recording didn&rsquo;t fit the bill (not sure why it didn&rsquo;t work, possibly because I wasn&rsquo;t
+on the latest OSX)</li>
+<li>I&rsquo;d like to add some title graphics at the beginning of the &ldquo;end product&rdquo;</li>
+</ul>
+<h1 id=obs>OBS</h1>
+<p><img src=/images/screen_record_meetings_obs.png alt="Open Broadcaster Software"></p>
+<p>The <a href=https://obsproject.com>OBS project</a> was recommended to me when I asked around about how to
 record my screen. I have to admit, I never heard about it before - and am still not quite sure what I
 am doing with it. My idea of &ldquo;wouldn&rsquo;t it be great to record the meeting and the screen that I&rsquo;ll be
 sharing&rdquo; and &ldquo;oh, I can&rsquo;t press &lsquo;record&rsquo; in meet&rdquo; left me with very little time to find a recording
-solution. So I can quite confidently state that I&rsquo;m probably using it wrong&mldr; Anyway, here goes:</p><h2 id=installation>Installation</h2><p>I installed <code>OBS</code> via Homebrew</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell>$ brew install obs
-</code></pre></td></tr></table></div></div><p>It took a fair while to install - probably because it had been a while since I ran <code>brew update</code> - but
-soon enough I was able to start OBS.</p><p>Well, almost - the following caught my eye on the <a href=https://obsproject.com/wiki/OBS-Studio-Quickstart>OBS QuickStart guide</a></p><pre><code>macOS users: If you're on macOS, you'll need an extra app to 
+solution. So I can quite confidently state that I&rsquo;m probably using it wrong&mldr; Anyway, here goes:</p>
+<h2 id=installation>Installation</h2>
+<p>I installed <code>OBS</code> via Homebrew</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell>$ brew install obs
+</code></pre></td></tr></table>
+</div>
+</div><p>It took a fair while to install - probably because it had been a while since I ran <code>brew update</code> - but
+soon enough I was able to start OBS.</p>
+<p>Well, almost - the following caught my eye on the <a href=https://obsproject.com/wiki/OBS-Studio-Quickstart>OBS QuickStart guide</a></p>
+<pre tabindex=0><code>macOS users: If you're on macOS, you'll need an extra app to 
 capture desktop audio. This is due to limitations in macOS that 
 provide no direct capture methods for desktop audio devices.
-</code></pre><h2 id=ishow-audio-capture>iShow Audio Capture</h2><p>If I&rsquo;m honest, initially it was a bit off-putting having to install something else, but I
+</code></pre><h2 id=ishow-audio-capture>iShow Audio Capture</h2>
+<p>If I&rsquo;m honest, initially it was a bit off-putting having to install something else, but I
 overcame my initial suspicions. I also didn&rsquo;t relish the fact that this wouldn&rsquo;t work with Big Sur
-but I was still a couple of versions behind (Mojave) and needed a solution.</p><p>So I installed the app following <a href=https://support.shinywhitebox.com/hc/en-us/articles/204161459-Installing-iShowU-Audio-Capture>these instructions</a>
+but I was still a couple of versions behind (Mojave) and needed a solution.</p>
+<p>So I installed the app following <a href=https://support.shinywhitebox.com/hc/en-us/articles/204161459-Installing-iShowU-Audio-Capture>these instructions</a>
 and soon enough had a new audio input. This would allow me to record both the audio coming out of
-the meeting and my own voice. Without it, I&rsquo;d have to pick one or the other.</p><p><img src=/images/screen_record_meetings_audio_capture.png alt="Audio Capture"></p><p>To get both, I followed the instructions in <a href=https://obsproject.com/forum/resources/os-x-capture-audio-with-ishowu-audio-capture.505/>here</a>
-to set-up my Audio MIDI Setup (to be honest, I didn&rsquo;t even know Macs had a MIDI setup tool).</p><p><img src=/images/screen_record_meetings_audio_midi_setup.png alt="Audio MIDI Setup"></p><h2 id=recording>Recording</h2><p><img src=/images/screen_record_meetings_test_capture.mp4 alt="Test Capture"></p><p>So now I&rsquo;m ready to record! Couple of things to setup:</p><ul><li>Set a source of &ldquo;Display Capture&rdquo; in the sources to capture the whole screen or</li><li>Set a source of &ldquo;Window Capture&rdquo; to select a particular window</li><li>Don&rsquo;t forget to right-click on the &ldquo;Display/Window Capture&rdquo; and set Transform to &ldquo;Fit to screen&rdquo;</li></ul><h2 id=tips-for-recording>Tips for recording</h2><ul><li>Set the volume of your input to the same as the volume of mic - otherwise you might end up
-having problems with the sound of your voice being to low/loud</li><li>Remember that recording your mic means that you&rsquo;re not muted when you mute Teams/Meet</li><li>It is possible to do a screen recording of a session whilst having two young children at the same
+the meeting and my own voice. Without it, I&rsquo;d have to pick one or the other.</p>
+<p><img src=/images/screen_record_meetings_audio_capture.png alt="Audio Capture"></p>
+<p>To get both, I followed the instructions in <a href=https://obsproject.com/forum/resources/os-x-capture-audio-with-ishowu-audio-capture.505/>here</a>
+to set-up my Audio MIDI Setup (to be honest, I didn&rsquo;t even know Macs had a MIDI setup tool).</p>
+<p><img src=/images/screen_record_meetings_audio_midi_setup.png alt="Audio MIDI Setup"></p>
+<h2 id=recording>Recording</h2>
+<p><img src=/images/screen_record_meetings_test_capture.mp4 alt="Test Capture"></p>
+<p>So now I&rsquo;m ready to record! Couple of things to setup:</p>
+<ul>
+<li>Set a source of &ldquo;Display Capture&rdquo; in the sources to capture the whole screen or</li>
+<li>Set a source of &ldquo;Window Capture&rdquo; to select a particular window</li>
+<li>Don&rsquo;t forget to right-click on the &ldquo;Display/Window Capture&rdquo; and set Transform to &ldquo;Fit to screen&rdquo;</li>
+</ul>
+<h2 id=tips-for-recording>Tips for recording</h2>
+<ul>
+<li>Set the volume of your input to the same as the volume of mic - otherwise you might end up
+having problems with the sound of your voice being to low/loud</li>
+<li>Remember that recording your mic means that you&rsquo;re not muted when you mute Teams/Meet</li>
+<li>It is possible to do a screen recording of a session whilst having two young children at the same
 table. But only when you disable the mic input in OBS and most of the talking is done by
-other people on the call.</li></ul><h2 id=making-credits>Making credits</h2><p>Now, continuing in the spirit of not wanting to spend any money, I was thinking about how I could create
+other people on the call.</li>
+</ul>
+<h2 id=making-credits>Making credits</h2>
+<p>Now, continuing in the spirit of not wanting to spend any money, I was thinking about how I could create
 some titles. Having re-read OBS as part of this post, I&rsquo;ve come to realise that there probably were
-easier ways of doings this, but here goes:</p><ul><li>created a keynote presentation with an image</li><li>added a bit of text for &ldquo;My Title&rdquo; and &ldquo;My Other Title&rdquo;</li><li>added transitions</li><li>exported as a video</li></ul><p>What follows are two videos:</p><ul><li>Making a title</li></ul><p><img src=/images/screen_record_meetings_making_a_title.mp4 alt="Making a title"></p><ul><li>The result</li></ul><p><img src=/images/screen_record_meetings_title_result.mp4 alt="The result"></p><h2 id=splicing-it-all-together>Splicing it all together</h2><p>Finally, I wanted to splice it all together, but for some unknown reason, QuickTime let me down. Although
-I was able to &ldquo;Add a clip&rdquo; - every time I did, QuickTime refused to save. So I installed <code>ffmpeg</code>:</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell>$ brew install ffmpeg
-</code></pre></td></tr></table></div></div><p>And then I used the following to merge my title track and my recorded screen video (which worked for
-Google Meet and Microsoft Teams):</p><p>First, I found that I had to give the generated title video a silent sound track:</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+easier ways of doings this, but here goes:</p>
+<ul>
+<li>created a keynote presentation with an image</li>
+<li>added a bit of text for &ldquo;My Title&rdquo; and &ldquo;My Other Title&rdquo;</li>
+<li>added transitions</li>
+<li>exported as a video</li>
+</ul>
+<p>What follows are two videos:</p>
+<ul>
+<li>Making a title</li>
+</ul>
+<p><img src=/images/screen_record_meetings_making_a_title.mp4 alt="Making a title"></p>
+<ul>
+<li>The result</li>
+</ul>
+<p><img src=/images/screen_record_meetings_title_result.mp4 alt="The result"></p>
+<h2 id=splicing-it-all-together>Splicing it all together</h2>
+<p>Finally, I wanted to splice it all together, but for some unknown reason, QuickTime let me down. Although
+I was able to &ldquo;Add a clip&rdquo; - every time I did, QuickTime refused to save. So I installed <code>ffmpeg</code>:</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell>$ brew install ffmpeg
+</code></pre></td></tr></table>
+</div>
+</div><p>And then I used the following to merge my title track and my recorded screen video (which worked for
+Google Meet and Microsoft Teams):</p>
+<p>First, I found that I had to give the generated title video a silent sound track:</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell>$ ffmpeg -i title.m4v -f lavfi -i <span style=color:#f1fa8c>\
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell>$ ffmpeg -i title.m4v -f lavfi -i <span style=color:#f1fa8c>\
 </span><span style=color:#f1fa8c></span>  <span style=color:#8be9fd;font-style:italic>anullsrc</span><span style=color:#ff79c6>=</span><span style=color:#8be9fd;font-style:italic>channel_layout</span><span style=color:#ff79c6>=</span>stereo:sample_rate<span style=color:#ff79c6>=</span><span style=color:#bd93f9>44100</span> <span style=color:#f1fa8c>\
 </span><span style=color:#f1fa8c></span>  -c:v copy -shortest title.mp4
-</code></pre></td></tr></table></div></div><p>Then I trimmed the OBS video (to remove the &ldquo;can you hear me?&rdquo; or &ldquo;you&rsquo;re on mute&rdquo; hilarity at the beginning and
-&ldquo;see you in the pub&rdquo; at the end of the session)</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</code></pre></td></tr></table>
+</div>
+</div><p>Then I trimmed the OBS video (to remove the &ldquo;can you hear me?&rdquo; or &ldquo;you&rsquo;re on mute&rdquo; hilarity at the beginning and
+&ldquo;see you in the pub&rdquo; at the end of the session)</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell>$ ffmpeg -i session.mkv -ss 00:03:03.0 -to 01:00:10.0 <span style=color:#f1fa8c>\ </span>
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell>$ ffmpeg -i session.mkv -ss 00:03:03.0 -to 01:00:10.0 <span style=color:#f1fa8c>\ </span>
   -codec copy session_trimmed.mp4
-</code></pre></td></tr></table></div></div><p>Finally I put the title and the the session together</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</code></pre></td></tr></table>
+</div>
+</div><p>Finally I put the title and the the session together</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell>ffmpeg -i title.mp4 -i session_trimmed.mp4 -filter_complex <span style=color:#f1fa8c>\
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell>ffmpeg -i title.mp4 -i session_trimmed.mp4 -filter_complex <span style=color:#f1fa8c>\
 </span><span style=color:#f1fa8c></span>  <span style=color:#f1fa8c>&#34;[0:v:0][0:a:0][1:v:0][1:a:0]concat=n=2:v=1:a=1[outv][outa]&#34;</span> <span style=color:#f1fa8c>\
 </span><span style=color:#f1fa8c></span>  -map <span style=color:#f1fa8c>&#34;[outv]&#34;</span> -map <span style=color:#f1fa8c>&#34;[outa]&#34;</span> output.mp4
-</code></pre></td></tr></table></div></div><h2 id=conclusion>Conclusion</h2><p>In this post, I have put together my experiences with creating a video recording of a handover
+</code></pre></td></tr></table>
+</div>
+</div><h2 id=conclusion>Conclusion</h2>
+<p>In this post, I have put together my experiences with creating a video recording of a handover
 session. I know that I could have done a lot of things differently and probably more efficient
-but as a cheap and quick way and of recording a a lot of session, it worked for me.</p><ul class=pa0></ul><div class="mt6 instapaper_ignoref"></div></div><aside class="w-30-l mt6-l"></aside></article></main><footer class="bg-black bottom-0 w-100 pa3" role=contentinfo><div class="flex justify-between"><a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href=https://beny23.github.io/>&copy; Software Design Systems 2022</a><div><a href=https://stackoverflow.com/users/227140/beny23 target=_blank class="link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Stack Overflow link" rel=noopener aria-label="follow on Stack Overflow——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32"><path d="M12 0C5.373.0.0 5.373.0 12s5.373 12 12 12 12-5.373 12-12S18.627.0 12 0zm.869 5.903 3.114 4.567-.975.665-3.115-4.567.976-.665zm-2.812 2.585 4.84 2.838-.6 1.017-4.842-2.838.602-1.017zm-1.276 2.724 5.413 1.521-.291 1.077-5.428-1.458.306-1.14zm-.588 2.461 5.687.569-.103 1.12-5.691-.513.107-1.176zm-.169 2.16h5.835V17h-5.835v-1.167zM16 19H6v-6h1v5h8v-5h1v6zm.195-8.602-.945-5.446 1.162-.202.947 5.446-1.164.202z"/></svg><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a><a href=https://twitter.com/giskard23 target=_blank class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel=noopener aria-label="follow on Twitter——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a><a href=https://www.linkedin.com/in/gerald-benischke-9811b663 target=_blank class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel=noopener aria-label="follow on LinkedIn——Opens in a new window"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30C64 50.568 50.568 64 34 64zM26.354 48.137V27.71h-6.789v20.427H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a><a href=https://github.com/beny23 target=_blank class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel=noopener aria-label="follow on Github——Opens in a new window"><svg height="32" style="enable-background:new 0 0 512 512" viewBox="0 0 512 512" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M256 32C132.3 32 32 134.8 32 261.7c0 101.5 64.2 187.5 153.2 217.9 11.2 2.1 15.3-5 15.3-11.1.0-5.5-.2-19.9-.3-39.1-62.3 13.9-75.5-30.8-75.5-30.8-10.2-26.5-24.9-33.6-24.9-33.6-20.3-14.3 1.5-14 1.5-14 22.5 1.6 34.3 23.7 34.3 23.7 20 35.1 52.4 25 65.2 19.1 2-14.8 7.8-25 14.2-30.7-49.7-5.8-102-25.5-102-113.5.0-25.1 8.7-45.6 23-61.6-2.3-5.8-10-29.2 2.2-60.8.0.0 18.8-6.2 61.6 23.5 17.9-5.1 37-7.6 56.1-7.7 19 .1 38.2 2.6 56.1 7.7 42.8-29.7 61.5-23.5 61.5-23.5 12.2 31.6 4.5 55 2.2 60.8 14.3 16.1 23 36.6 23 61.6.0 88.2-52.4 107.6-102.3 113.3 8 7.1 15.2 21.1 15.2 42.5.0 30.7-.3 55.5-.3 63 0 6.1 4 13.3 15.4 11C415.9 449.1 480 363.1 480 261.7 480 134.8 379.7 32 256 32z"/></svg><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a></div></div></footer><script src=/dist/js/app.3fc0f988d21662902933.js></script></body></html>
+but as a cheap and quick way and of recording a a lot of session, it worked for me.</p>
+<b>Tags</b>
+<a href=https://beny23.github.io/tags/meetings/>meetings</a> <a href=https://beny23.github.io/tags/recording/>recording</a> <a href=https://beny23.github.io/tags/agile/>agile</a><div class="mt6 instapaper_ignoref">
+</div>
+</div>
+<aside class="w-30-l mt6-l">
+<div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+<p class="f5 b mb3">Related</p>
+<ul class="pa0 list">
+<li class=mb2>
+<a href=/posts/the_shield_and_the_sword/>The Shield and the Sword</a>
+</li>
+<li class=mb2>
+<a href=/posts/making_software_quickly/>Making Software. Quickly.</a>
+</li>
+</ul>
+</div>
+</aside>
+</article>
+</main>
+<footer class="bg-black bottom-0 w-100 pa3" role=contentinfo>
+<div class="flex justify-between">
+<a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href=https://beny23.github.io/>
+&copy; Software Design Systems 2022
+</a>
+<div>
+<a href=https://stackoverflow.com/users/227140/beny23 target=_blank class="link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Stack Overflow link" rel=noopener aria-label="follow on Stack Overflow——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32"><path d="M12 0C5.373.0.0 5.373.0 12s5.373 12 12 12 12-5.373 12-12S18.627.0 12 0zm.869 5.903 3.114 4.567-.975.665-3.115-4.567.976-.665zm-2.812 2.585 4.84 2.838-.6 1.017-4.842-2.838.602-1.017zm-1.276 2.724 5.413 1.521-.291 1.077-5.428-1.458.306-1.14zm-.588 2.461 5.687.569-.103 1.12-5.691-.513.107-1.176zm-.169 2.16h5.835V17H8.024v-1.167zM16 19H6v-6h1v5h8v-5h1v6zm.195-8.602-.945-5.446 1.162-.202.947 5.446-1.164.202z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://twitter.com/giskard23 target=_blank class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel=noopener aria-label="follow on Twitter——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://www.linkedin.com/in/gerald-benischke-9811b663 target=_blank class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel=noopener aria-label="follow on LinkedIn——Opens in a new window"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://github.com/beny23 target=_blank class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel=noopener aria-label="follow on Github——Opens in a new window"><svg height="32" style="enable-background:new 0 0 512 512" viewBox="0 0 512 512" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M256 32C132.3 32 32 134.8 32 261.7c0 101.5 64.2 187.5 153.2 217.9 11.2 2.1 15.3-5 15.3-11.1.0-5.5-.2-19.9-.3-39.1-62.3 13.9-75.5-30.8-75.5-30.8-10.2-26.5-24.9-33.6-24.9-33.6-20.3-14.3 1.5-14 1.5-14 22.5 1.6 34.3 23.7 34.3 23.7 20 35.1 52.4 25 65.2 19.1 2-14.8 7.8-25 14.2-30.7-49.7-5.8-102-25.5-102-113.5.0-25.1 8.7-45.6 23-61.6-2.3-5.8-10-29.2 2.2-60.8.0.0 18.8-6.2 61.6 23.5 17.9-5.1 37-7.6 56.1-7.7 19 .1 38.2 2.6 56.1 7.7 42.8-29.7 61.5-23.5 61.5-23.5 12.2 31.6 4.5 55 2.2 60.8 14.3 16.1 23 36.6 23 61.6.0 88.2-52.4 107.6-102.3 113.3 8 7.1 15.2 21.1 15.2 42.5.0 30.7-.3 55.5-.3 63 0 6.1 4 13.3 15.4 11C415.9 449.1 480 363.1 480 261.7 480 134.8 379.7 32 256 32z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+</div>
+</div>
+</footer>
+<script src=/dist/js/app.3fc0f988d21662902933.js></script>
+</body>
+</html>

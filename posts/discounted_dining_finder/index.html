@@ -1,38 +1,154 @@
-<!doctype html><html lang=en-gb><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>Discounted Dining Finder | Tales about Software Engineering</title><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=generator content="Hugo 0.73.0"><meta name=ROBOTS content="INDEX, FOLLOW"><link href=/dist/css/app.4fc0b62e4b82c997bb0041217cd6b979.css rel=stylesheet><meta property="og:title" content="Discounted Dining Finder"><meta property="og:description" content="This post describes how I developed the Discount Dining Finder a lookup map tool for the Eat Out to Help Out scheme in my spare time. I currently work with Equal Experts and HMRC. The aim of this writing is to provide an insight into how problems of scaling services can be solved by having no servers and not using &ldquo;serverless services&rdquo; either.
-Aperitif A really nice side effect in working in a high functioning environment is that sometimes you&rsquo;re involved in bouncing ideas off each other."><meta property="og:type" content="article"><meta property="og:url" content="https://beny23.github.io/posts/discounted_dining_finder/"><meta property="article:published_time" content="2020-07-29T23:55:11+01:00"><meta property="article:modified_time" content="2020-07-29T23:55:11+01:00"><meta itemprop=name content="Discounted Dining Finder"><meta itemprop=description content="This post describes how I developed the Discount Dining Finder a lookup map tool for the Eat Out to Help Out scheme in my spare time. I currently work with Equal Experts and HMRC. The aim of this writing is to provide an insight into how problems of scaling services can be solved by having no servers and not using &ldquo;serverless services&rdquo; either.
-Aperitif A really nice side effect in working in a high functioning environment is that sometimes you&rsquo;re involved in bouncing ideas off each other."><meta itemprop=datePublished content="2020-07-29T23:55:11+01:00"><meta itemprop=dateModified content="2020-07-29T23:55:11+01:00"><meta itemprop=wordCount content="2013"><meta itemprop=keywords content><meta name=twitter:card content="summary"><meta name=twitter:title content="Discounted Dining Finder"><meta name=twitter:description content="This post describes how I developed the Discount Dining Finder a lookup map tool for the Eat Out to Help Out scheme in my spare time. I currently work with Equal Experts and HMRC. The aim of this writing is to provide an insight into how problems of scaling services can be solved by having no servers and not using &ldquo;serverless services&rdquo; either.
-Aperitif A really nice side effect in working in a high functioning environment is that sometimes you&rsquo;re involved in bouncing ideas off each other."><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;ga('create','UA-171035600-1','auto');ga('send','pageview');}</script><script async src=https://www.google-analytics.com/analytics.js></script></head><body class="ma0 avenir bg-near-white production"><header><div class=bg-black><nav class="pv3 ph3 ph4-ns" role=navigation><div class="flex-l justify-between items-center center"><a href=/ class="f3 fw2 hover-white no-underline white-90 dib">Tales about Software Engineering</a><div class="flex-l items-center"><ul class="pl0 mr3"><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white no-underline white-90" href=/about/ title="About page">About</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white no-underline white-90" href=/posts/ title="Blog page">Blog</a></li></ul><a href=https://stackoverflow.com/users/227140/beny23 target=_blank class="link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Stack Overflow link" rel=noopener aria-label="follow on Stack Overflow——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32"><path d="M12 0C5.373.0.0 5.373.0 12s5.373 12 12 12 12-5.373 12-12S18.627.0 12 0zm.869 5.903 3.114 4.567-.975.665-3.115-4.567.976-.665zm-2.812 2.585 4.84 2.838-.6 1.017-4.842-2.838.602-1.017zm-1.276 2.724 5.413 1.521-.291 1.077-5.428-1.458.306-1.14zm-.588 2.461 5.687.569-.103 1.12-5.691-.513.107-1.176zm-.169 2.16h5.835V17h-5.835v-1.167zM16 19H6v-6h1v5h8v-5h1v6zm.195-8.602-.945-5.446 1.162-.202.947 5.446-1.164.202z"/></svg><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a><a href=https://twitter.com/giskard23 target=_blank class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel=noopener aria-label="follow on Twitter——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a><a href=https://www.linkedin.com/in/gerald-benischke-9811b663 target=_blank class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel=noopener aria-label="follow on LinkedIn——Opens in a new window"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30C64 50.568 50.568 64 34 64zM26.354 48.137V27.71h-6.789v20.427H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a><a href=https://github.com/beny23 target=_blank class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel=noopener aria-label="follow on Github——Opens in a new window"><svg height="32" style="enable-background:new 0 0 512 512" viewBox="0 0 512 512" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M256 32C132.3 32 32 134.8 32 261.7c0 101.5 64.2 187.5 153.2 217.9 11.2 2.1 15.3-5 15.3-11.1.0-5.5-.2-19.9-.3-39.1-62.3 13.9-75.5-30.8-75.5-30.8-10.2-26.5-24.9-33.6-24.9-33.6-20.3-14.3 1.5-14 1.5-14 22.5 1.6 34.3 23.7 34.3 23.7 20 35.1 52.4 25 65.2 19.1 2-14.8 7.8-25 14.2-30.7-49.7-5.8-102-25.5-102-113.5.0-25.1 8.7-45.6 23-61.6-2.3-5.8-10-29.2 2.2-60.8.0.0 18.8-6.2 61.6 23.5 17.9-5.1 37-7.6 56.1-7.7 19 .1 38.2 2.6 56.1 7.7 42.8-29.7 61.5-23.5 61.5-23.5 12.2 31.6 4.5 55 2.2 60.8 14.3 16.1 23 36.6 23 61.6.0 88.2-52.4 107.6-102.3 113.3 8 7.1 15.2 21.1 15.2 42.5.0 30.7-.3 55.5-.3 63 0 6.1 4 13.3 15.4 11C415.9 449.1 480 363.1 480 261.7 480 134.8 379.7 32 256 32z"/></svg><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a></div></div></nav></div></header><main class=pb7 role=main><article class="flex-l flex-wrap justify-between mw8 center ph3"><header class="mt4 w-100"><aside class="instapaper_ignoref b helvetica tracked">POSTS</aside><div id=sharing class=mt3><a href="https://www.facebook.com/sharer.php?u=https://beny23.github.io/posts/discounted_dining_finder/" class="facebook no-underline" aria-label="share on Facebook"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M28.765 50.32h6.744V33.998h4.499l.596-5.624h-5.095l.007-2.816c0-1.466.14-2.253 2.244-2.253h2.812V17.68h-4.5c-5.405.0-7.307 2.729-7.307 7.317v3.377h-3.369v5.625h3.369V50.32zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd"/></svg></a><a href="https://twitter.com/share?url=https://beny23.github.io/posts/discounted_dining_finder/&text=Discounted%20Dining%20Finder" class="twitter no-underline" aria-label="share on Twitter"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></a><a href="https://www.linkedin.com/shareArticle?mini=true&url=https://beny23.github.io/posts/discounted_dining_finder/&title=Discounted%20Dining%20Finder" class="linkedin no-underline" aria-label="share on LinkedIn"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30C64 50.568 50.568 64 34 64zM26.354 48.137V27.71h-6.789v20.427H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></a></div><h1 class="f1 athelas mt3 mb1">Discounted Dining Finder</h1><time class="f6 mv4 dib tracked" datetime=2020-07-29T23:55:11+01:00>July 29, 2020</time>
-<span class="f6 mv4 dib tracked">- 10 minutes read</span>
-<span class="f6 mv4 dib tracked">- 2013 words</span></header><div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p><img src=/images/discounted_dining_finder_title.png alt="Discounted Dining Finder"></p><p>This post describes how I developed the <a href=https://beny23.github.io/static-distance>Discount Dining Finder</a> a lookup map tool for the Eat Out to Help Out scheme in my spare time. I currently
+<!doctype html><html lang=en-gb>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>Discounted Dining Finder | Tales about Software Engineering</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=generator content="Hugo 0.92.0">
+<meta name=ROBOTS content="INDEX, FOLLOW">
+<link href=/dist/css/app.4fc0b62e4b82c997bb0041217cd6b979.css rel=stylesheet>
+<meta property="og:title" content="Discounted Dining Finder">
+<meta property="og:description" content="This post describes how I developed the Discount Dining Finder a lookup map tool for the Eat Out to Help Out scheme in my spare time. I currently work with Equal Experts and HMRC. The aim of this writing is to provide an insight into how problems of scaling services can be solved by having no servers and not using &ldquo;serverless services&rdquo; either.
+Aperitif A really nice side effect in working in a high functioning environment is that sometimes you&rsquo;re involved in bouncing ideas off each other.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://beny23.github.io/posts/discounted_dining_finder/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2020-07-29T23:55:11+01:00">
+<meta property="article:modified_time" content="2020-07-29T23:55:11+01:00">
+<meta itemprop=name content="Discounted Dining Finder">
+<meta itemprop=description content="This post describes how I developed the Discount Dining Finder a lookup map tool for the Eat Out to Help Out scheme in my spare time. I currently work with Equal Experts and HMRC. The aim of this writing is to provide an insight into how problems of scaling services can be solved by having no servers and not using &ldquo;serverless services&rdquo; either.
+Aperitif A really nice side effect in working in a high functioning environment is that sometimes you&rsquo;re involved in bouncing ideas off each other."><meta itemprop=datePublished content="2020-07-29T23:55:11+01:00">
+<meta itemprop=dateModified content="2020-07-29T23:55:11+01:00">
+<meta itemprop=wordCount content="2013">
+<meta itemprop=keywords content="frontend,covid-response,"><meta name=twitter:card content="summary">
+<meta name=twitter:title content="Discounted Dining Finder">
+<meta name=twitter:description content="This post describes how I developed the Discount Dining Finder a lookup map tool for the Eat Out to Help Out scheme in my spare time. I currently work with Equal Experts and HMRC. The aim of this writing is to provide an insight into how problems of scaling services can be solved by having no servers and not using &ldquo;serverless services&rdquo; either.
+Aperitif A really nice side effect in working in a high functioning environment is that sometimes you&rsquo;re involved in bouncing ideas off each other.">
+<script type=application/javascript>var doNotTrack=!1;doNotTrack||(window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga('create','UA-171035600-1','auto'),ga('send','pageview'))</script>
+<script async src=https://www.google-analytics.com/analytics.js></script>
+</head>
+<body class="ma0 avenir bg-near-white production">
+<header class="cover bg-top" style=background-image:url(https://beny23.github.io/images/discounted_dining_finder_title.png)>
+<div class="pb3-m pb6-l bg-black-60">
+<nav class="pv3 ph3 ph4-ns" role=navigation>
+<div class="flex-l justify-between items-center center">
+<a href=/ class="f3 fw2 hover-white no-underline white-90 dib">
+Tales about Software Engineering
+</a>
+<div class="flex-l items-center">
+<ul class="pl0 mr3">
+<li class="list f5 f4-ns fw4 dib pr3">
+<a class="hover-white no-underline white-90" href=/about/ title="About page">
+About
+</a>
+</li>
+<li class="list f5 f4-ns fw4 dib pr3">
+<a class="hover-white no-underline white-90" href=/posts/ title="Blog page">
+Blog
+</a>
+</li>
+<li class="list f5 f4-ns fw4 dib pr3">
+<a class="hover-white no-underline white-90" href=/tags/ title="Tags page">
+Tags
+</a>
+</li>
+</ul>
+<a href=https://stackoverflow.com/users/227140/beny23 target=_blank class="link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Stack Overflow link" rel=noopener aria-label="follow on Stack Overflow——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32"><path d="M12 0C5.373.0.0 5.373.0 12s5.373 12 12 12 12-5.373 12-12S18.627.0 12 0zm.869 5.903 3.114 4.567-.975.665-3.115-4.567.976-.665zm-2.812 2.585 4.84 2.838-.6 1.017-4.842-2.838.602-1.017zm-1.276 2.724 5.413 1.521-.291 1.077-5.428-1.458.306-1.14zm-.588 2.461 5.687.569-.103 1.12-5.691-.513.107-1.176zm-.169 2.16h5.835V17H8.024v-1.167zM16 19H6v-6h1v5h8v-5h1v6zm.195-8.602-.945-5.446 1.162-.202.947 5.446-1.164.202z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://twitter.com/giskard23 target=_blank class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel=noopener aria-label="follow on Twitter——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://www.linkedin.com/in/gerald-benischke-9811b663 target=_blank class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel=noopener aria-label="follow on LinkedIn——Opens in a new window"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://github.com/beny23 target=_blank class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel=noopener aria-label="follow on Github——Opens in a new window"><svg height="32" style="enable-background:new 0 0 512 512" viewBox="0 0 512 512" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M256 32C132.3 32 32 134.8 32 261.7c0 101.5 64.2 187.5 153.2 217.9 11.2 2.1 15.3-5 15.3-11.1.0-5.5-.2-19.9-.3-39.1-62.3 13.9-75.5-30.8-75.5-30.8-10.2-26.5-24.9-33.6-24.9-33.6-20.3-14.3 1.5-14 1.5-14 22.5 1.6 34.3 23.7 34.3 23.7 20 35.1 52.4 25 65.2 19.1 2-14.8 7.8-25 14.2-30.7-49.7-5.8-102-25.5-102-113.5.0-25.1 8.7-45.6 23-61.6-2.3-5.8-10-29.2 2.2-60.8.0.0 18.8-6.2 61.6 23.5 17.9-5.1 37-7.6 56.1-7.7 19 .1 38.2 2.6 56.1 7.7 42.8-29.7 61.5-23.5 61.5-23.5 12.2 31.6 4.5 55 2.2 60.8 14.3 16.1 23 36.6 23 61.6.0 88.2-52.4 107.6-102.3 113.3 8 7.1 15.2 21.1 15.2 42.5.0 30.7-.3 55.5-.3 63 0 6.1 4 13.3 15.4 11C415.9 449.1 480 363.1 480 261.7 480 134.8 379.7 32 256 32z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+</div>
+</div>
+</nav>
+<div class="tc-l pv6 ph3 ph4-ns">
+<h1 class="f2 f1-l fw2 white-90 mb0 lh-title">Discounted Dining Finder</h1>
+</div>
+</div>
+</header>
+<main class=pb7 role=main>
+<article class="flex-l flex-wrap justify-between mw8 center ph3">
+<header class="mt4 w-100">
+<aside class="instapaper_ignoref b helvetica tracked">
+POSTS
+</aside>
+<div id=sharing class=mt3>
+<a href="https://www.facebook.com/sharer.php?u=https://beny23.github.io/posts/discounted_dining_finder/" class="facebook no-underline" aria-label="share on Facebook"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M28.765 50.32h6.744V33.998h4.499l.596-5.624h-5.095l.007-2.816c0-1.466.14-2.253 2.244-2.253h2.812V17.68h-4.5c-5.405.0-7.307 2.729-7.307 7.317v3.377h-3.369v5.625h3.369V50.32zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd"/></svg>
+</a>
+<a href="https://twitter.com/share?url=https://beny23.github.io/posts/discounted_dining_finder/&text=Discounted%20Dining%20Finder" class="twitter no-underline" aria-label="share on Twitter"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</a>
+<a href="https://www.linkedin.com/shareArticle?mini=true&url=https://beny23.github.io/posts/discounted_dining_finder/&title=Discounted%20Dining%20Finder" class="linkedin no-underline" aria-label="share on LinkedIn"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</a>
+</div>
+<h1 class="f1 athelas mt3 mb1">Discounted Dining Finder</h1>
+<time class="f6 mv4 dib tracked" datetime=2020-07-29T23:55:11+01:00>July 29, 2020</time>
+<span class="f6 mv4 dib tracked"> - 10 minutes read</span>
+<span class="f6 mv4 dib tracked"> - 2013 words</span>
+</header>
+<div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>This post describes how I developed the <a href=https://beny23.github.io/static-distance>Discount Dining Finder</a> a lookup map tool for the Eat Out to Help Out scheme in my spare time. I currently
 work with <a href=https://www.equalexperts.com/>Equal Experts</a> and HMRC. The aim of this writing is to provide an insight
-into how problems of scaling services can be solved by having no servers and not using &ldquo;serverless services&rdquo; either.</p><h1 id=aperitif>Aperitif</h1><p>A really nice side effect in <a href=https://beny23.github.io/posts/making_software_quickly/>working in a high functioning environment</a>
+into how problems of scaling services can be solved by having no servers and not using &ldquo;serverless services&rdquo; either.</p>
+<h1 id=aperitif>Aperitif</h1>
+<p>A really nice side effect in <a href=https://beny23.github.io/posts/making_software_quickly/>working in a high functioning environment</a>
 is that sometimes you&rsquo;re involved in bouncing ideas off each other. The delivery teams at HMRC were working on releasing
 yet another service to the public in less time than it takes you to say &ldquo;Agile&rdquo;. This scheme was called
 <a href=https://www.gov.uk/guidance/get-a-discount-with-the-eat-out-to-help-out-scheme>Eat Out to Help Out</a> - internally known
-as Discounted Dining because the powers that be did not want to risk leaking the name prior to the Chancellor&rsquo;s announcement.</p><p>The scheme would consist of different journeys:</p><ul><li>registering a restaurant,</li><li>search for registered establishments for the public and</li><li>claims for payment.</li></ul><p>Out of these three, the biggest unknown of in terms of expected volume was the &ldquo;search journey&rdquo; to be used by the
+as Discounted Dining because the powers that be did not want to risk leaking the name prior to the Chancellor&rsquo;s announcement.</p>
+<p>The scheme would consist of different journeys:</p>
+<ul>
+<li>registering a restaurant,</li>
+<li>search for registered establishments for the public and</li>
+<li>claims for payment.</li>
+</ul>
+<p>Out of these three, the biggest unknown of in terms of expected volume was the &ldquo;search journey&rdquo; to be used by the
 general public. In this journey, a user would enter a postcode, and registered establishments inside an X mile radius
 would be displayed. There was a big number of unknowns in terms of how much traffic was to be expected on
-<a href=https://www.tax.service.gov.uk/eat-out-to-help-out/find-a-restaurant>the HMRC service</a>.</p><ul><li>Would there be a peak at lunchtime?</li><li>What if Martin Lewis goes on TV, recommends visiting the site and two minutes later 10% of the country want to find
-information about their local eateries?</li><li>Could it impact other HMRC services (the &ldquo;tax platform&rdquo; hosts a multitude of services)</li></ul><p>Now, the &ldquo;tax platform&rdquo; is a very scalable and robust platform and I am not for one minute suggesting that there was
+<a href=https://www.tax.service.gov.uk/eat-out-to-help-out/find-a-restaurant>the HMRC service</a>.</p>
+<ul>
+<li>Would there be a peak at lunchtime?</li>
+<li>What if Martin Lewis goes on TV, recommends visiting the site and two minutes later 10% of the country want to find
+information about their local eateries?</li>
+<li>Could it impact other HMRC services (the &ldquo;tax platform&rdquo; hosts a multitude of services)</li>
+</ul>
+<p>Now, the &ldquo;tax platform&rdquo; is a very scalable and robust platform and I am not for one minute suggesting that there was
 going to be a problem using microservices and geo-location in Mongo at scale, but one of the ideas that I floated
 centred around the fact that the information is fairly static. Sure enough, &ldquo;Eat Out&rdquo; businesses
 register their premises with HMRC, but once registered, the bulk of information is not changing. Postcodes and distances
-between them are not that changeable. So that&rsquo;s when I wondered, whether this could be delivered in a static site.</p><h1 id=starter>Starter</h1><p>I went away and found that <a href=https://www.freemaptools.com/download-uk-postcode-lat-lng.htm>freemaptools</a> provides me with
+between them are not that changeable. So that&rsquo;s when I wondered, whether this could be delivered in a static site.</p>
+<h1 id=starter>Starter</h1>
+<p>I went away and found that <a href=https://www.freemaptools.com/download-uk-postcode-lat-lng.htm>freemaptools</a> provides me with
 a list of UK postcodes and their associated latitude/longitude. In that file, there are 1,767,875 postcodes. Searching
-almost 2 million records sounds like the job for a server and a database, doesn&rsquo;t it? Erm, no.</p><p>Looking at the postcode file</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+almost 2 million records sounds like the job for a server and a database, doesn&rsquo;t it? Erm, no.</p>
+<p>Looking at the postcode file</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell>$ head -10 ukpostcodes.csv 
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell>$ head -10 ukpostcodes.csv 
 id,postcode,latitude,longitude
 1,AB10 1XG,57.144165160000000,-2.114847768000000
 2,AB10 6RN,57.137879760000000,-2.121486688000000
 3,AB10 7JB,57.124273770000000,-2.127189644000000
 4,AB11 5QN,57.142701090000000,-2.093295000000000
-</code></pre></td></tr></table></div></div><p>Instead of searching a single <code>ukpostcodes.csv</code> (95 MB) everytime, I decided to &ldquo;shard&rdquo; or &ldquo;partition&rdquo; my CSV file into
-smaller files:</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</code></pre></td></tr></table>
+</div>
+</div><p>Instead of searching a single <code>ukpostcodes.csv</code> (95 MB) everytime, I decided to &ldquo;shard&rdquo; or &ldquo;partition&rdquo; my CSV file into
+smaller files:</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
@@ -41,7 +157,9 @@ smaller files:</p><div class=highlight><div style=color:#f8f8f2;background-color
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">7
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">8
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">9
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell>./A/B/AB10.csv
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell>./A/B/AB10.csv
 ./A/B/AB11.csv
 ./A/L/AL1.csv
 ./A/L/AL10.csv
@@ -50,9 +168,17 @@ smaller files:</p><div class=highlight><div style=color:#f8f8f2;background-color
 ./B/1/B10.csv
 ./B/2/B2.csv
 ./B/2/B20.csv
-</code></pre></td></tr></table></div></div><p>Each file is split into directories by their first letters. So if I want to find out about postcode <code>AB12 4TS</code>, I&rsquo;d
+</code></pre></td></tr></table>
+</div>
+</div><p>Each file is split into directories by their first letters. So if I want to find out about postcode <code>AB12 4TS</code>, I&rsquo;d
 split up the outcode (<code>AB12</code>) into <code>/A/B/AB12.csv</code>. That file would only have 799 entries, searching them manually
-is much more palatable.</p><p>So I&rsquo;ve got my main page and the user would enter their postcode</p><p><img src=/images/discounted_dining_finder_title_screen.png alt="Main page"></p><p>And I can search for the postcodes simply by using a bit of Javascript inside the user&rsquo;s browser.</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+is much more palatable.</p>
+<p>So I&rsquo;ve got my main page and the user would enter their postcode</p>
+<p><img src=/images/discounted_dining_finder_title_screen.png alt="Main page"></p>
+<p>And I can search for the postcodes simply by using a bit of Javascript inside the user&rsquo;s browser.</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
@@ -62,7 +188,9 @@ is much more palatable.</p><p>So I&rsquo;ve got my main page and the user would 
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-javascript data-lang=javascript>d3.csv(<span style=color:#f1fa8c>&#34;outcode/&#34;</span> <span style=color:#ff79c6>+</span> outcode[<span style=color:#bd93f9>0</span>] <span style=color:#ff79c6>+</span> <span style=color:#f1fa8c>&#34;/&#34;</span> <span style=color:#ff79c6>+</span> outcode[<span style=color:#bd93f9>1</span>] <span style=color:#ff79c6>+</span> <span style=color:#f1fa8c>&#34;/&#34;</span> <span style=color:#ff79c6>+</span> outcode <span style=color:#ff79c6>+</span> <span style=color:#f1fa8c>&#34;.csv&#34;</span>)
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-javascript data-lang=javascript>d3.csv(<span style=color:#f1fa8c>&#34;outcode/&#34;</span> <span style=color:#ff79c6>+</span> outcode[<span style=color:#bd93f9>0</span>] <span style=color:#ff79c6>+</span> <span style=color:#f1fa8c>&#34;/&#34;</span> <span style=color:#ff79c6>+</span> outcode[<span style=color:#bd93f9>1</span>] <span style=color:#ff79c6>+</span> <span style=color:#f1fa8c>&#34;/&#34;</span> <span style=color:#ff79c6>+</span> outcode <span style=color:#ff79c6>+</span> <span style=color:#f1fa8c>&#34;.csv&#34;</span>)
     .then(<span style=color:#8be9fd;font-style:italic>function</span>(postcodes) {
         result <span style=color:#ff79c6>=</span> postcodes.find(d =&gt; normalisePostcode(d.postcode) <span style=color:#ff79c6>===</span> postcode);
         <span style=color:#ff79c6>if</span> (result) {
@@ -72,12 +200,25 @@ is much more palatable.</p><p>So I&rsquo;ve got my main page and the user would 
             d3.select(<span style=color:#f1fa8c>&#34;#status&#34;</span>).text(<span style=color:#f1fa8c>&#34;Postcode not found&#34;</span>)
         }
     })
-</code></pre></td></tr></table></div></div><p><a href=https://d3js.org>D3</a> is a great library for visualisations, but I also found it very useful for reading and processing
-CSVs in Javascript, and the files can be served up by a static web server.</p><p>Great! But how do I get my directory structure. I did not fancy manually copy/pasting the file. You think, surely now
+</code></pre></td></tr></table>
+</div>
+</div><p><a href=https://d3js.org>D3</a> is a great library for visualisations, but I also found it very useful for reading and processing
+CSVs in Javascript, and the files can be served up by a static web server.</p>
+<p>Great! But how do I get my directory structure. I did not fancy manually copy/pasting the file. You think, surely now
 it&rsquo;s time to unleash some NoSQL database or at least some Python. But no, I decided to keep it simple and use a combination
-of shell scripts and AWK:</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell>awk -F, -f split_outcodes.awk target/ukpostcodes.csv
-</code></pre></td></tr></table></div></div><p>With the <code>split_outcodes.awk</code> script doing the hard work of creating new files in the correct directory.</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+of shell scripts and AWK:</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell>awk -F, -f split_outcodes.awk target/ukpostcodes.csv
+</code></pre></td></tr></table>
+</div>
+</div><p>With the <code>split_outcodes.awk</code> script doing the hard work of creating new files in the correct directory.</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
@@ -91,7 +232,9 @@ of shell scripts and AWK:</p><div class=highlight><div style=color:#f8f8f2;backg
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell><span style=color:#8be9fd;font-style:italic>$1</span> !<span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;id&#34;</span> <span style=color:#ff79c6>&amp;&amp;</span> <span style=color:#8be9fd;font-style:italic>$3</span> &lt; 99.9 <span style=color:#ff79c6>{</span>
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell><span style=color:#8be9fd;font-style:italic>$1</span> !<span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;id&#34;</span> <span style=color:#ff79c6>&amp;&amp;</span> <span style=color:#8be9fd;font-style:italic>$3</span> &lt; 99.9 <span style=color:#ff79c6>{</span>
   <span style=color:#8be9fd;font-style:italic>prev</span><span style=color:#ff79c6>=</span>file;
   split<span style=color:#ff79c6>(</span><span style=color:#8be9fd;font-style:italic>$2</span>, f, <span style=color:#f1fa8c>&#34; &#34;</span><span style=color:#ff79c6>)</span>;
   <span style=color:#8be9fd;font-style:italic>outcode</span> <span style=color:#ff79c6>=</span> f<span style=color:#ff79c6>[</span>1<span style=color:#ff79c6>]</span>
@@ -105,37 +248,70 @@ of shell scripts and AWK:</p><div class=highlight><div style=color:#f8f8f2;backg
   <span style=color:#ff79c6>}</span>
   print <span style=color:#8be9fd;font-style:italic>$0</span> &gt;&gt; file;
 <span style=color:#ff79c6>}</span>
-</code></pre></td></tr></table></div></div><p>This resulted in 2980 files - the biggest of those was 145K which corresponded to 2701 postcodes. Now that&rsquo;s much better
-to search than 1.7 million!</p><h1 id=soup>Soup</h1><p>I didn&rsquo;t mention the <a href=https://beny23.github.io/static-distance>Discounted Dining Finder</a> had a map. A quick diversion on setting that up!</p><p>I used <a href=https://leafletjs.com>LeafletJS</a> - an open source map. Here&rsquo;s how:</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</code></pre></td></tr></table>
+</div>
+</div><p>This resulted in 2980 files - the biggest of those was 145K which corresponded to 2701 postcodes. Now that&rsquo;s much better
+to search than 1.7 million!</p>
+<h1 id=soup>Soup</h1>
+<p>I didn&rsquo;t mention the <a href=https://beny23.github.io/static-distance>Discounted Dining Finder</a> had a map. A quick diversion on setting that up!</p>
+<p>I used <a href=https://leafletjs.com>LeafletJS</a> - an open source map. Here&rsquo;s how:</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-javascript data-lang=javascript>mapid <span style=color:#ff79c6>=</span> L.map(<span style=color:#f1fa8c>&#39;mapid&#39;</span>);
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-javascript data-lang=javascript>mapid <span style=color:#ff79c6>=</span> L.map(<span style=color:#f1fa8c>&#39;mapid&#39;</span>);
 L.tileLayer(<span style=color:#f1fa8c>&#39;https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&#39;</span>, {
     maxZoom<span style=color:#ff79c6>:</span> <span style=color:#bd93f9>19</span>,
     attribution<span style=color:#ff79c6>:</span> <span style=color:#f1fa8c>&#39;&amp;copy; &lt;a href=&#34;https://www.openstreetmap.org/copyright&#34;&gt;OpenStreetMap&lt;/a&gt; contributors&#39;</span>
 }).addTo(mapid);
 markerLayer <span style=color:#ff79c6>=</span> L.layerGroup().addTo(mapid)
-</code></pre></td></tr></table></div></div><p>And I had a map!</p><p><img src=/images/discounted_dining_finder_map.png alt="A Map"></p><h1 id=fish>Fish</h1><p>That map didn&rsquo;t have anything on yet! I am able to convert a postcode into lat/lon though. The next step was to
+</code></pre></td></tr></table>
+</div>
+</div><p>And I had a map!</p>
+<p><img src=/images/discounted_dining_finder_map.png alt="A Map"></p>
+<h1 id=fish>Fish</h1>
+<p>That map didn&rsquo;t have anything on yet! I am able to convert a postcode into lat/lon though. The next step was to
 lookup the restaurants. I decided to keep running with the idea of doing all my computation on the user&rsquo;s browser
-(desktop or phone).</p><p>First of all, I found that the UK postcodes were covering an area of:</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+(desktop or phone).</p>
+<p>First of all, I found that the UK postcodes were covering an area of:</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell>$ cut -f3 -d, ukpostcodes.csv | awk -F, <span style=color:#f1fa8c>&#39;BEGIN { max = -999; min = +999; } /[0-9.-]+/ { if ($1 &gt; max) max = $1; if ($1 &lt; min) min = $1; } END { print min, max; }&#39;</span>
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell>$ cut -f3 -d, ukpostcodes.csv | awk -F, <span style=color:#f1fa8c>&#39;BEGIN { max = -999; min = +999; } /[0-9.-]+/ { if ($1 &gt; max) max = $1; if ($1 &lt; min) min = $1; } END { print min, max; }&#39;</span>
 49.181941000000000 60.800793046799900
 $ cut -f4 -d, ukpostcodes.csv | awk -F, <span style=color:#f1fa8c>&#39;BEGIN { max = -999; min = +999; } /[0-9.-]+/ { if ($1 &gt; max) max = $1; if ($1 &lt; min) min = $1; } END { print min, max; }&#39;</span>
 -8.163139000000000 1.760443184261870
-</code></pre></td></tr></table></div></div><p>I calculated that the rectangle (60.80 N/-8.16 W) - (49.18 N/1.76 E) covered about 400 miles from
+</code></pre></td></tr></table>
+</div>
+</div><p>I calculated that the rectangle (60.80 N/-8.16 W) - (49.18 N/1.76 E) covered about 400 miles from
 West to East and 800 miles North to South. My aim was to provide a lookup that can find all restaurants in a 5 mile
-radius, so I split my search area up into tiles of roughly 5x5 miles. Here&rsquo;s my translation function:</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+radius, so I split my search area up into tiles of roughly 5x5 miles. Here&rsquo;s my translation function:</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-javascript data-lang=javascript><span style=color:#8be9fd;font-style:italic>var</span> x <span style=color:#ff79c6>=</span> <span style=color:#8be9fd;font-style:italic>parseInt</span>((<span style=color:#ff79c6>+</span>result.lat <span style=color:#ff79c6>-</span> <span style=color:#bd93f9>49.0</span>) <span style=color:#ff79c6>/</span> (<span style=color:#bd93f9>12.0</span> <span style=color:#ff79c6>/</span> <span style=color:#bd93f9>160.0</span>))
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-javascript data-lang=javascript><span style=color:#8be9fd;font-style:italic>var</span> x <span style=color:#ff79c6>=</span> <span style=color:#8be9fd;font-style:italic>parseInt</span>((<span style=color:#ff79c6>+</span>result.lat <span style=color:#ff79c6>-</span> <span style=color:#bd93f9>49.0</span>) <span style=color:#ff79c6>/</span> (<span style=color:#bd93f9>12.0</span> <span style=color:#ff79c6>/</span> <span style=color:#bd93f9>160.0</span>))
 <span style=color:#8be9fd;font-style:italic>var</span> y <span style=color:#ff79c6>=</span> <span style=color:#8be9fd;font-style:italic>parseInt</span>((<span style=color:#ff79c6>+</span>result.lon <span style=color:#ff79c6>+</span> <span style=color:#bd93f9>9</span>) <span style=color:#ff79c6>/</span> (<span style=color:#bd93f9>11.0</span> <span style=color:#ff79c6>/</span> <span style=color:#bd93f9>80.0</span>))
-</code></pre></td></tr></table></div></div><p>That would give me a coordinate set for a tile. So the Buckingham Palace (51.5 N/-0.14 W) would be at coordinates (33/64).
-Based on that, I can build another set of files:</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</code></pre></td></tr></table>
+</div>
+</div><p>That would give me a coordinate set for a tile. So the Buckingham Palace (51.5 N/-0.14 W) would be at coordinates (33/64).
+Based on that, I can build another set of files:</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
@@ -143,7 +319,9 @@ Based on that, I can build another set of files:</p><div class=highlight><div st
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">7
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">8
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell>target/pubgrid
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell>target/pubgrid
 target/pubgrid/0
 target/pubgrid/1
 target/pubgrid/10
@@ -151,16 +329,28 @@ target/pubgrid/100
 target/pubgrid/100/100-19.csv
 target/pubgrid/100/100-20.csv
 target/pubgrid/100/100-21.csv
-</code></pre></td></tr></table></div></div><p>Whereby all the eateries that are in coordinates (33/64) would be in the file <code>pubgrid/33/33-64.csv</code>. That file would look
-like this:</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</code></pre></td></tr></table>
+</div>
+</div><p>Whereby all the eateries that are in coordinates (33/64) would be in the file <code>pubgrid/33/33-64.csv</code>. That file would look
+like this:</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell>name,postcode,lat,lon
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell>name,postcode,lat,lon
 blue racer and frilled lizard,BR1 1AB,51.406270892812800,0.015176762143898
 saltwater crocodile and blue racer,BR1 1LU,51.401706890000000,0.017463449000000
 king cobra and Schneider python,BR1 1PQ,51.406421920000000,0.012595296000000
-</code></pre></td></tr></table></div></div><p>The javascript can then find the suitable restaurants like so:</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</code></pre></td></tr></table>
+</div>
+</div><p>The javascript can then find the suitable restaurants like so:</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
@@ -179,7 +369,9 @@ king cobra and Schneider python,BR1 1PQ,51.406421920000000,0.012595296000000
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">18
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">19
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-javascript data-lang=javascript>d3.csv(<span style=color:#f1fa8c>&#34;pubgrid/&#34;</span> <span style=color:#ff79c6>+</span> x <span style=color:#ff79c6>+</span> <span style=color:#f1fa8c>&#34;/&#34;</span> <span style=color:#ff79c6>+</span> x <span style=color:#ff79c6>+</span> <span style=color:#f1fa8c>&#34;-&#34;</span> <span style=color:#ff79c6>+</span> y <span style=color:#ff79c6>+</span> <span style=color:#f1fa8c>&#34;.csv&#34;</span>)
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-javascript data-lang=javascript>d3.csv(<span style=color:#f1fa8c>&#34;pubgrid/&#34;</span> <span style=color:#ff79c6>+</span> x <span style=color:#ff79c6>+</span> <span style=color:#f1fa8c>&#34;/&#34;</span> <span style=color:#ff79c6>+</span> x <span style=color:#ff79c6>+</span> <span style=color:#f1fa8c>&#34;-&#34;</span> <span style=color:#ff79c6>+</span> y <span style=color:#ff79c6>+</span> <span style=color:#f1fa8c>&#34;.csv&#34;</span>)
     .then(<span style=color:#8be9fd;font-style:italic>function</span>(pubs) {
         <span style=color:#8be9fd;font-style:italic>let</span> inRange <span style=color:#ff79c6>=</span> pubs
             .map(a =&gt; ({ ...a, distance<span style=color:#ff79c6>:</span> distance(result, a)}))
@@ -198,10 +390,27 @@ king cobra and Schneider python,BR1 1PQ,51.406421920000000,0.012595296000000
         markerLayer.clearLayers();
         inRange.forEach(d =&gt; L.marker([d.lat, d.lon], { <span style=color:#f1fa8c>&#34;title&#34;</span><span style=color:#ff79c6>:</span> d.name }).addTo(markerLayer))
     })
-</code></pre></td></tr></table></div></div><p>The above code does a few things:</p><ol><li>It calculates the distance between the selected lat/lon and the lat/lon for the restaurant</li><li>It filters out anything that is further away than 5 miles</li><li>It sorts by distance, so that the closest are first</li><li>It takes up to 250 results</li><li>Dynamically create a table that shows the results (IMHO, this is very neat using D3)</li><li>Clear and recreate all the markers on the map.</li></ol><p>The end result looks a little like this:</p><p><img src=/images/discounted_dining_finder_list.png alt="A Map with Markers and List"></p><h1 id=meat>Meat</h1><p>Now, the next tricky bit is to ensure, that my coordinate grid system, that simplifies (lat/lon) into coordinates contain
+</code></pre></td></tr></table>
+</div>
+</div><p>The above code does a few things:</p>
+<ol>
+<li>It calculates the distance between the selected lat/lon and the lat/lon for the restaurant</li>
+<li>It filters out anything that is further away than 5 miles</li>
+<li>It sorts by distance, so that the closest are first</li>
+<li>It takes up to 250 results</li>
+<li>Dynamically create a table that shows the results (IMHO, this is very neat using D3)</li>
+<li>Clear and recreate all the markers on the map.</li>
+</ol>
+<p>The end result looks a little like this:</p>
+<p><img src=/images/discounted_dining_finder_list.png alt="A Map with Markers and List"></p>
+<h1 id=meat>Meat</h1>
+<p>Now, the next tricky bit is to ensure, that my coordinate grid system, that simplifies (lat/lon) into coordinates contain
 all the relevant information about the closest eating establishments. As each tile is designed to be about 5x5 miles,
 in order to ensure that we find every restaurant that is 5 miles away from each tile, each restaurant goes into the tile it
-is in, as well as the surrounding tiles, this is done using trusty AWK:</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+is in, as well as the surrounding tiles, this is done using trusty AWK:</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
@@ -234,7 +443,9 @@ is in, as well as the surrounding tiles, this is done using trusty AWK:</p><div 
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">31
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">32
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">33
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell><span style=color:#ff79c6>function</span> print_to_file<span style=color:#ff79c6>(</span>file<span style=color:#ff79c6>)</span> <span style=color:#ff79c6>{</span>
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell><span style=color:#ff79c6>function</span> print_to_file<span style=color:#ff79c6>(</span>file<span style=color:#ff79c6>)</span> <span style=color:#ff79c6>{</span>
   <span style=color:#ff79c6>if</span> <span style=color:#ff79c6>(</span>headers<span style=color:#ff79c6>[</span>file<span style=color:#ff79c6>]</span> !<span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;done&#34;</span><span style=color:#ff79c6>)</span> <span style=color:#ff79c6>{</span>
     print <span style=color:#f1fa8c>&#34;name,postcode,lat,lon&#34;</span> &gt;&gt; file;
     headers<span style=color:#ff79c6>[</span>file<span style=color:#ff79c6>]</span> <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;done&#34;</span>
@@ -267,18 +478,39 @@ is in, as well as the surrounding tiles, this is done using trusty AWK:</p><div 
   print_to_file<span style=color:#ff79c6>(</span>file_bm<span style=color:#ff79c6>)</span>;
   print_to_file<span style=color:#ff79c6>(</span>file_br<span style=color:#ff79c6>)</span>;
 <span style=color:#ff79c6>}</span>
-</code></pre></td></tr></table></div></div><p>But wait a minute, that presupposes that I have a list of &ldquo;pubs&rdquo; and their coordinates. That&rsquo;s not the case, all we&rsquo;ve
+</code></pre></td></tr></table>
+</div>
+</div><p>But wait a minute, that presupposes that I have a list of &ldquo;pubs&rdquo; and their coordinates. That&rsquo;s not the case, all we&rsquo;ve
 got is the establishment name and their postcode. Thankfully there&rsquo;s a shell command that I can use to &ldquo;join&rdquo; my existing
-postcode file and a file of establishments and their postcodes:</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+postcode file and a file of establishments and their postcodes:</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell>join -t , -1 <span style=color:#bd93f9>2</span> -2 <span style=color:#bd93f9>2</span> -o 1.1,0,2.3,2.4 <span style=color:#f1fa8c>\
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell>join -t , -1 <span style=color:#bd93f9>2</span> -2 <span style=color:#bd93f9>2</span> -o 1.1,0,2.3,2.4 <span style=color:#f1fa8c>\
 </span><span style=color:#f1fa8c></span>   &lt;<span style=color:#ff79c6>(</span>sort -k <span style=color:#bd93f9>2</span> -t , target/pub_postcodes.csv<span style=color:#ff79c6>)</span> <span style=color:#f1fa8c>\
 </span><span style=color:#f1fa8c></span>   &lt;<span style=color:#ff79c6>(</span>sort -k <span style=color:#bd93f9>2</span> -t , target/ukpostcodes.csv<span style=color:#ff79c6>)</span> &gt; target/named_pubs.csv
-</code></pre></td></tr></table></div></div><p>The above does the following</p><ul><li>sort both the <code>pub_postcode.csv</code> (containing name and postcode) and</li><li>sort the <code>ukpostcodes.csv</code> (containing the postcode and lat/lon) and</li><li>&ldquo;joins&rdquo; the two files - creating one whereby the lines are joined by the postcode.</li></ul><h1 id=palate-cleanser>Palate Cleanser</h1><p>You will have noticed above that my examples aren&rsquo;t giving real pub or restaurant names. While HMRC had not yet published
+</code></pre></td></tr></table>
+</div>
+</div><p>The above does the following</p>
+<ul>
+<li>sort both the <code>pub_postcode.csv</code> (containing name and postcode) and</li>
+<li>sort the <code>ukpostcodes.csv</code> (containing the postcode and lat/lon) and</li>
+<li>&ldquo;joins&rdquo; the two files - creating one whereby the lines are joined by the postcode.</li>
+</ul>
+<h1 id=palate-cleanser>Palate Cleanser</h1>
+<p>You will have noticed above that my examples aren&rsquo;t giving real pub or restaurant names. While HMRC had not yet published
 the list of registered restaurants, I used by shell scripting knowlegde (and a lot of google) to create a fairly
-neat way of generating random pub/restaurant names.</p><p>I took a <a href=https://github.com/beny23/static-distance/blob/master/animal_names.txt>list of animal names</a> and randomly
-combined them with &ldquo;and&rdquo;, the aim being to get the &ldquo;Fox and Badger&rdquo; and endless variations.</p><p>Here&rsquo;s the shell script to allow you to do this:</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+neat way of generating random pub/restaurant names.</p>
+<p>I took a <a href=https://github.com/beny23/static-distance/blob/master/animal_names.txt>list of animal names</a> and randomly
+combined them with &ldquo;and&rdquo;, the aim being to get the &ldquo;Fox and Badger&rdquo; and endless variations.</p>
+<p>Here&rsquo;s the shell script to allow you to do this:</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
@@ -286,7 +518,9 @@ combined them with &ldquo;and&rdquo;, the aim being to get the &ldquo;Fox and Ba
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">7
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">8
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell>shuf -n <span style=color:#bd93f9>100000</span> target/ukpostcodes.csv | cut -f2 -d, &gt; target/pub_postcodes.txt
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell>shuf -n <span style=color:#bd93f9>100000</span> target/ukpostcodes.csv | cut -f2 -d, &gt; target/pub_postcodes.txt
 
 shuf -rn <span style=color:#bd93f9>100000</span> animal_names.txt &gt; target/1.txt
 shuf -rn <span style=color:#bd93f9>100000</span> animal_names.txt &gt; target/2.txt
@@ -294,7 +528,19 @@ yes <span style=color:#f1fa8c>&#34;and&#34;</span> 2&gt;/dev/null | head -100000
 paste -d <span style=color:#f1fa8c>&#34; &#34;</span> target/1.txt target/and.txt target/2.txt &gt; target/pubnames.txt
 
 paste -d <span style=color:#f1fa8c>&#34;,&#34;</span> target/pubnames.txt target/pub_postcodes.txt &gt; target/pub_postcodes.csv
-</code></pre></td></tr></table></div></div><p>This creates</p><ul><li>100000 random postcodes</li><li>100000 random animal names</li><li>another 100000 random animal names (in a different order)</li><li>100000 &ldquo;and"s</li><li>and combines them all, resulting in my randomly generated pub names:</li></ul><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</code></pre></td></tr></table>
+</div>
+</div><p>This creates</p>
+<ul>
+<li>100000 random postcodes</li>
+<li>100000 random animal names</li>
+<li>another 100000 random animal names (in a different order)</li>
+<li>100000 &ldquo;and"s</li>
+<li>and combines them all, resulting in my randomly generated pub names:</li>
+</ul>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
@@ -305,7 +551,9 @@ paste -d <span style=color:#f1fa8c>&#34;,&#34;</span> target/pubnames.txt target
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell>$ head pub_postcodes.csv 
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell>$ head pub_postcodes.csv 
 leguaan and bushmaster,B79 7SP
 anaconda and Moluccan boobook,CM20 2GN
 flying lizard and hoop snake,NW4 3LY
@@ -316,8 +564,53 @@ Eagle and Marsh harrier,FK1 5LE
 Jay and chameleon,KA19 7NW
 B and Maya,L5 7UB
 ringhals and Diving bird,W9 2EH
-</code></pre></td></tr></table></div></div><h1 id=dessert>Dessert</h1><p>All of the above is very good, but I&rsquo;ve still not hosted my tool anywhere, and I don&rsquo;t want to use my own servers.
+</code></pre></td></tr></table>
+</div>
+</div><h1 id=dessert>Dessert</h1>
+<p>All of the above is very good, but I&rsquo;ve still not hosted my tool anywhere, and I don&rsquo;t want to use my own servers.
 Thankfully, github.com provides <a href=https://pages.github.com>GitHub Pages</a> and <a href=https://docs.github.com/en/actions>GitHub Actions</a>
-which can be combined to provide a build pipeline and a hosting solution!</p><h1 id=cheese>Cheese</h1><p>Thanks for reading, I hope you found the <a href=https://beny23.github.io/static-distance>Discounted Dining Finder</a> and the above tale interesting.
+which can be combined to provide a build pipeline and a hosting solution!</p>
+<h1 id=cheese>Cheese</h1>
+<p>Thanks for reading, I hope you found the <a href=https://beny23.github.io/static-distance>Discounted Dining Finder</a> and the above tale interesting.
 The source code is available on <a href=https://github.com/beny23/static-distance/>github.com/beny23/static-distance/</a> and
-released using the Apache-2.0 open source licence.</p><ul class=pa0></ul><div class="mt6 instapaper_ignoref"></div></div><aside class="w-30-l mt6-l"></aside></article></main><footer class="bg-black bottom-0 w-100 pa3" role=contentinfo><div class="flex justify-between"><a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href=https://beny23.github.io/>&copy; Software Design Systems 2022</a><div><a href=https://stackoverflow.com/users/227140/beny23 target=_blank class="link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Stack Overflow link" rel=noopener aria-label="follow on Stack Overflow——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32"><path d="M12 0C5.373.0.0 5.373.0 12s5.373 12 12 12 12-5.373 12-12S18.627.0 12 0zm.869 5.903 3.114 4.567-.975.665-3.115-4.567.976-.665zm-2.812 2.585 4.84 2.838-.6 1.017-4.842-2.838.602-1.017zm-1.276 2.724 5.413 1.521-.291 1.077-5.428-1.458.306-1.14zm-.588 2.461 5.687.569-.103 1.12-5.691-.513.107-1.176zm-.169 2.16h5.835V17h-5.835v-1.167zM16 19H6v-6h1v5h8v-5h1v6zm.195-8.602-.945-5.446 1.162-.202.947 5.446-1.164.202z"/></svg><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a><a href=https://twitter.com/giskard23 target=_blank class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel=noopener aria-label="follow on Twitter——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a><a href=https://www.linkedin.com/in/gerald-benischke-9811b663 target=_blank class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel=noopener aria-label="follow on LinkedIn——Opens in a new window"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30C64 50.568 50.568 64 34 64zM26.354 48.137V27.71h-6.789v20.427H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a><a href=https://github.com/beny23 target=_blank class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel=noopener aria-label="follow on Github——Opens in a new window"><svg height="32" style="enable-background:new 0 0 512 512" viewBox="0 0 512 512" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M256 32C132.3 32 32 134.8 32 261.7c0 101.5 64.2 187.5 153.2 217.9 11.2 2.1 15.3-5 15.3-11.1.0-5.5-.2-19.9-.3-39.1-62.3 13.9-75.5-30.8-75.5-30.8-10.2-26.5-24.9-33.6-24.9-33.6-20.3-14.3 1.5-14 1.5-14 22.5 1.6 34.3 23.7 34.3 23.7 20 35.1 52.4 25 65.2 19.1 2-14.8 7.8-25 14.2-30.7-49.7-5.8-102-25.5-102-113.5.0-25.1 8.7-45.6 23-61.6-2.3-5.8-10-29.2 2.2-60.8.0.0 18.8-6.2 61.6 23.5 17.9-5.1 37-7.6 56.1-7.7 19 .1 38.2 2.6 56.1 7.7 42.8-29.7 61.5-23.5 61.5-23.5 12.2 31.6 4.5 55 2.2 60.8 14.3 16.1 23 36.6 23 61.6.0 88.2-52.4 107.6-102.3 113.3 8 7.1 15.2 21.1 15.2 42.5.0 30.7-.3 55.5-.3 63 0 6.1 4 13.3 15.4 11C415.9 449.1 480 363.1 480 261.7 480 134.8 379.7 32 256 32z"/></svg><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a></div></div></footer><script src=/dist/js/app.3fc0f988d21662902933.js></script></body></html>
+released using the Apache-2.0 open source licence.</p>
+<b>Tags</b>
+<a href=https://beny23.github.io/tags/frontend/>frontend</a> <a href=https://beny23.github.io/tags/covid-response/>covid-response</a><div class="mt6 instapaper_ignoref">
+</div>
+</div>
+<aside class="w-30-l mt6-l">
+<div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+<p class="f5 b mb3">Related</p>
+<ul class="pa0 list">
+<li class=mb2>
+<a href=/posts/making_software_quickly/>Making Software. Quickly.</a>
+</li>
+</ul>
+</div>
+</aside>
+</article>
+</main>
+<footer class="bg-black bottom-0 w-100 pa3" role=contentinfo>
+<div class="flex justify-between">
+<a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href=https://beny23.github.io/>
+&copy; Software Design Systems 2022
+</a>
+<div>
+<a href=https://stackoverflow.com/users/227140/beny23 target=_blank class="link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Stack Overflow link" rel=noopener aria-label="follow on Stack Overflow——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32"><path d="M12 0C5.373.0.0 5.373.0 12s5.373 12 12 12 12-5.373 12-12S18.627.0 12 0zm.869 5.903 3.114 4.567-.975.665-3.115-4.567.976-.665zm-2.812 2.585 4.84 2.838-.6 1.017-4.842-2.838.602-1.017zm-1.276 2.724 5.413 1.521-.291 1.077-5.428-1.458.306-1.14zm-.588 2.461 5.687.569-.103 1.12-5.691-.513.107-1.176zm-.169 2.16h5.835V17H8.024v-1.167zM16 19H6v-6h1v5h8v-5h1v6zm.195-8.602-.945-5.446 1.162-.202.947 5.446-1.164.202z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://twitter.com/giskard23 target=_blank class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel=noopener aria-label="follow on Twitter——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://www.linkedin.com/in/gerald-benischke-9811b663 target=_blank class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel=noopener aria-label="follow on LinkedIn——Opens in a new window"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://github.com/beny23 target=_blank class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel=noopener aria-label="follow on Github——Opens in a new window"><svg height="32" style="enable-background:new 0 0 512 512" viewBox="0 0 512 512" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M256 32C132.3 32 32 134.8 32 261.7c0 101.5 64.2 187.5 153.2 217.9 11.2 2.1 15.3-5 15.3-11.1.0-5.5-.2-19.9-.3-39.1-62.3 13.9-75.5-30.8-75.5-30.8-10.2-26.5-24.9-33.6-24.9-33.6-20.3-14.3 1.5-14 1.5-14 22.5 1.6 34.3 23.7 34.3 23.7 20 35.1 52.4 25 65.2 19.1 2-14.8 7.8-25 14.2-30.7-49.7-5.8-102-25.5-102-113.5.0-25.1 8.7-45.6 23-61.6-2.3-5.8-10-29.2 2.2-60.8.0.0 18.8-6.2 61.6 23.5 17.9-5.1 37-7.6 56.1-7.7 19 .1 38.2 2.6 56.1 7.7 42.8-29.7 61.5-23.5 61.5-23.5 12.2 31.6 4.5 55 2.2 60.8 14.3 16.1 23 36.6 23 61.6.0 88.2-52.4 107.6-102.3 113.3 8 7.1 15.2 21.1 15.2 42.5.0 30.7-.3 55.5-.3 63 0 6.1 4 13.3 15.4 11C415.9 449.1 480 363.1 480 261.7 480 134.8 379.7 32 256 32z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+</div>
+</div>
+</footer>
+<script src=/dist/js/app.3fc0f988d21662902933.js></script>
+</body>
+</html>

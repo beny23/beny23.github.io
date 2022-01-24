@@ -1,15 +1,109 @@
-<!doctype html><html lang=en-gb><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>Advent of code 2021: Day 16 | Tales about Software Engineering</title><meta name=viewport content="width=device-width,minimum-scale=1"><meta name=generator content="Hugo 0.73.0"><meta name=ROBOTS content="INDEX, FOLLOW"><link href=/dist/css/app.4fc0b62e4b82c997bb0041217cd6b979.css rel=stylesheet><meta property="og:title" content="Advent of code 2021: Day 16"><meta property="og:description" content="For day 16 Advent of Code 2021, it was all about monadic parser combinators (whatever they are)! Just like Day 15, this one took me a lot longer to complete than I had wanted, this time it was all about learning Haskell&rsquo;s approach to parsing text.
-According to the story, we had to decode a message in a custom binary format, the Buoyancy Interchange Transmission System (BITS). BITS is a message format that encodes both literal values and operations."><meta property="og:type" content="article"><meta property="og:url" content="https://beny23.github.io/posts/advent_of_code_2021_day_16/"><meta property="article:published_time" content="2021-12-20T00:14:32+00:00"><meta property="article:modified_time" content="2021-12-20T00:14:32+00:00"><meta itemprop=name content="Advent of code 2021: Day 16"><meta itemprop=description content="For day 16 Advent of Code 2021, it was all about monadic parser combinators (whatever they are)! Just like Day 15, this one took me a lot longer to complete than I had wanted, this time it was all about learning Haskell&rsquo;s approach to parsing text.
-According to the story, we had to decode a message in a custom binary format, the Buoyancy Interchange Transmission System (BITS). BITS is a message format that encodes both literal values and operations."><meta itemprop=datePublished content="2021-12-20T00:14:32+00:00"><meta itemprop=dateModified content="2021-12-20T00:14:32+00:00"><meta itemprop=wordCount content="2184"><meta itemprop=keywords content><meta name=twitter:card content="summary"><meta name=twitter:title content="Advent of code 2021: Day 16"><meta name=twitter:description content="For day 16 Advent of Code 2021, it was all about monadic parser combinators (whatever they are)! Just like Day 15, this one took me a lot longer to complete than I had wanted, this time it was all about learning Haskell&rsquo;s approach to parsing text.
-According to the story, we had to decode a message in a custom binary format, the Buoyancy Interchange Transmission System (BITS). BITS is a message format that encodes both literal values and operations."><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;ga('create','UA-171035600-1','auto');ga('send','pageview');}</script><script async src=https://www.google-analytics.com/analytics.js></script></head><body class="ma0 avenir bg-near-white production"><header><div class=bg-black><nav class="pv3 ph3 ph4-ns" role=navigation><div class="flex-l justify-between items-center center"><a href=/ class="f3 fw2 hover-white no-underline white-90 dib">Tales about Software Engineering</a><div class="flex-l items-center"><ul class="pl0 mr3"><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white no-underline white-90" href=/about/ title="About page">About</a></li><li class="list f5 f4-ns fw4 dib pr3"><a class="hover-white no-underline white-90" href=/posts/ title="Blog page">Blog</a></li></ul><a href=https://stackoverflow.com/users/227140/beny23 target=_blank class="link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Stack Overflow link" rel=noopener aria-label="follow on Stack Overflow——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32"><path d="M12 0C5.373.0.0 5.373.0 12s5.373 12 12 12 12-5.373 12-12S18.627.0 12 0zm.869 5.903 3.114 4.567-.975.665-3.115-4.567.976-.665zm-2.812 2.585 4.84 2.838-.6 1.017-4.842-2.838.602-1.017zm-1.276 2.724 5.413 1.521-.291 1.077-5.428-1.458.306-1.14zm-.588 2.461 5.687.569-.103 1.12-5.691-.513.107-1.176zm-.169 2.16h5.835V17h-5.835v-1.167zM16 19H6v-6h1v5h8v-5h1v6zm.195-8.602-.945-5.446 1.162-.202.947 5.446-1.164.202z"/></svg><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a><a href=https://twitter.com/giskard23 target=_blank class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel=noopener aria-label="follow on Twitter——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a><a href=https://www.linkedin.com/in/gerald-benischke-9811b663 target=_blank class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel=noopener aria-label="follow on LinkedIn——Opens in a new window"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30C64 50.568 50.568 64 34 64zM26.354 48.137V27.71h-6.789v20.427H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a><a href=https://github.com/beny23 target=_blank class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel=noopener aria-label="follow on Github——Opens in a new window"><svg height="32" style="enable-background:new 0 0 512 512" viewBox="0 0 512 512" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M256 32C132.3 32 32 134.8 32 261.7c0 101.5 64.2 187.5 153.2 217.9 11.2 2.1 15.3-5 15.3-11.1.0-5.5-.2-19.9-.3-39.1-62.3 13.9-75.5-30.8-75.5-30.8-10.2-26.5-24.9-33.6-24.9-33.6-20.3-14.3 1.5-14 1.5-14 22.5 1.6 34.3 23.7 34.3 23.7 20 35.1 52.4 25 65.2 19.1 2-14.8 7.8-25 14.2-30.7-49.7-5.8-102-25.5-102-113.5.0-25.1 8.7-45.6 23-61.6-2.3-5.8-10-29.2 2.2-60.8.0.0 18.8-6.2 61.6 23.5 17.9-5.1 37-7.6 56.1-7.7 19 .1 38.2 2.6 56.1 7.7 42.8-29.7 61.5-23.5 61.5-23.5 12.2 31.6 4.5 55 2.2 60.8 14.3 16.1 23 36.6 23 61.6.0 88.2-52.4 107.6-102.3 113.3 8 7.1 15.2 21.1 15.2 42.5.0 30.7-.3 55.5-.3 63 0 6.1 4 13.3 15.4 11C415.9 449.1 480 363.1 480 261.7 480 134.8 379.7 32 256 32z"/></svg><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a></div></div></nav></div></header><main class=pb7 role=main><article class="flex-l flex-wrap justify-between mw8 center ph3"><header class="mt4 w-100"><aside class="instapaper_ignoref b helvetica tracked">POSTS</aside><div id=sharing class=mt3><a href="https://www.facebook.com/sharer.php?u=https://beny23.github.io/posts/advent_of_code_2021_day_16/" class="facebook no-underline" aria-label="share on Facebook"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M28.765 50.32h6.744V33.998h4.499l.596-5.624h-5.095l.007-2.816c0-1.466.14-2.253 2.244-2.253h2.812V17.68h-4.5c-5.405.0-7.307 2.729-7.307 7.317v3.377h-3.369v5.625h3.369V50.32zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd"/></svg></a><a href="https://twitter.com/share?url=https://beny23.github.io/posts/advent_of_code_2021_day_16/&text=Advent%20of%20code%202021:%20Day%2016" class="twitter no-underline" aria-label="share on Twitter"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></a><a href="https://www.linkedin.com/shareArticle?mini=true&url=https://beny23.github.io/posts/advent_of_code_2021_day_16/&title=Advent%20of%20code%202021:%20Day%2016" class="linkedin no-underline" aria-label="share on LinkedIn"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30C64 50.568 50.568 64 34 64zM26.354 48.137V27.71h-6.789v20.427H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></a></div><h1 class="f1 athelas mt3 mb1">Advent of code 2021: Day 16</h1><time class="f6 mv4 dib tracked" datetime=2021-12-20T00:14:32Z>December 20, 2021</time>
-<span class="f6 mv4 dib tracked">- 11 minutes read</span>
-<span class="f6 mv4 dib tracked">- 2184 words</span></header><div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p><img src=/images/advent_of_code_title.jpg alt></p><p>For day 16 <a href=https://adventofcode.com/2021>Advent of Code 2021</a>, it was all about
+<!doctype html><html lang=en-gb>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>Advent of code 2021: Day 16 | Tales about Software Engineering</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=generator content="Hugo 0.92.0">
+<meta name=ROBOTS content="INDEX, FOLLOW">
+<link href=/dist/css/app.4fc0b62e4b82c997bb0041217cd6b979.css rel=stylesheet>
+<meta property="og:title" content="Advent of code 2021: Day 16">
+<meta property="og:description" content="For day 16 Advent of Code 2021, it was all about monadic parser combinators (whatever they are)! Just like Day 15, this one took me a lot longer to complete than I had wanted, this time it was all about learning Haskell&rsquo;s approach to parsing text.
+According to the story, we had to decode a message in a custom binary format, the Buoyancy Interchange Transmission System (BITS). BITS is a message format that encodes both literal values and operations.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://beny23.github.io/posts/advent_of_code_2021_day_16/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2021-12-20T00:14:32+00:00">
+<meta property="article:modified_time" content="2021-12-20T00:14:32+00:00">
+<meta itemprop=name content="Advent of code 2021: Day 16">
+<meta itemprop=description content="For day 16 Advent of Code 2021, it was all about monadic parser combinators (whatever they are)! Just like Day 15, this one took me a lot longer to complete than I had wanted, this time it was all about learning Haskell&rsquo;s approach to parsing text.
+According to the story, we had to decode a message in a custom binary format, the Buoyancy Interchange Transmission System (BITS). BITS is a message format that encodes both literal values and operations."><meta itemprop=datePublished content="2021-12-20T00:14:32+00:00">
+<meta itemprop=dateModified content="2021-12-20T00:14:32+00:00">
+<meta itemprop=wordCount content="2184">
+<meta itemprop=keywords content="functional,haskell,advent-of-code,"><meta name=twitter:card content="summary">
+<meta name=twitter:title content="Advent of code 2021: Day 16">
+<meta name=twitter:description content="For day 16 Advent of Code 2021, it was all about monadic parser combinators (whatever they are)! Just like Day 15, this one took me a lot longer to complete than I had wanted, this time it was all about learning Haskell&rsquo;s approach to parsing text.
+According to the story, we had to decode a message in a custom binary format, the Buoyancy Interchange Transmission System (BITS). BITS is a message format that encodes both literal values and operations.">
+<script type=application/javascript>var doNotTrack=!1;doNotTrack||(window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga('create','UA-171035600-1','auto'),ga('send','pageview'))</script>
+<script async src=https://www.google-analytics.com/analytics.js></script>
+</head>
+<body class="ma0 avenir bg-near-white production">
+<header class="cover bg-top" style=background-image:url(https://beny23.github.io/images/advent_of_code_title.jpg)>
+<div class="pb3-m pb6-l bg-black-60">
+<nav class="pv3 ph3 ph4-ns" role=navigation>
+<div class="flex-l justify-between items-center center">
+<a href=/ class="f3 fw2 hover-white no-underline white-90 dib">
+Tales about Software Engineering
+</a>
+<div class="flex-l items-center">
+<ul class="pl0 mr3">
+<li class="list f5 f4-ns fw4 dib pr3">
+<a class="hover-white no-underline white-90" href=/about/ title="About page">
+About
+</a>
+</li>
+<li class="list f5 f4-ns fw4 dib pr3">
+<a class="hover-white no-underline white-90" href=/posts/ title="Blog page">
+Blog
+</a>
+</li>
+<li class="list f5 f4-ns fw4 dib pr3">
+<a class="hover-white no-underline white-90" href=/tags/ title="Tags page">
+Tags
+</a>
+</li>
+</ul>
+<a href=https://stackoverflow.com/users/227140/beny23 target=_blank class="link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Stack Overflow link" rel=noopener aria-label="follow on Stack Overflow——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32"><path d="M12 0C5.373.0.0 5.373.0 12s5.373 12 12 12 12-5.373 12-12S18.627.0 12 0zm.869 5.903 3.114 4.567-.975.665-3.115-4.567.976-.665zm-2.812 2.585 4.84 2.838-.6 1.017-4.842-2.838.602-1.017zm-1.276 2.724 5.413 1.521-.291 1.077-5.428-1.458.306-1.14zm-.588 2.461 5.687.569-.103 1.12-5.691-.513.107-1.176zm-.169 2.16h5.835V17H8.024v-1.167zM16 19H6v-6h1v5h8v-5h1v6zm.195-8.602-.945-5.446 1.162-.202.947 5.446-1.164.202z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://twitter.com/giskard23 target=_blank class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel=noopener aria-label="follow on Twitter——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://www.linkedin.com/in/gerald-benischke-9811b663 target=_blank class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel=noopener aria-label="follow on LinkedIn——Opens in a new window"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://github.com/beny23 target=_blank class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel=noopener aria-label="follow on Github——Opens in a new window"><svg height="32" style="enable-background:new 0 0 512 512" viewBox="0 0 512 512" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M256 32C132.3 32 32 134.8 32 261.7c0 101.5 64.2 187.5 153.2 217.9 11.2 2.1 15.3-5 15.3-11.1.0-5.5-.2-19.9-.3-39.1-62.3 13.9-75.5-30.8-75.5-30.8-10.2-26.5-24.9-33.6-24.9-33.6-20.3-14.3 1.5-14 1.5-14 22.5 1.6 34.3 23.7 34.3 23.7 20 35.1 52.4 25 65.2 19.1 2-14.8 7.8-25 14.2-30.7-49.7-5.8-102-25.5-102-113.5.0-25.1 8.7-45.6 23-61.6-2.3-5.8-10-29.2 2.2-60.8.0.0 18.8-6.2 61.6 23.5 17.9-5.1 37-7.6 56.1-7.7 19 .1 38.2 2.6 56.1 7.7 42.8-29.7 61.5-23.5 61.5-23.5 12.2 31.6 4.5 55 2.2 60.8 14.3 16.1 23 36.6 23 61.6.0 88.2-52.4 107.6-102.3 113.3 8 7.1 15.2 21.1 15.2 42.5.0 30.7-.3 55.5-.3 63 0 6.1 4 13.3 15.4 11C415.9 449.1 480 363.1 480 261.7 480 134.8 379.7 32 256 32z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+</div>
+</div>
+</nav>
+<div class="tc-l pv6 ph3 ph4-ns">
+<h1 class="f2 f1-l fw2 white-90 mb0 lh-title">Advent of code 2021: Day 16</h1>
+</div>
+</div>
+</header>
+<main class=pb7 role=main>
+<article class="flex-l flex-wrap justify-between mw8 center ph3">
+<header class="mt4 w-100">
+<aside class="instapaper_ignoref b helvetica tracked">
+POSTS
+</aside>
+<div id=sharing class=mt3>
+<a href="https://www.facebook.com/sharer.php?u=https://beny23.github.io/posts/advent_of_code_2021_day_16/" class="facebook no-underline" aria-label="share on Facebook"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M28.765 50.32h6.744V33.998h4.499l.596-5.624h-5.095l.007-2.816c0-1.466.14-2.253 2.244-2.253h2.812V17.68h-4.5c-5.405.0-7.307 2.729-7.307 7.317v3.377h-3.369v5.625h3.369V50.32zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd"/></svg>
+</a>
+<a href="https://twitter.com/share?url=https://beny23.github.io/posts/advent_of_code_2021_day_16/&text=Advent%20of%20code%202021:%20Day%2016" class="twitter no-underline" aria-label="share on Twitter"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</a>
+<a href="https://www.linkedin.com/shareArticle?mini=true&url=https://beny23.github.io/posts/advent_of_code_2021_day_16/&title=Advent%20of%20code%202021:%20Day%2016" class="linkedin no-underline" aria-label="share on LinkedIn"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</a>
+</div>
+<h1 class="f1 athelas mt3 mb1">Advent of code 2021: Day 16</h1>
+<time class="f6 mv4 dib tracked" datetime=2021-12-20T00:14:32Z>December 20, 2021</time>
+<span class="f6 mv4 dib tracked"> - 11 minutes read</span>
+<span class="f6 mv4 dib tracked"> - 2184 words</span>
+</header>
+<div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>For day 16 <a href=https://adventofcode.com/2021>Advent of Code 2021</a>, it was all about
 monadic parser combinators (whatever they are)! Just like <a href=https://beny23.github.io/posts/advent_of_code_2021_day_15/>Day 15</a>,
 this one took me a lot longer to complete than I had wanted, this time it was all about learning
-Haskell&rsquo;s approach to <a href=https://hackage.haskell.org/package/parsec>parsing text</a>.</p><p>According to the <a href=https://adventofcode.com/2021/day/16>story</a>, we had to decode a message in a custom
+Haskell&rsquo;s approach to <a href=https://hackage.haskell.org/package/parsec>parsing text</a>.</p>
+<p>According to the <a href=https://adventofcode.com/2021/day/16>story</a>, we had to decode a message in a custom
 binary format, the Buoyancy Interchange Transmission System (BITS). BITS is a message format that
-encodes both literal values and operations.</p><h1 id=building-the-parser>Building the parser</h1><p>The first part of the problem was to decode the hexadecimal input to a stream of bits. I felt I cheated a bit
-here, because I just went for simplicity:</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+encodes both literal values and operations.</p>
+<h1 id=building-the-parser>Building the parser</h1>
+<p>The first part of the problem was to decode the hexadecimal input to a stream of bits. I felt I cheated a bit
+here, because I just went for simplicity:</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
@@ -29,7 +123,9 @@ here, because I just went for simplicity:</p><div class=highlight><div style=col
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">18
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">19
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">20
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-haskell data-lang=haskell><span style=color:#50fa7b>hex2bin</span> <span style=color:#ff79c6>::</span> <span style=color:#8be9fd>String</span> <span style=color:#ff79c6>-&gt;</span> <span style=color:#8be9fd>String</span>
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-haskell data-lang=haskell><span style=color:#50fa7b>hex2bin</span> <span style=color:#ff79c6>::</span> <span style=color:#8be9fd>String</span> <span style=color:#ff79c6>-&gt;</span> <span style=color:#8be9fd>String</span>
 <span style=color:#50fa7b>hex2bin</span> s <span style=color:#ff79c6>=</span> s <span style=color:#ff79c6>&gt;&gt;=</span> hex2bin&#39;
 
 <span style=color:#50fa7b>hex2bin&#39;</span> <span style=color:#ff79c6>::</span> <span style=color:#8be9fd>Char</span> <span style=color:#ff79c6>-&gt;</span> <span style=color:#8be9fd>String</span>
@@ -49,25 +145,47 @@ here, because I just went for simplicity:</p><div class=highlight><div style=col
 <span style=color:#50fa7b>hex2bin&#39;</span> <span style=color:#f1fa8c>&#39;D&#39;</span> <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;1101&#34;</span>
 <span style=color:#50fa7b>hex2bin&#39;</span> <span style=color:#f1fa8c>&#39;E&#39;</span> <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;1110&#34;</span>
 <span style=color:#50fa7b>hex2bin&#39;</span> <span style=color:#f1fa8c>&#39;F&#39;</span> <span style=color:#ff79c6>=</span> <span style=color:#f1fa8c>&#34;1111&#34;</span>
-</code></pre></td></tr></table></div></div><p>So this would just take a list of characters (<code>0 - F</code>) with the nibbles they represent. The bind operator (think
-<code>flatMap</code> in scala) is just the ticket there.</p><p>Now that I had to parse the input, I turned to monadic parser combinators. That sounds complicated, but is actually
+</code></pre></td></tr></table>
+</div>
+</div><p>So this would just take a list of characters (<code>0 - F</code>) with the nibbles they represent. The bind operator (think
+<code>flatMap</code> in scala) is just the ticket there.</p>
+<p>Now that I had to parse the input, I turned to monadic parser combinators. That sounds complicated, but is actually
 making parsing very easy (once I had understood the concept). Essentially, it allows you to build little parsing
 building blocks and because these parsing blocks are monads, they can be combined with monadic operators. I&rsquo;m going
-to try to explain by building up the blocks.</p><p>First of all, we have the basic element of the parser, we&rsquo;re looking at parsing 0s and 1s:</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+to try to explain by building up the blocks.</p>
+<p>First of all, we have the basic element of the parser, we&rsquo;re looking at parsing 0s and 1s:</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-haskell data-lang=haskell><span style=color:#50fa7b>p_bin</span> <span style=color:#ff79c6>::</span> <span style=color:#8be9fd>Parsec</span> <span style=color:#8be9fd>String</span> <span style=color:#8be9fd;font-style:italic>()</span> <span style=color:#8be9fd>Char</span>
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-haskell data-lang=haskell><span style=color:#50fa7b>p_bin</span> <span style=color:#ff79c6>::</span> <span style=color:#8be9fd>Parsec</span> <span style=color:#8be9fd>String</span> <span style=color:#8be9fd;font-style:italic>()</span> <span style=color:#8be9fd>Char</span>
 <span style=color:#50fa7b>p_bin</span> <span style=color:#ff79c6>=</span> oneOf <span style=color:#f1fa8c>&#34;01&#34;</span>
-</code></pre></td></tr></table></div></div><p>This will parse either a <code>0</code> or a <code>1</code>. To test it:</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</code></pre></td></tr></table>
+</div>
+</div><p>This will parse either a <code>0</code> or a <code>1</code>. To test it:</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-haskell data-lang=haskell><span style=color:#ff79c6>*</span><span style=color:#8be9fd>Main</span><span style=color:#ff79c6>&gt;</span> parse p_bin <span style=color:#f1fa8c>&#34;error msg&#34;</span> <span style=color:#f1fa8c>&#34;0101&#34;</span>
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-haskell data-lang=haskell><span style=color:#ff79c6>*</span><span style=color:#8be9fd>Main</span><span style=color:#ff79c6>&gt;</span> parse p_bin <span style=color:#f1fa8c>&#34;error msg&#34;</span> <span style=color:#f1fa8c>&#34;0101&#34;</span>
 <span style=color:#8be9fd>Right</span> <span style=color:#f1fa8c>&#39;0&#39;</span>
 <span style=color:#ff79c6>*</span><span style=color:#8be9fd>Main</span><span style=color:#ff79c6>&gt;</span> parse p_bin <span style=color:#f1fa8c>&#34;error msg&#34;</span> <span style=color:#f1fa8c>&#34;23&#34;</span>
 <span style=color:#8be9fd>Left</span> <span style=color:#f1fa8c>&#34;error msg&#34;</span> (line <span style=color:#bd93f9>1</span>, column <span style=color:#bd93f9>1</span>)<span style=color:#8be9fd>:</span>
 <span style=color:#50fa7b>unexpected</span> <span style=color:#f1fa8c>&#34;2&#34;</span>
-</code></pre></td></tr></table></div></div><p>The output of the parser is an <code>Either</code> - which is <code>Left</code> for an error condition or <code>Right</code> for a result.</p><p>This basic building block can then be used to build up more complex parsers:</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</code></pre></td></tr></table>
+</div>
+</div><p>The output of the parser is an <code>Either</code> - which is <code>Left</code> for an error condition or <code>Right</code> for a result.</p>
+<p>This basic building block can then be used to build up more complex parsers:</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
@@ -77,7 +195,9 @@ to try to explain by building up the blocks.</p><p>First of all, we have the bas
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-haskell data-lang=haskell><span style=color:#50fa7b>p_ver</span> <span style=color:#ff79c6>::</span> <span style=color:#8be9fd>Parsec</span> <span style=color:#8be9fd>String</span> <span style=color:#8be9fd;font-style:italic>()</span> <span style=color:#8be9fd>String</span>
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-haskell data-lang=haskell><span style=color:#50fa7b>p_ver</span> <span style=color:#ff79c6>::</span> <span style=color:#8be9fd>Parsec</span> <span style=color:#8be9fd>String</span> <span style=color:#8be9fd;font-style:italic>()</span> <span style=color:#8be9fd>String</span>
 <span style=color:#50fa7b>p_ver</span> <span style=color:#ff79c6>=</span> count <span style=color:#bd93f9>3</span> p_bin
 
 <span style=color:#50fa7b>p_lit</span> <span style=color:#ff79c6>::</span> <span style=color:#8be9fd>Parsec</span> <span style=color:#8be9fd>String</span> <span style=color:#8be9fd;font-style:italic>()</span> <span style=color:#8be9fd>Packet</span>
@@ -87,36 +207,77 @@ to try to explain by building up the blocks.</p><p>First of all, we have the bas
   gs <span style=color:#ff79c6>&lt;-</span> many <span style=color:#ff79c6>$</span> char <span style=color:#f1fa8c>&#39;1&#39;</span> <span style=color:#ff79c6>&gt;&gt;</span> count <span style=color:#bd93f9>4</span> p_bin
   lg <span style=color:#ff79c6>&lt;-</span> char <span style=color:#f1fa8c>&#39;0&#39;</span> <span style=color:#ff79c6>&gt;&gt;</span> count <span style=color:#bd93f9>4</span> p_bin
   return (<span style=color:#8be9fd>Lit</span> (bin2dec ver) (bin2dec ((concat gs) <span style=color:#ff79c6>++</span> lg))) 
-</code></pre></td></tr></table></div></div><p>To define the first type of packet - we&rsquo;ve got a 3-bit field for the &ldquo;version&rdquo;, and another 3-bit field which is always
+</code></pre></td></tr></table>
+</div>
+</div><p>To define the first type of packet - we&rsquo;ve got a 3-bit field for the &ldquo;version&rdquo;, and another 3-bit field which is always
 set to 4 (&ldquo;100&rdquo;). Then a series of 5-bit fields. First there are many of those fields starting with <code>'1'</code> followed
 by a payload of a 4-bit nibble. Finally, there&rsquo;s 5-bit field starting with <code>'0'</code> and another 4-bit nibble. All these
-payload fields are combined and then turn into a numeric literal.</p><p>As a way of an example, when parsing the string</p><pre><code>0011001110001010
+payload fields are combined and then turn into a numeric literal.</p>
+<p>As a way of an example, when parsing the string</p>
+<pre tabindex=0><code>0011001110001010
 VVVTTTAAAAABBBBB
-</code></pre><p>We&rsquo;ve got the version (V), type (T) and two groups (A and B):</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</code></pre><p>We&rsquo;ve got the version (V), type (T) and two groups (A and B):</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-haskell data-lang=haskell><span style=color:#ff79c6>*</span><span style=color:#8be9fd>Main</span><span style=color:#ff79c6>&gt;</span> parse p_lit <span style=color:#f1fa8c>&#34;error msg&#34;</span> <span style=color:#f1fa8c>&#34;0011001110001010&#34;</span>
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-haskell data-lang=haskell><span style=color:#ff79c6>*</span><span style=color:#8be9fd>Main</span><span style=color:#ff79c6>&gt;</span> parse p_lit <span style=color:#f1fa8c>&#34;error msg&#34;</span> <span style=color:#f1fa8c>&#34;0011001110001010&#34;</span>
 <span style=color:#8be9fd>Right</span> (<span style=color:#8be9fd>Lit</span> <span style=color:#bd93f9>1</span> <span style=color:#bd93f9>202</span>)
-</code></pre></td></tr></table></div></div><p>Before I continue on the other packets, I&rsquo;d just like to take a detour on how I&rsquo;ve modelled the packets in Haskell:</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</code></pre></td></tr></table>
+</div>
+</div><p>Before I continue on the other packets, I&rsquo;d just like to take a detour on how I&rsquo;ve modelled the packets in Haskell:</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-haskell data-lang=haskell><span style=color:#ff79c6>data</span> <span style=color:#8be9fd>Packet</span> <span style=color:#ff79c6>=</span> <span style=color:#8be9fd>Op</span> <span style=color:#8be9fd>Int</span> <span style=color:#8be9fd>Int</span> [<span style=color:#8be9fd>Packet</span>] <span style=color:#ff79c6>|</span> <span style=color:#8be9fd>Lit</span> <span style=color:#8be9fd>Int</span> <span style=color:#8be9fd>Int</span> 
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-haskell data-lang=haskell><span style=color:#ff79c6>data</span> <span style=color:#8be9fd>Packet</span> <span style=color:#ff79c6>=</span> <span style=color:#8be9fd>Op</span> <span style=color:#8be9fd>Int</span> <span style=color:#8be9fd>Int</span> [<span style=color:#8be9fd>Packet</span>] <span style=color:#ff79c6>|</span> <span style=color:#8be9fd>Lit</span> <span style=color:#8be9fd>Int</span> <span style=color:#8be9fd>Int</span> 
   <span style=color:#ff79c6>deriving</span> (<span style=color:#8be9fd>Eq</span>, <span style=color:#8be9fd>Show</span>)
-</code></pre></td></tr></table></div></div><p>Unpacking this:</p><ul><li>This defines a <code>Packet</code> data structure which can either be</li><li>a <code>Lit</code> literal, which has a version and a value (both integers)</li><li>an <code>Op</code> operator, which has a version, a type and a list of packets nested within it</li><li>the <code>deriving (Eq, Show)</code> implements the ability to print or compare the data</li></ul><p>Now we just need to parse the operator packets - but it is not as simple as that. Operator packets
+</code></pre></td></tr></table>
+</div>
+</div><p>Unpacking this:</p>
+<ul>
+<li>This defines a <code>Packet</code> data structure which can either be</li>
+<li>a <code>Lit</code> literal, which has a version and a value (both integers)</li>
+<li>an <code>Op</code> operator, which has a version, a type and a list of packets nested within it</li>
+<li>the <code>deriving (Eq, Show)</code> implements the ability to print or compare the data</li>
+</ul>
+<p>Now we just need to parse the operator packets - but it is not as simple as that. Operator packets
 can have other subpackets inside them. To determine how many packets there are, they can be specified either by the
 number of subpackets, or the length (in bits) of all the subpackets. To check which is which, there is a bit that
-indicates this. If the first bit is <code>'1'</code>, then the following 11 bits specify the number of packets:</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+indicates this. If the first bit is <code>'1'</code>, then the following 11 bits specify the number of packets:</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-haskell data-lang=haskell><span style=color:#50fa7b>p_op_by_num</span> <span style=color:#ff79c6>::</span> <span style=color:#8be9fd>Parsec</span> <span style=color:#8be9fd>String</span> <span style=color:#8be9fd;font-style:italic>()</span> [<span style=color:#8be9fd>Packet</span>]
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-haskell data-lang=haskell><span style=color:#50fa7b>p_op_by_num</span> <span style=color:#ff79c6>::</span> <span style=color:#8be9fd>Parsec</span> <span style=color:#8be9fd>String</span> <span style=color:#8be9fd;font-style:italic>()</span> [<span style=color:#8be9fd>Packet</span>]
 <span style=color:#50fa7b>p_op_by_num</span> <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>do</span>
   len <span style=color:#ff79c6>&lt;-</span> try (char <span style=color:#f1fa8c>&#39;1&#39;</span>) <span style=color:#ff79c6>&gt;&gt;</span> count <span style=color:#bd93f9>11</span> p_bin
   ps <span style=color:#ff79c6>&lt;-</span> count (bin2dec len) p_packet
   return ps
-</code></pre></td></tr></table></div></div><p>The Haskell do notation is really useful here (this is the equivalent of the scala for-comprehension), and essentially
-makes monadic binds easier to read. To explain the above a bit further:</p><ul><li>the parser tries to read the character <code>1</code> - if that is not present, then <code>try</code> ensure that the character is not
-consumed.</li><li>following that (by using the <code>>></code> combinator), it parses 11 binary characters and puts the output into <code>len</code></li><li>then it parses <code>len</code> packets using the <code>p_packet</code> parser (see further down)</li></ul><p>For the other type of operator packet parsing - where the first bit is <code>'0'</code>, then the following 15 bits specify the
-length of the payload.</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</code></pre></td></tr></table>
+</div>
+</div><p>The Haskell do notation is really useful here (this is the equivalent of the scala for-comprehension), and essentially
+makes monadic binds easier to read. To explain the above a bit further:</p>
+<ul>
+<li>the parser tries to read the character <code>1</code> - if that is not present, then <code>try</code> ensure that the character is not
+consumed.</li>
+<li>following that (by using the <code>>></code> combinator), it parses 11 binary characters and puts the output into <code>len</code></li>
+<li>then it parses <code>len</code> packets using the <code>p_packet</code> parser (see further down)</li>
+</ul>
+<p>For the other type of operator packet parsing - where the first bit is <code>'0'</code>, then the following 15 bits specify the
+length of the payload.</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
@@ -129,7 +290,9 @@ length of the payload.</p><div class=highlight><div style=color:#f8f8f2;backgrou
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-haskell data-lang=haskell><span style=color:#50fa7b>p_position</span> <span style=color:#ff79c6>::</span> <span style=color:#8be9fd>Int</span> <span style=color:#ff79c6>-&gt;</span> <span style=color:#8be9fd>Parsec</span> <span style=color:#8be9fd>String</span> <span style=color:#8be9fd;font-style:italic>()</span> [a]
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-haskell data-lang=haskell><span style=color:#50fa7b>p_position</span> <span style=color:#ff79c6>::</span> <span style=color:#8be9fd>Int</span> <span style=color:#ff79c6>-&gt;</span> <span style=color:#8be9fd>Parsec</span> <span style=color:#8be9fd>String</span> <span style=color:#8be9fd;font-style:italic>()</span> [a]
 <span style=color:#50fa7b>p_position</span> n <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>do</span>
   pos <span style=color:#ff79c6>&lt;-</span> getPosition
   guard <span style=color:#ff79c6>$</span> (sourceColumn pos) <span style=color:#ff79c6>&gt;=</span> n
@@ -142,36 +305,74 @@ length of the payload.</p><div class=highlight><div style=color:#f8f8f2;backgrou
   <span style=color:#ff79c6>let</span> nextN <span style=color:#ff79c6>=</span> (sourceColumn pos) <span style=color:#ff79c6>+</span> (bin2dec len)
   ps <span style=color:#ff79c6>&lt;-</span> manyTill p_packet <span style=color:#ff79c6>$</span> p_position nextN
   return ps
-</code></pre></td></tr></table></div></div><p>This does the following:</p><ul><li>the <code>p_position</code> parser takes a position and returns a parse failure if the position is less than <code>n</code></li><li>the <code>p_op_by_len</code> parser first reads in the character <code>0</code> - if it doesn&rsquo;t match it fails - and then 15 binary
-characters. That makes up the <code>len</code>.</li><li>then we get the current position and add the column value to <code>len</code></li><li>then we use the <code>manyTill</code> parser combinator to parse <code>p_packet</code> until the <code>p_position</code> parser gets a match.</li></ul><p>Finally, we parse a whole <code>Op</code> packet:</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</code></pre></td></tr></table>
+</div>
+</div><p>This does the following:</p>
+<ul>
+<li>the <code>p_position</code> parser takes a position and returns a parse failure if the position is less than <code>n</code></li>
+<li>the <code>p_op_by_len</code> parser first reads in the character <code>0</code> - if it doesn&rsquo;t match it fails - and then 15 binary
+characters. That makes up the <code>len</code>.</li>
+<li>then we get the current position and add the column value to <code>len</code></li>
+<li>then we use the <code>manyTill</code> parser combinator to parse <code>p_packet</code> until the <code>p_position</code> parser gets a match.</li>
+</ul>
+<p>Finally, we parse a whole <code>Op</code> packet:</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-haskell data-lang=haskell><span style=color:#50fa7b>p_op</span> <span style=color:#ff79c6>::</span> <span style=color:#8be9fd>Parsec</span> <span style=color:#8be9fd>String</span> <span style=color:#8be9fd;font-style:italic>()</span> <span style=color:#8be9fd>Packet</span>
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-haskell data-lang=haskell><span style=color:#50fa7b>p_op</span> <span style=color:#ff79c6>::</span> <span style=color:#8be9fd>Parsec</span> <span style=color:#8be9fd>String</span> <span style=color:#8be9fd;font-style:italic>()</span> <span style=color:#8be9fd>Packet</span>
 <span style=color:#50fa7b>p_op</span> <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>do</span> 
   ver <span style=color:#ff79c6>&lt;-</span> p_ver
   typeId <span style=color:#ff79c6>&lt;-</span> p_type
   ps <span style=color:#ff79c6>&lt;-</span> p_op_by_len <span style=color:#ff79c6>&lt;|&gt;</span> p_op_by_num
   return (<span style=color:#8be9fd>Op</span> (bin2dec ver) (bin2dec typeId) ps)
-</code></pre></td></tr></table></div></div><p>We get the version and the type id - followed by the packet payload. Now this can be either <code>p_op_by_len</code> or
+</code></pre></td></tr></table>
+</div>
+</div><p>We get the version and the type id - followed by the packet payload. Now this can be either <code>p_op_by_len</code> or
 <code>p_op_by_num</code> - and the <code>&lt;|></code> operator allows to choose between them. If the first one succeeds, the second one is not
-used.</p><p>Lastly, we define how to parse a packet:</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+used.</p>
+<p>Lastly, we define how to parse a packet:</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-haskell data-lang=haskell><span style=color:#50fa7b>p_packet</span> <span style=color:#ff79c6>::</span> <span style=color:#8be9fd>Parsec</span> <span style=color:#8be9fd>String</span> <span style=color:#8be9fd;font-style:italic>()</span> <span style=color:#8be9fd>Packet</span>
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-haskell data-lang=haskell><span style=color:#50fa7b>p_packet</span> <span style=color:#ff79c6>::</span> <span style=color:#8be9fd>Parsec</span> <span style=color:#8be9fd>String</span> <span style=color:#8be9fd;font-style:italic>()</span> <span style=color:#8be9fd>Packet</span>
 <span style=color:#50fa7b>p_packet</span> <span style=color:#ff79c6>=</span> try p_lit <span style=color:#ff79c6>&lt;|&gt;</span> p_op
-</code></pre></td></tr></table></div></div><p>A packet can either be a literal or an operand.</p><h1 id=part-one>Part One</h1><p>For part one, all that was asked was to add up the version ids in each of the packets:</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</code></pre></td></tr></table>
+</div>
+</div><p>A packet can either be a literal or an operand.</p>
+<h1 id=part-one>Part One</h1>
+<p>For part one, all that was asked was to add up the version ids in each of the packets:</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-haskell data-lang=haskell><span style=color:#50fa7b>sumVersions&#39;</span> <span style=color:#ff79c6>::</span> <span style=color:#8be9fd>Packet</span> <span style=color:#ff79c6>-&gt;</span> <span style=color:#8be9fd>Int</span>
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-haskell data-lang=haskell><span style=color:#50fa7b>sumVersions&#39;</span> <span style=color:#ff79c6>::</span> <span style=color:#8be9fd>Packet</span> <span style=color:#ff79c6>-&gt;</span> <span style=color:#8be9fd>Int</span>
 <span style=color:#50fa7b>sumVersions&#39;</span> (<span style=color:#8be9fd>Lit</span> v <span style=color:#ff79c6>_</span>) <span style=color:#ff79c6>=</span> v
 <span style=color:#50fa7b>sumVersions&#39;</span> (<span style=color:#8be9fd>Op</span> v <span style=color:#ff79c6>_</span> ps) <span style=color:#ff79c6>=</span> v <span style=color:#ff79c6>+</span> (sum <span style=color:#ff79c6>$</span> map sumVersions&#39; ps)
-</code></pre></td></tr></table></div></div><p>Again, the Haskell pattern matching shines through here. If we have a <code>Lit</code> packet, then we just return the version
+</code></pre></td></tr></table>
+</div>
+</div><p>Again, the Haskell pattern matching shines through here. If we have a <code>Lit</code> packet, then we just return the version
 integer, if we have an <code>Op</code> packet, then we return the version and add up the results of recursively calling the
-function itself.</p><h1 id=part-two>Part Two</h1><p>For part two, we had to evaluate the operators. Depending on the operator, the result would be a different arithmetic
+function itself.</p>
+<h1 id=part-two>Part Two</h1>
+<p>For part two, we had to evaluate the operators. Depending on the operator, the result would be a different arithmetic
 operation. As it turned out, with the parsing completed, the hard part was already done. To evaluate, I just needed
-something slightly more complicated than the <code>sumVersions</code> from part one:</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+something slightly more complicated than the <code>sumVersions</code> from part one:</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
@@ -183,7 +384,9 @@ something slightly more complicated than the <code>sumVersions</code> from part 
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-haskell data-lang=haskell><span style=color:#50fa7b>evaluate</span> <span style=color:#ff79c6>::</span> <span style=color:#8be9fd>Packet</span> <span style=color:#ff79c6>-&gt;</span> <span style=color:#8be9fd>Int</span>
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-haskell data-lang=haskell><span style=color:#50fa7b>evaluate</span> <span style=color:#ff79c6>::</span> <span style=color:#8be9fd>Packet</span> <span style=color:#ff79c6>-&gt;</span> <span style=color:#8be9fd>Int</span>
 <span style=color:#50fa7b>evaluate</span> (<span style=color:#8be9fd>Lit</span> <span style=color:#ff79c6>_</span> n) <span style=color:#ff79c6>=</span> n
 <span style=color:#50fa7b>evaluate</span> (<span style=color:#8be9fd>Op</span> <span style=color:#ff79c6>_</span> <span style=color:#bd93f9>0</span> ps) <span style=color:#ff79c6>=</span> evaluateAll sum ps
 <span style=color:#50fa7b>evaluate</span> (<span style=color:#8be9fd>Op</span> <span style=color:#ff79c6>_</span> <span style=color:#bd93f9>1</span> ps) <span style=color:#ff79c6>=</span> evaluateAll product ps
@@ -195,61 +398,186 @@ something slightly more complicated than the <code>sumVersions</code> from part 
 
 <span style=color:#50fa7b>evaluateAll</span> <span style=color:#ff79c6>::</span> ([<span style=color:#8be9fd>Int</span>] <span style=color:#ff79c6>-&gt;</span> <span style=color:#8be9fd>Int</span>) <span style=color:#ff79c6>-&gt;</span> [<span style=color:#8be9fd>Packet</span>] <span style=color:#ff79c6>-&gt;</span> <span style=color:#8be9fd>Int</span>
 <span style=color:#50fa7b>evaluateAll</span> f ps <span style=color:#ff79c6>=</span> f <span style=color:#ff79c6>$</span> map evaluate ps
-</code></pre></td></tr></table></div></div><p>So to evaluate an operation, we need to evaluate each of the types of packet.</p><ul><li>For a <code>Lit</code> literal, the value was just whatever was parsed in.</li><li>For an <code>Op</code> operator, the result would depend on the type id. Using pattern matching and a helper function, I am
-able to express this quite succinctly.</li><li>The <code>evaluateAll</code> takes a function that takes a list of integers as input and a single integer as output, it also
-takes a list of packets. It then evaluates each packet and feeds that to the function.</li><li>So operation <code>1</code> sums up all the value using the built in function <code>sum</code></li><li>Same with <code>product</code>, <code>minimum</code> and <code>maximum</code></li></ul><p>For the last remaining operators - they are boolean operators that only work on lists of size two:</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</code></pre></td></tr></table>
+</div>
+</div><p>So to evaluate an operation, we need to evaluate each of the types of packet.</p>
+<ul>
+<li>For a <code>Lit</code> literal, the value was just whatever was parsed in.</li>
+<li>For an <code>Op</code> operator, the result would depend on the type id. Using pattern matching and a helper function, I am
+able to express this quite succinctly.</li>
+<li>The <code>evaluateAll</code> takes a function that takes a list of integers as input and a single integer as output, it also
+takes a list of packets. It then evaluates each packet and feeds that to the function.</li>
+<li>So operation <code>1</code> sums up all the value using the built in function <code>sum</code></li>
+<li>Same with <code>product</code>, <code>minimum</code> and <code>maximum</code></li>
+</ul>
+<p>For the last remaining operators - they are boolean operators that only work on lists of size two:</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-haskell data-lang=haskell><span style=color:#50fa7b>boolOp</span> <span style=color:#ff79c6>::</span> (<span style=color:#8be9fd>Int</span> <span style=color:#ff79c6>-&gt;</span> <span style=color:#8be9fd>Int</span> <span style=color:#ff79c6>-&gt;</span> <span style=color:#8be9fd>Bool</span>) <span style=color:#ff79c6>-&gt;</span> [<span style=color:#8be9fd>Int</span>] <span style=color:#ff79c6>-&gt;</span> <span style=color:#8be9fd>Int</span>
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-haskell data-lang=haskell><span style=color:#50fa7b>boolOp</span> <span style=color:#ff79c6>::</span> (<span style=color:#8be9fd>Int</span> <span style=color:#ff79c6>-&gt;</span> <span style=color:#8be9fd>Int</span> <span style=color:#ff79c6>-&gt;</span> <span style=color:#8be9fd>Bool</span>) <span style=color:#ff79c6>-&gt;</span> [<span style=color:#8be9fd>Int</span>] <span style=color:#ff79c6>-&gt;</span> <span style=color:#8be9fd>Int</span>
 <span style=color:#50fa7b>boolOp</span> f [a, b] <span style=color:#ff79c6>=</span> bool2num <span style=color:#ff79c6>$</span> f a b
 
 <span style=color:#50fa7b>bool2num</span> <span style=color:#ff79c6>::</span> <span style=color:#8be9fd>Bool</span> <span style=color:#ff79c6>-&gt;</span> <span style=color:#8be9fd>Int</span>
 <span style=color:#50fa7b>bool2num</span> <span style=color:#8be9fd>True</span> <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>1</span>
 <span style=color:#50fa7b>bool2num</span> <span style=color:#8be9fd>False</span> <span style=color:#ff79c6>=</span> <span style=color:#bd93f9>0</span>
-</code></pre></td></tr></table></div></div><p>So <code>boolOp</code> is a function that takes two parameters. First, a function that compares two integers. Then a list of
+</code></pre></td></tr></table>
+</div>
+</div><p>So <code>boolOp</code> is a function that takes two parameters. First, a function that compares two integers. Then a list of
 integers and it returns an integer. By using currying, we turn <code>boolOp (&lt;)</code> into a function that is <code>[Int] -> Int</code>
 with the first parameter filled in by <code>&lt;</code> (operators in Haskell are just functions - calling <code>a &lt; b</code> is just syntactic
 sugar for the function call <code>(&lt;) a b</code>). That way I can express any boolean operation easily. For this puzzle, I just
-needed <code>&lt;</code>, <code>></code> and <code>==</code>.</p><p>To get the result of this puzzle, I just combined the parsing with the evaluating:</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+needed <code>&lt;</code>, <code>></code> and <code>==</code>.</p>
+<p>To get the result of this puzzle, I just combined the parsing with the evaluating:</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-haskell data-lang=haskell><span style=color:#50fa7b>binStr</span> <span style=color:#ff79c6>=</span> hex2bin input
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-haskell data-lang=haskell><span style=color:#50fa7b>binStr</span> <span style=color:#ff79c6>=</span> hex2bin input
 <span style=color:#50fa7b>packet</span> <span style=color:#ff79c6>=</span> parse p_packet <span style=color:#f1fa8c>&#34;&#34;</span> binStr
 <span style=color:#50fa7b>evaluate&#39;</span> packet
-</code></pre></td></tr></table></div></div><h1 id=gotchas>Gotchas</h1><p>When I initially implemented the first part, I was a little unfocused when reading about the subpackets in the operator.
+</code></pre></td></tr></table>
+</div>
+</div><h1 id=gotchas>Gotchas</h1>
+<p>When I initially implemented the first part, I was a little unfocused when reading about the subpackets in the operator.
 I skimmed over the fact that the two different types were talking about two different lengths. Number of packets
-or number of bits in the payload.</p><p>My first implementation of the <code>Op</code> parser was</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+or number of bits in the payload.</p>
+<p>My first implementation of the <code>Op</code> parser was</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
 </span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">7
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-haskell data-lang=haskell><span style=color:#50fa7b>p_op</span> <span style=color:#ff79c6>::</span> <span style=color:#8be9fd>Parsec</span> <span style=color:#8be9fd>String</span> <span style=color:#8be9fd;font-style:italic>()</span> <span style=color:#8be9fd>Packet</span>
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-haskell data-lang=haskell><span style=color:#50fa7b>p_op</span> <span style=color:#ff79c6>::</span> <span style=color:#8be9fd>Parsec</span> <span style=color:#8be9fd>String</span> <span style=color:#8be9fd;font-style:italic>()</span> <span style=color:#8be9fd>Packet</span>
 <span style=color:#50fa7b>p_op</span> <span style=color:#ff79c6>=</span> <span style=color:#ff79c6>do</span> 
   ver <span style=color:#ff79c6>&lt;-</span> p_ver
   typeId <span style=color:#ff79c6>&lt;-</span> p_type
   len <span style=color:#ff79c6>&lt;-</span> (p_len_t_15 <span style=color:#ff79c6>&gt;&gt;</span> p_len_15) <span style=color:#ff79c6>&lt;|&gt;</span> (p_len_t_11 <span style=color:#ff79c6>&gt;&gt;</span> p_len_11)
   ps <span style=color:#ff79c6>&lt;-</span> many (try p_packet)
   return (<span style=color:#8be9fd>Op</span> (bin2dec ver) (bin2dec typeId) ps)
-</code></pre></td></tr></table></div></div><p>Basically, I would read in the version and the type, the would read in the length - which can be defined as either a
+</code></pre></td></tr></table>
+</div>
+</div><p>Basically, I would read in the version and the type, the would read in the length - which can be defined as either a
 11 bit length field or a 15 bit length field - then completely ignore the length and read in as many sub packets as I
-could.</p><p>Now this worked for part 1. But it was a fluke. When it was reading in subpackets, it did not stop reading until
+could.</p>
+<p>Now this worked for part 1. But it was a fluke. When it was reading in subpackets, it did not stop reading until
 it couldn&rsquo;t read anymore packets. That meant that when operator packets were inside other operator packets, some that
 packets that belonged to other operators would be associated with the wrong &ldquo;parent&rdquo;. But because the answer for
 part 1 was just the sum of all the version values it did not matter whether a packet was associated with the right
-operator.</p><p>For part 2, that mattered a lot. It was only then that I came up with the idea of using the <code>manyTill</code> parser
-combinator.</p><p>Another fun gotcha was that I initially forgot to add the <code>return</code> to the parsers when I was using do notation. This
+operator.</p>
+<p>For part 2, that mattered a lot. It was only then that I came up with the idea of using the <code>manyTill</code> parser
+combinator.</p>
+<p>Another fun gotcha was that I initially forgot to add the <code>return</code> to the parsers when I was using do notation. This
 meant that the parsers just kept giving me compile errors. <code>return</code> is a bit of a funny one when you initially encounter
 it coming from imperative programming. It is NOT a return statement. It is a function that wraps the value in the
-monad being used in the do notation.</p><p>The type signature of return is:</p><div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-haskell data-lang=haskell><span style=color:#50fa7b>return</span> <span style=color:#ff79c6>::</span> <span style=color:#8be9fd>Monad</span> a <span style=color:#ff79c6>=&gt;</span> b <span style=color:#ff79c6>-&gt;</span> a b
-</code></pre></td></tr></table></div></div><p>But missing that off meant that instead of dealing with a <code>Parser String</code>, the function was returning a <code>String</code> - and
-that understandably didn&rsquo;t make the compiler happy.</p><p>Rest of the solution on <a href=https://github.com/beny23/advent-of-code/tree/main/2021/haskell/day16>GitHub</a></p><h1 id=conclusion>Conclusion</h1><p>I found this introduction to parsing in Haskell absolutely fascinating. Before doing this exercise I probably would
+monad being used in the do notation.</p>
+<p>The type signature of return is:</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-haskell data-lang=haskell><span style=color:#50fa7b>return</span> <span style=color:#ff79c6>::</span> <span style=color:#8be9fd>Monad</span> a <span style=color:#ff79c6>=&gt;</span> b <span style=color:#ff79c6>-&gt;</span> a b
+</code></pre></td></tr></table>
+</div>
+</div><p>But missing that off meant that instead of dealing with a <code>Parser String</code>, the function was returning a <code>String</code> - and
+that understandably didn&rsquo;t make the compiler happy.</p>
+<p>Rest of the solution on <a href=https://github.com/beny23/advent-of-code/tree/main/2021/haskell/day16>GitHub</a></p>
+<h1 id=conclusion>Conclusion</h1>
+<p>I found this introduction to parsing in Haskell absolutely fascinating. Before doing this exercise I probably would
 have reached for regular expressions or writing functions to operate on the source string, but I found that the
 code is more succinct and clear than the specification of the issue. Furthermore, non of these constructs are
 extensions to the language or parsing specific, all is achieved by using monads. And this is what is making me
-appreciate the simplicity and beauty of Haskell even more.</p><p>And no, I&rsquo;m not going to do a post trying to explain what monads are! Not yet anyway.</p><ul class=pa0></ul><div class="mt6 instapaper_ignoref"></div></div><aside class="w-30-l mt6-l"></aside></article></main><footer class="bg-black bottom-0 w-100 pa3" role=contentinfo><div class="flex justify-between"><a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href=https://beny23.github.io/>&copy; Software Design Systems 2022</a><div><a href=https://stackoverflow.com/users/227140/beny23 target=_blank class="link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Stack Overflow link" rel=noopener aria-label="follow on Stack Overflow——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32"><path d="M12 0C5.373.0.0 5.373.0 12s5.373 12 12 12 12-5.373 12-12S18.627.0 12 0zm.869 5.903 3.114 4.567-.975.665-3.115-4.567.976-.665zm-2.812 2.585 4.84 2.838-.6 1.017-4.842-2.838.602-1.017zm-1.276 2.724 5.413 1.521-.291 1.077-5.428-1.458.306-1.14zm-.588 2.461 5.687.569-.103 1.12-5.691-.513.107-1.176zm-.169 2.16h5.835V17h-5.835v-1.167zM16 19H6v-6h1v5h8v-5h1v6zm.195-8.602-.945-5.446 1.162-.202.947 5.446-1.164.202z"/></svg><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a><a href=https://twitter.com/giskard23 target=_blank class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel=noopener aria-label="follow on Twitter——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a><a href=https://www.linkedin.com/in/gerald-benischke-9811b663 target=_blank class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel=noopener aria-label="follow on LinkedIn——Opens in a new window"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30C64 50.568 50.568 64 34 64zM26.354 48.137V27.71h-6.789v20.427H26.354z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a><a href=https://github.com/beny23 target=_blank class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel=noopener aria-label="follow on Github——Opens in a new window"><svg height="32" style="enable-background:new 0 0 512 512" viewBox="0 0 512 512" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M256 32C132.3 32 32 134.8 32 261.7c0 101.5 64.2 187.5 153.2 217.9 11.2 2.1 15.3-5 15.3-11.1.0-5.5-.2-19.9-.3-39.1-62.3 13.9-75.5-30.8-75.5-30.8-10.2-26.5-24.9-33.6-24.9-33.6-20.3-14.3 1.5-14 1.5-14 22.5 1.6 34.3 23.7 34.3 23.7 20 35.1 52.4 25 65.2 19.1 2-14.8 7.8-25 14.2-30.7-49.7-5.8-102-25.5-102-113.5.0-25.1 8.7-45.6 23-61.6-2.3-5.8-10-29.2 2.2-60.8.0.0 18.8-6.2 61.6 23.5 17.9-5.1 37-7.6 56.1-7.7 19 .1 38.2 2.6 56.1 7.7 42.8-29.7 61.5-23.5 61.5-23.5 12.2 31.6 4.5 55 2.2 60.8 14.3 16.1 23 36.6 23 61.6.0 88.2-52.4 107.6-102.3 113.3 8 7.1 15.2 21.1 15.2 42.5.0 30.7-.3 55.5-.3 63 0 6.1 4 13.3 15.4 11C415.9 449.1 480 363.1 480 261.7 480 134.8 379.7 32 256 32z"/></svg><span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg></span></a></div></div></footer><script src=/dist/js/app.3fc0f988d21662902933.js></script></body></html>
+appreciate the simplicity and beauty of Haskell even more.</p>
+<p>And no, I&rsquo;m not going to do a post trying to explain what monads are! Not yet anyway.</p>
+<b>Tags</b>
+<a href=https://beny23.github.io/tags/functional/>functional</a> <a href=https://beny23.github.io/tags/haskell/>haskell</a> <a href=https://beny23.github.io/tags/advent-of-code/>advent-of-code</a><div class="mt6 instapaper_ignoref">
+</div>
+</div>
+<aside class="w-30-l mt6-l">
+<div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+<p class="f5 b mb3">Related</p>
+<ul class="pa0 list">
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_15/>Advent of code 2021: Day 15</a>
+</li>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_14/>Advent of code 2021: Day 14</a>
+</li>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_13/>Advent of code 2021: Day 13</a>
+</li>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_12/>Advent of code 2021: Day 12</a>
+</li>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_11/>Advent of code 2021: Day 11</a>
+</li>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_10/>Advent of code 2021: Day 10</a>
+</li>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_9/>Advent of code 2021: Day 9</a>
+</li>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_8/>Advent of code 2021: Day 8</a>
+</li>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_7/>Advent of code 2021: Day 7</a>
+</li>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_6/>Advent of code 2021: Day 6</a>
+</li>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_5/>Advent of code 2021: Day 5</a>
+</li>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_4/>Advent of code 2021: Day 4</a>
+</li>
+<li class=mb2>
+<a href=/posts/fizzbuzz_without_ifs/>Fizzbuzz without if clauses</a>
+</li>
+</ul>
+</div>
+</aside>
+</article>
+</main>
+<footer class="bg-black bottom-0 w-100 pa3" role=contentinfo>
+<div class="flex justify-between">
+<a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href=https://beny23.github.io/>
+&copy; Software Design Systems 2022
+</a>
+<div>
+<a href=https://stackoverflow.com/users/227140/beny23 target=_blank class="link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Stack Overflow link" rel=noopener aria-label="follow on Stack Overflow——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32"><path d="M12 0C5.373.0.0 5.373.0 12s5.373 12 12 12 12-5.373 12-12S18.627.0 12 0zm.869 5.903 3.114 4.567-.975.665-3.115-4.567.976-.665zm-2.812 2.585 4.84 2.838-.6 1.017-4.842-2.838.602-1.017zm-1.276 2.724 5.413 1.521-.291 1.077-5.428-1.458.306-1.14zm-.588 2.461 5.687.569-.103 1.12-5.691-.513.107-1.176zm-.169 2.16h5.835V17H8.024v-1.167zM16 19H6v-6h1v5h8v-5h1v6zm.195-8.602-.945-5.446 1.162-.202.947 5.446-1.164.202z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://twitter.com/giskard23 target=_blank class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel=noopener aria-label="follow on Twitter——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://www.linkedin.com/in/gerald-benischke-9811b663 target=_blank class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel=noopener aria-label="follow on LinkedIn——Opens in a new window"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://github.com/beny23 target=_blank class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel=noopener aria-label="follow on Github——Opens in a new window"><svg height="32" style="enable-background:new 0 0 512 512" viewBox="0 0 512 512" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M256 32C132.3 32 32 134.8 32 261.7c0 101.5 64.2 187.5 153.2 217.9 11.2 2.1 15.3-5 15.3-11.1.0-5.5-.2-19.9-.3-39.1-62.3 13.9-75.5-30.8-75.5-30.8-10.2-26.5-24.9-33.6-24.9-33.6-20.3-14.3 1.5-14 1.5-14 22.5 1.6 34.3 23.7 34.3 23.7 20 35.1 52.4 25 65.2 19.1 2-14.8 7.8-25 14.2-30.7-49.7-5.8-102-25.5-102-113.5.0-25.1 8.7-45.6 23-61.6-2.3-5.8-10-29.2 2.2-60.8.0.0 18.8-6.2 61.6 23.5 17.9-5.1 37-7.6 56.1-7.7 19 .1 38.2 2.6 56.1 7.7 42.8-29.7 61.5-23.5 61.5-23.5 12.2 31.6 4.5 55 2.2 60.8 14.3 16.1 23 36.6 23 61.6.0 88.2-52.4 107.6-102.3 113.3 8 7.1 15.2 21.1 15.2 42.5.0 30.7-.3 55.5-.3 63 0 6.1 4 13.3 15.4 11C415.9 449.1 480 363.1 480 261.7 480 134.8 379.7 32 256 32z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+</div>
+</div>
+</footer>
+<script src=/dist/js/app.3fc0f988d21662902933.js></script>
+</body>
+</html>
