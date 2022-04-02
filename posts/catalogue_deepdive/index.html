@@ -1,0 +1,327 @@
+<!doctype html><html lang=en-gb>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>How to run a Digital Platform at Scale | Tales about Software Engineering</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=generator content="Hugo 0.92.0">
+<meta name=ROBOTS content="INDEX, FOLLOW">
+<link href=/dist/css/app.4fc0b62e4b82c997bb0041217cd6b979.css rel=stylesheet>
+<meta property="og:title" content="How to run a Digital Platform at Scale">
+<meta property="og:description" content="This post peels back the covers on what it is like to work with a large digital platform at scale. The platform in question is MDTP - Multichannel Digital Tax Platform, which supports a UK-based tax collection agency which is using a hyperscale cloud provider with a sideline in books.
+I&rsquo;ve previously described what it is like to work in MDTP (Making Software. Quickly) during the Covid-19 responses that allowed the UK government to provide financial support for millions turning around projects in record time.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://beny23.github.io/posts/catalogue_deepdive/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2022-04-02T01:48:32+00:00">
+<meta property="article:modified_time" content="2022-04-02T01:48:32+00:00">
+<meta itemprop=name content="How to run a Digital Platform at Scale">
+<meta itemprop=description content="This post peels back the covers on what it is like to work with a large digital platform at scale. The platform in question is MDTP - Multichannel Digital Tax Platform, which supports a UK-based tax collection agency which is using a hyperscale cloud provider with a sideline in books.
+I&rsquo;ve previously described what it is like to work in MDTP (Making Software. Quickly) during the Covid-19 responses that allowed the UK government to provide financial support for millions turning around projects in record time."><meta itemprop=datePublished content="2022-04-02T01:48:32+00:00">
+<meta itemprop=dateModified content="2022-04-02T01:48:32+00:00">
+<meta itemprop=wordCount content="2229">
+<meta itemprop=keywords content="agile,tools,paved-road,catalogue,digital-platform,"><meta name=twitter:card content="summary">
+<meta name=twitter:title content="How to run a Digital Platform at Scale">
+<meta name=twitter:description content="This post peels back the covers on what it is like to work with a large digital platform at scale. The platform in question is MDTP - Multichannel Digital Tax Platform, which supports a UK-based tax collection agency which is using a hyperscale cloud provider with a sideline in books.
+I&rsquo;ve previously described what it is like to work in MDTP (Making Software. Quickly) during the Covid-19 responses that allowed the UK government to provide financial support for millions turning around projects in record time.">
+<script type=application/javascript>var doNotTrack=!1;doNotTrack||(window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga('create','UA-171035600-1','auto'),ga('send','pageview'))</script>
+<script async src=https://www.google-analytics.com/analytics.js></script>
+</head>
+<body class="ma0 avenir bg-near-white production">
+<header class="cover bg-top" style=background-image:url(https://beny23.github.io/images/catalogue_deepdive_title.jpg)>
+<div class="pb3-m pb6-l bg-black-60">
+<nav class="pv3 ph3 ph4-ns" role=navigation>
+<div class="flex-l justify-between items-center center">
+<a href=/ class="f3 fw2 hover-white no-underline white-90 dib">
+Tales about Software Engineering
+</a>
+<div class="flex-l items-center">
+<ul class="pl0 mr3">
+<li class="list f5 f4-ns fw4 dib pr3">
+<a class="hover-white no-underline white-90" href=/about/ title="About page">
+About
+</a>
+</li>
+<li class="list f5 f4-ns fw4 dib pr3">
+<a class="hover-white no-underline white-90" href=/posts/ title="Blog page">
+Blog
+</a>
+</li>
+<li class="list f5 f4-ns fw4 dib pr3">
+<a class="hover-white no-underline white-90" href=/tags/ title="Tags page">
+Tags
+</a>
+</li>
+</ul>
+<a href=https://stackoverflow.com/users/227140/beny23 target=_blank class="link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Stack Overflow link" rel=noopener aria-label="follow on Stack Overflow——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32"><path d="M12 0C5.373.0.0 5.373.0 12s5.373 12 12 12 12-5.373 12-12S18.627.0 12 0zm.869 5.903 3.114 4.567-.975.665-3.115-4.567.976-.665zm-2.812 2.585 4.84 2.838-.6 1.017-4.842-2.838.602-1.017zm-1.276 2.724 5.413 1.521-.291 1.077-5.428-1.458.306-1.14zm-.588 2.461 5.687.569-.103 1.12-5.691-.513.107-1.176zm-.169 2.16h5.835V17H8.024v-1.167zM16 19H6v-6h1v5h8v-5h1v6zm.195-8.602-.945-5.446 1.162-.202.947 5.446-1.164.202z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://twitter.com/giskard23 target=_blank class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel=noopener aria-label="follow on Twitter——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://www.linkedin.com/in/gerald-benischke-9811b663 target=_blank class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel=noopener aria-label="follow on LinkedIn——Opens in a new window"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://github.com/beny23 target=_blank class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel=noopener aria-label="follow on Github——Opens in a new window"><svg height="32" style="enable-background:new 0 0 512 512" viewBox="0 0 512 512" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M256 32C132.3 32 32 134.8 32 261.7c0 101.5 64.2 187.5 153.2 217.9 11.2 2.1 15.3-5 15.3-11.1.0-5.5-.2-19.9-.3-39.1-62.3 13.9-75.5-30.8-75.5-30.8-10.2-26.5-24.9-33.6-24.9-33.6-20.3-14.3 1.5-14 1.5-14 22.5 1.6 34.3 23.7 34.3 23.7 20 35.1 52.4 25 65.2 19.1 2-14.8 7.8-25 14.2-30.7-49.7-5.8-102-25.5-102-113.5.0-25.1 8.7-45.6 23-61.6-2.3-5.8-10-29.2 2.2-60.8.0.0 18.8-6.2 61.6 23.5 17.9-5.1 37-7.6 56.1-7.7 19 .1 38.2 2.6 56.1 7.7 42.8-29.7 61.5-23.5 61.5-23.5 12.2 31.6 4.5 55 2.2 60.8 14.3 16.1 23 36.6 23 61.6.0 88.2-52.4 107.6-102.3 113.3 8 7.1 15.2 21.1 15.2 42.5.0 30.7-.3 55.5-.3 63 0 6.1 4 13.3 15.4 11C415.9 449.1 480 363.1 480 261.7 480 134.8 379.7 32 256 32z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+</div>
+</div>
+</nav>
+<div class="tc-l pv6 ph3 ph4-ns">
+<h1 class="f2 f1-l fw2 white-90 mb0 lh-title">How to run a Digital Platform at Scale</h1>
+</div>
+</div>
+</header>
+<main class=pb7 role=main>
+<article class="flex-l flex-wrap justify-between mw8 center ph3">
+<header class="mt4 w-100">
+<aside class="instapaper_ignoref b helvetica tracked">
+POSTS
+</aside>
+<div id=sharing class=mt3>
+<a href="https://www.facebook.com/sharer.php?u=https://beny23.github.io/posts/catalogue_deepdive/" class="facebook no-underline" aria-label="share on Facebook"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M28.765 50.32h6.744V33.998h4.499l.596-5.624h-5.095l.007-2.816c0-1.466.14-2.253 2.244-2.253h2.812V17.68h-4.5c-5.405.0-7.307 2.729-7.307 7.317v3.377h-3.369v5.625h3.369V50.32zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd"/></svg>
+</a>
+<a href="https://twitter.com/share?url=https://beny23.github.io/posts/catalogue_deepdive/&text=How%20to%20run%20a%20Digital%20Platform%20at%20Scale" class="twitter no-underline" aria-label="share on Twitter"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</a>
+<a href="https://www.linkedin.com/shareArticle?mini=true&url=https://beny23.github.io/posts/catalogue_deepdive/&title=How%20to%20run%20a%20Digital%20Platform%20at%20Scale" class="linkedin no-underline" aria-label="share on LinkedIn"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</a>
+</div>
+<h1 class="f1 athelas mt3 mb1">How to run a Digital Platform at Scale</h1>
+<time class="f6 mv4 dib tracked" datetime=2022-04-02T01:48:32Z>April 2, 2022</time>
+<span class="f6 mv4 dib tracked"> - 11 minutes read</span>
+<span class="f6 mv4 dib tracked"> - 2229 words</span>
+</header>
+<div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>This post peels back the covers on what it is like to work with a large digital platform at scale. The
+platform in question is MDTP - Multichannel Digital Tax Platform, which supports a
+<a href=https://www.gov.uk/government/organisations/hm-revenue-customs>UK-based tax collection agency</a>
+which is using <a href=https://aws.amazon.com/>a hyperscale cloud provider with a sideline in books</a>.</p>
+<p>I&rsquo;ve previously described what it is like to work in MDTP (<a href=https://beny23.github.io/posts/making_software_quickly/>Making Software. Quickly</a>)
+during the Covid-19 responses that allowed the UK government to provide financial support for millions turning around
+projects in record time. This was made possible because MDTP is a gem of a digital platform.</p>
+<h1 id=what-is-a-digital-platform>What is a Digital Platform?</h1>
+<p><img src=/images/catalogue_deepdive_platform.jpg alt="Super Mario Platform Analogy"></p>
+<p>The Equal Experts <a href=https://digital-platform.playbook.ee/introduction>Digital Platform Playbook</a> defines a digital platform
+as</p>
+<blockquote>
+<p>a bespoke Platform as a Service (PaaS) product composed of people, processes, and tools that
+enables teams to rapidly develop, iterate, and operate Digital Services at scale.</p>
+</blockquote>
+<p>What that means is that rather than each service team creating and managing its own infrastructure, you invest in
+a team (later teams) that will build or buy the tools and processes required so that service teams can concentrate on building
+value with their services and not spend time constantly reinventing the wheel.</p>
+<p>I don&rsquo;t want to reiterate the points made in the playbook, but for one thing: not everything needs a digital platform
+as it is a big investment - but when operating at scale, I think it is immensely valuable.</p>
+<h1 id=opinionated-platform-essential-at-scale>Opinionated Platform: Essential at Scale</h1>
+<p>The next important point is that in order for a platform to be able to be managable at scale, it needs to be
+opinionated. What does that mean? Following on from the Netflix <a href=https://netflixtechblog.com/how-we-build-code-at-netflix-c5d9bd727f15>paved road</a>
+a platform must make it easy to:</p>
+<ul>
+<li>Reduce boilerplate (not every service should be implementing their own logging or metric code)</li>
+<li>Provide tools to do it yourself - if every service team needs to raise a ticket to request a new build pipeline, the
+platform team will soon drown in support work. <a href=https://www.stevesmith.tech/blog/you-build-it-you-run-it/>You Build it, You Run it</a>
+is essential for a platform team to be able to deliver value without regressing into a traditional Ops role.</li>
+<li>Realise a platform is not a purely technical thing, but a collection of lots of people that are working together
+to create value. As such, facilitating easy communication should be high on the priority list of a digital platform.
+Personally, I find Slack a good tool, but at scale can often create a big channel sprawl, so it is crucial to
+provide help to find the right teams in the right channels.</li>
+</ul>
+<p>A bit more background on MDTP on this excerpt from the DevOps handbook:
+<a href=https://itrevolution.com/saving-the-economy-from-ruin-with-a-hyperscale-paas-at-hmrc/>Saving The Economy From Ruin (With A Hyperscale PaaS) At HMRC</a></p>
+<h1 id=catalogue-on-mdtp-helping-teams-since-2016>Catalogue on MDTP: Helping teams since 2016</h1>
+<p><img src=/images/catalogue_deepdive_whats_running_where.png alt="What&rsquo;s Running Where"></p>
+<p>One of the best things about working on MDTP (and I&rsquo;ve seen this both from the perspective of a service team as well
+as a platform team) is the catalogue. It is a window into more than 1,000 microservices running on the MDTP platform,
+which are built by about 100 teams across 10 digital delivery centres (but who&rsquo;s counting at a time of remote working)
+The catalogue keeps track of:</p>
+<ul>
+<li>Contact information about teams, services and repositories - with over 4,000 GitHub repositories it&rsquo;s not an easy
+task to figure out who is looking after what.</li>
+<li>What versions of services are running in which environments</li>
+<li>Who deployed what when</li>
+<li>Direct, transitive and banned dependencies</li>
+<li>A team&rsquo;s services, repositories, prototypes and libraries</li>
+<li>Ability to find which microservice belongs to which URL</li>
+<li>Shutter services: temporarily take them offline with a custom message</li>
+<li>Leak Detections: have secrets been leaked into GitHub</li>
+<li>Health Indicators and Platform Initiatives: scores services against metrics such as build stability, stale branches,
+leaks, out of date libraries - a sort of system of nudges to encourage &ldquo;good behaviour&rdquo;</li>
+<li>Cost Explorer: Keeps track of an estimate cost based on the number of running instances of a service in the different
+environments.</li>
+</ul>
+<p><img src=/images/catalogue_deepdive_platform_initiatives.png alt="Platform Initiatives"></p>
+<p>The catalogue is developed by the Platform Operations team (PlatOps). PlatOps provide the tools and paved road for
+the service teams - libraries containing basic functionality required by MDTP microservices, templates,
+patterns and best practices. The service teams build microservices using Play, Scala and Mongo. And they self-serve
+as much as possible using an &ldquo;Everything as Code&rdquo; philosophy:</p>
+<ul>
+<li>Want a new repository? Run a Jenkins job.</li>
+<li>Want a build pipeline? Add it as code.</li>
+<li>Want a logging/metrics dashboard? Add it as code.</li>
+<li>Want to configure your service? Modify code.</li>
+<li>Want a different alerting setup? Change it in code.</li>
+</ul>
+<p><a href=https://gigamonkeys.com/flowers/>Let a 1000 flowers bloom</a> tells us about Engineering Effectiveness. It pays more
+to make 1,000 engineers 2% more effective than making 10 engineers 50% more effective. At scale, delegating as much
+as possible to self-service is the only way to do that.</p>
+<p>Take configuring secrets as an example: to ensure that secrets are stored securely, they need to be encrypted. If
+that encryption has to be carried out by a central platform team, then that implies some form of managing the flow of
+work. So a ticket has to be raised and triaged. Then a prioritisation call has to be made. Looking at numbers before
+self-serving secrets, on average it would take over 2 days to go from ticket raised to ticket closed (that&rsquo;s hiding some
+outliers, the median was more like 1 day). Now it could be argued that engineers will factor in this kind of delay and
+not try to configure their services at the last minute, but it does form a bottleneck. And that bottleneck hurts the
+flow for an individual service team. It might only be a neglible delay, and engineers would be able to pick up
+another task while waiting, but a day here and there starts to become really noticeable when there&rsquo;s 100 different teams.
+This is where the investment into self-service pays off. Not only does it increase the speed of getting things done
+for the service teams, it also frees up the bureacracy of raising tickets, adds accountability by auditing who changes
+which secret where and frees up the platform teams to smoothen the service developer journey further.</p>
+<h1 id=trust-but-verify>Trust But Verify</h1>
+<p>Now, after looking at the example of secrets management, you&rsquo;d be tempted to think that giving teams lots of
+autonomy over everything would lead to ever faster turnaround time and better efficiency. That is a fallacy. Let me provide some
+context before making my point: When I first started out working on MDTP - a good number of years ago, I was working
+on a lift-and-shift service migration project that took legacy services out of an on-premise data centre and moved them into
+the cloud. In those early days I felt we were constantly at loggerheads with the platform teams. Couldn&rsquo;t we have our
+own connectivity? Couldn&rsquo;t we have our own Jenkins instance? How about an S3 bucket? No, no, no. I came to think of
+this as the &ldquo;loving fist&rdquo; of the infrastructure team, that very firmly said that it did not fit in with the opinionated way
+the platform was doing things. This was frustrating and created quite a bit of work for the migration to try to
+match the platform patterns as much as possible. I also have to note that looking back, the engineers running
+the platform were very pragmatic and tried to be flexible, but they knew that straying off the paved road too much
+would be trouble.</p>
+<p>I came to really appreciate this when looking after those migrated services we had to often do a lot of extra work
+because we weren&rsquo;t benefiting from the platform libraries and often had to retrofit functionality. I very much came
+to appreciate the opinions of the tax platform and am convinced that without it, we could not have made that migration
+a success - so much so that the yearly &ldquo;Key Business Event&rdquo; of <a href=https://www.gov.uk/self-assessment-tax-returns>Self-Assessment</a>
+is now viewed as &ldquo;Business As Usual&rdquo; on the platform. <a href="https://www.youtube.com/watch?v=xgQewKiBQlU">Tax Doesn&rsquo;t Have to be Taxing</a>
+not even for platform engineers&mldr;</p>
+<p>Back to my point and the catalogue! In order ensure that the 100 teams and nearly 1,000 engineers that have got GitHub
+access don&rsquo;t stray off the paved road and get into difficulty, the PlatOps team have made some tools to check on what
+the service teams are up to and provide specialist teams (UI, testing, AppSec, DB) that can provide expert assistance
+without each individual service team having to develop that expertise on their own.</p>
+<h2 id=bobby>Bobby</h2>
+<p><a href=https://github.com/hmrc/sbt-bobby>Bobby</a> is a sbt plugin that checks dependencies against a list of banned
+and deprecated dependencies. This is used to ensure that teams cannot build services with dependencies that have
+vulnerabilities or known bugs or should no longer be used.</p>
+<p><img src=/images/catalogue_deepdive_bobby.png alt="Bobby Rules"></p>
+<h2 id=dependency-explorer>Dependency Explorer</h2>
+<p>The dependency explorer is a really important tool. To put simply, it allows to quickly find which service use
+which dependencies:</p>
+<p><img src=/images/catalogue_deepdive_dependency_explorer.png alt="Dependency Explorer"></p>
+<p>This is really useful when trying to find whether one of the 1,000 services is impacted by security vulnerability such
+as <a href=https://www.lunasec.io/docs/blog/log4j-zero-day/>Log4shell</a> or <a href=https://www.lunasec.io/docs/blog/spring-rce-vulnerabilities>Spring4shell</a>.
+Instead of scrambling around in GitHub repositories or unzipping jar files to find dependencies, the anxiety in MDTP
+about log4j dependencies lasted the best part of a couple of minutes when we breathed a sigh of relief that there weren&rsquo;t
+any services that used it.</p>
+<p>The dependency explorer is also very useful when trying to find old versions of a library, judging whether a component
+can be deprecated or whether there are too many users. That is useful for both service and platform teams.</p>
+<h2 id=how-does-it-work>How does it work?</h2>
+<p><img src=/images/catalogue_deepdive_artefact_processing.png alt="Artefact Processing"></p>
+<ol>
+<li>The build system builds an artefact
+<ul>
+<li>as part of the build, build metadata including the dependency graph are created and stored as artefacts</li>
+<li>bobby runs to check for dependency violations</li>
+</ul>
+</li>
+<li>The build system puts a notification on a SNS topic</li>
+<li>The artefact processor service picks up the message and
+<ul>
+<li>reads the metadata and dependency graph</li>
+<li>downloads the artefact and analyses the JAR files for dependencies</li>
+</ul>
+</li>
+<li>The artefact processor stores the results in the service dependencies service</li>
+<li>The catalogue frontend uses the service dependencies service to visualise the dependencies</li>
+</ol>
+<p>The build is kicked off on a commit and typically service teams have configured build pipelines to deploy automatically
+into the non-prod environments. So as soon as a developer makes a change, it gets built, gets analysed and surfaced
+via the catalogue.</p>
+<h1 id=leak-detection>Leak Detection</h1>
+<p>The leak detection component of the catalogue is primarily concerned with sensitive information leaking into
+a GitHub repository. As MDTP is very much trying to put <a href=https://hmrc.github.io/coding-in-the-open-manual/>code into the open</a>
+there is always a chance that something sensitive leaks online. In order to deal with potential leaks at scale, the
+leak detection system analyses every commit to see whether any suspicious looking text are found:</p>
+<p><img src=/images/catalogue_deepdive_leak_detection.png alt="Leak Detection"></p>
+<p>One of the lessons that we learned was that to be effective it needs to be really easy for service teams to
+provide exemptions to the leak detection rules and get visibility on whether those exemptions are used or not. If
+teams cannot resolve false positives quickly, then what tends to happen is that the warnings will get ignored. If
+warnings regularly get ignored, then AppSec engineers have to start chasing teams and that just does not work at scale.</p>
+<h1 id=slack-notifications>Slack Notifications</h1>
+<p>Slack plays an important role in MDTP to communicate with teams quickly and efficiently, not only instantly but also
+asynchronously. I talk more about the importance of Slack in <a href=https://beny23.github.io/posts/making_software_quickly/>Making Software. Quickly</a>
+but one of the important was that the platform communicates with teams and engineers is by automated Slack notifications.</p>
+<p><img src=/images/catalogue_deepdive_slack_notification.png alt="Slack notification"></p>
+<p>Notifications are used to</p>
+<ul>
+<li>notify of build failures</li>
+<li>notify leak detection alerts</li>
+<li>notify shutter events</li>
+<li>notify deployment events</li>
+<li>notify security events</li>
+<li>alert failing services</li>
+<li>security alerts</li>
+</ul>
+<p>These provide an important feedback mechanism for engineers to go and check if something is odd. As often is the case,
+if the alerts are too frequent or don&rsquo;t go in the right channels, they can be at best distracting and worst just get
+ignored. It is really important to get metrics on how these alerts are used. But here&rsquo;s a thought, just keeping
+track of when what Slack notifications get sent to whom provides an interesting amount of observability.</p>
+<h1 id=conclusion>Conclusion</h1>
+<p>It cannot be overstate how important having the catalogue is to the ability of MDTP to operate at scale. As an
+AppSec platform engineer, I cannot begin to imagine what a nightmare the log4j incident would have been if we had to
+have chased down 1,000 microservices' worth of build files to determine whether we were vulnerable or not, or having
+to rely on almost certainly out-of-date contact information for teams on some wiki page that was last edited 3 years
+ago only to find out that most of the engineers had moved on. It would be a lot of work if we had to keep searching
+through the source code to see whether there are any hardcoded passwords or auth tokens. It is pretty clear to me
+that any digital platform that operates on a non-trivial scale absolutely needs a catalogue.</p>
+<p>It doesn&rsquo;t have to be a purpose built one - when the <a href=https://github.com/hmrc/catalogue-frontend/>MDTP Catalogue</a> was
+first built, things like <a href=https://engineering.atspotify.com/2021/09/23/how-backstage-made-our-developers-more-effective-and-how-it-can-help-yours-too/>Backstage</a>
+did not yet exist and it does not have to be all singing all dancing. But if your platform cannot
+tell you who is responsible for a service, what components is it using, where is it deployed, who deployed it then
+you&rsquo;re flying a little bit blind.</p>
+<b>Tags</b>
+<a href=https://beny23.github.io/tags/agile/>agile</a> <a href=https://beny23.github.io/tags/tools/>tools</a> <a href=https://beny23.github.io/tags/paved-road/>paved-road</a> <a href=https://beny23.github.io/tags/catalogue/>catalogue</a> <a href=https://beny23.github.io/tags/digital-platform/>digital-platform</a><div class="mt6 instapaper_ignoref">
+</div>
+</div>
+<aside class="w-30-l mt6-l">
+<div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+<p class="f5 b mb3">Related</p>
+<ul class="pa0 list">
+<li class=mb2>
+<a href=/posts/what_makes_a_good_developer/>What makes a good developer</a>
+</li>
+<li class=mb2>
+<a href=/posts/screen_record_meetings/>Record and publish your meeting</a>
+</li>
+<li class=mb2>
+<a href=/posts/the_shield_and_the_sword/>The Shield and the Sword</a>
+</li>
+<li class=mb2>
+<a href=/posts/making_software_quickly/>Making Software. Quickly.</a>
+</li>
+</ul>
+</div>
+</aside>
+</article>
+</main>
+<footer class="bg-black bottom-0 w-100 pa3" role=contentinfo>
+<div class="flex justify-between">
+<a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href=https://beny23.github.io/>
+&copy; Software Design Systems 2022
+</a>
+<div>
+<a href=https://stackoverflow.com/users/227140/beny23 target=_blank class="link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Stack Overflow link" rel=noopener aria-label="follow on Stack Overflow——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32"><path d="M12 0C5.373.0.0 5.373.0 12s5.373 12 12 12 12-5.373 12-12S18.627.0 12 0zm.869 5.903 3.114 4.567-.975.665-3.115-4.567.976-.665zm-2.812 2.585 4.84 2.838-.6 1.017-4.842-2.838.602-1.017zm-1.276 2.724 5.413 1.521-.291 1.077-5.428-1.458.306-1.14zm-.588 2.461 5.687.569-.103 1.12-5.691-.513.107-1.176zm-.169 2.16h5.835V17H8.024v-1.167zM16 19H6v-6h1v5h8v-5h1v6zm.195-8.602-.945-5.446 1.162-.202.947 5.446-1.164.202z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://twitter.com/giskard23 target=_blank class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel=noopener aria-label="follow on Twitter——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://www.linkedin.com/in/gerald-benischke-9811b663 target=_blank class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel=noopener aria-label="follow on LinkedIn——Opens in a new window"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://github.com/beny23 target=_blank class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel=noopener aria-label="follow on Github——Opens in a new window"><svg height="32" style="enable-background:new 0 0 512 512" viewBox="0 0 512 512" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M256 32C132.3 32 32 134.8 32 261.7c0 101.5 64.2 187.5 153.2 217.9 11.2 2.1 15.3-5 15.3-11.1.0-5.5-.2-19.9-.3-39.1-62.3 13.9-75.5-30.8-75.5-30.8-10.2-26.5-24.9-33.6-24.9-33.6-20.3-14.3 1.5-14 1.5-14 22.5 1.6 34.3 23.7 34.3 23.7 20 35.1 52.4 25 65.2 19.1 2-14.8 7.8-25 14.2-30.7-49.7-5.8-102-25.5-102-113.5.0-25.1 8.7-45.6 23-61.6-2.3-5.8-10-29.2 2.2-60.8.0.0 18.8-6.2 61.6 23.5 17.9-5.1 37-7.6 56.1-7.7 19 .1 38.2 2.6 56.1 7.7 42.8-29.7 61.5-23.5 61.5-23.5 12.2 31.6 4.5 55 2.2 60.8 14.3 16.1 23 36.6 23 61.6.0 88.2-52.4 107.6-102.3 113.3 8 7.1 15.2 21.1 15.2 42.5.0 30.7-.3 55.5-.3 63 0 6.1 4 13.3 15.4 11C415.9 449.1 480 363.1 480 261.7 480 134.8 379.7 32 256 32z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+</div>
+</div>
+</footer>
+<script src=/dist/js/app.3fc0f988d21662902933.js></script>
+</body>
+</html>
