@@ -1,0 +1,292 @@
+<!doctype html><html lang=en-gb>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>Curating Dependency Vulnerabilities | Tales about Software Engineering</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=generator content="Hugo 0.92.0">
+<meta name=ROBOTS content="INDEX, FOLLOW">
+<link href=/dist/css/app.4fc0b62e4b82c997bb0041217cd6b979.css rel=stylesheet>
+<meta property="og:title" content="Curating Dependency Vulnerabilities">
+<meta property="og:description" content="In this post, I am going to look at an increasingly important part of securing applications: Your supply chain. This includes every library, tool or service that you are using to build, run and monitor your service.
+When the log4shell vulnerability hit, it wasn&rsquo;t just a matter of looking at the dependencies that your source code pulls in, but also at the infrastructure you&rsquo;re using and the build pipeline.
+Have you had a look at the vulnerability reports of your dependencies lately?">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://beny23.github.io/posts/curating_vulnerabilities/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2022-07-04T00:00:00+00:00">
+<meta property="article:modified_time" content="2022-07-04T00:00:00+00:00">
+<meta itemprop=name content="Curating Dependency Vulnerabilities">
+<meta itemprop=description content="In this post, I am going to look at an increasingly important part of securing applications: Your supply chain. This includes every library, tool or service that you are using to build, run and monitor your service.
+When the log4shell vulnerability hit, it wasn&rsquo;t just a matter of looking at the dependencies that your source code pulls in, but also at the infrastructure you&rsquo;re using and the build pipeline.
+Have you had a look at the vulnerability reports of your dependencies lately?"><meta itemprop=datePublished content="2022-07-04T00:00:00+00:00">
+<meta itemprop=dateModified content="2022-07-04T00:00:00+00:00">
+<meta itemprop=wordCount content="1604">
+<meta itemprop=keywords content="appsec,agile,security,catalogue,digital-platform,cve,spreadsheet,"><meta name=twitter:card content="summary">
+<meta name=twitter:title content="Curating Dependency Vulnerabilities">
+<meta name=twitter:description content="In this post, I am going to look at an increasingly important part of securing applications: Your supply chain. This includes every library, tool or service that you are using to build, run and monitor your service.
+When the log4shell vulnerability hit, it wasn&rsquo;t just a matter of looking at the dependencies that your source code pulls in, but also at the infrastructure you&rsquo;re using and the build pipeline.
+Have you had a look at the vulnerability reports of your dependencies lately?">
+<script type=application/javascript>var doNotTrack=!1;doNotTrack||(window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga('create','UA-171035600-1','auto'),ga('send','pageview'))</script>
+<script async src=https://www.google-analytics.com/analytics.js></script>
+</head>
+<body class="ma0 avenir bg-near-white production">
+<header class="cover bg-top" style=background-image:url(https://beny23.github.io/images/curating_vulnerabilities_title.jpg)>
+<div class="pb3-m pb6-l bg-black-60">
+<nav class="pv3 ph3 ph4-ns" role=navigation>
+<div class="flex-l justify-between items-center center">
+<a href=/ class="f3 fw2 hover-white no-underline white-90 dib">
+Tales about Software Engineering
+</a>
+<div class="flex-l items-center">
+<ul class="pl0 mr3">
+<li class="list f5 f4-ns fw4 dib pr3">
+<a class="hover-white no-underline white-90" href=/about/ title="About page">
+About
+</a>
+</li>
+<li class="list f5 f4-ns fw4 dib pr3">
+<a class="hover-white no-underline white-90" href=/posts/ title="Blog page">
+Blog
+</a>
+</li>
+<li class="list f5 f4-ns fw4 dib pr3">
+<a class="hover-white no-underline white-90" href=/tags/ title="Tags page">
+Tags
+</a>
+</li>
+</ul>
+<a href=https://stackoverflow.com/users/227140/beny23 target=_blank class="link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Stack Overflow link" rel=noopener aria-label="follow on Stack Overflow——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32"><path d="M12 0C5.373.0.0 5.373.0 12s5.373 12 12 12 12-5.373 12-12S18.627.0 12 0zm.869 5.903 3.114 4.567-.975.665-3.115-4.567.976-.665zm-2.812 2.585 4.84 2.838-.6 1.017-4.842-2.838.602-1.017zm-1.276 2.724 5.413 1.521-.291 1.077-5.428-1.458.306-1.14zm-.588 2.461 5.687.569-.103 1.12-5.691-.513.107-1.176zm-.169 2.16h5.835V17H8.024v-1.167zM16 19H6v-6h1v5h8v-5h1v6zm.195-8.602-.945-5.446 1.162-.202.947 5.446-1.164.202z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://twitter.com/giskard23 target=_blank class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel=noopener aria-label="follow on Twitter——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://www.linkedin.com/in/gerald-benischke-9811b663 target=_blank class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel=noopener aria-label="follow on LinkedIn——Opens in a new window"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://github.com/beny23 target=_blank class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel=noopener aria-label="follow on Github——Opens in a new window"><svg height="32" style="enable-background:new 0 0 512 512" viewBox="0 0 512 512" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M256 32C132.3 32 32 134.8 32 261.7c0 101.5 64.2 187.5 153.2 217.9 11.2 2.1 15.3-5 15.3-11.1.0-5.5-.2-19.9-.3-39.1-62.3 13.9-75.5-30.8-75.5-30.8-10.2-26.5-24.9-33.6-24.9-33.6-20.3-14.3 1.5-14 1.5-14 22.5 1.6 34.3 23.7 34.3 23.7 20 35.1 52.4 25 65.2 19.1 2-14.8 7.8-25 14.2-30.7-49.7-5.8-102-25.5-102-113.5.0-25.1 8.7-45.6 23-61.6-2.3-5.8-10-29.2 2.2-60.8.0.0 18.8-6.2 61.6 23.5 17.9-5.1 37-7.6 56.1-7.7 19 .1 38.2 2.6 56.1 7.7 42.8-29.7 61.5-23.5 61.5-23.5 12.2 31.6 4.5 55 2.2 60.8 14.3 16.1 23 36.6 23 61.6.0 88.2-52.4 107.6-102.3 113.3 8 7.1 15.2 21.1 15.2 42.5.0 30.7-.3 55.5-.3 63 0 6.1 4 13.3 15.4 11C415.9 449.1 480 363.1 480 261.7 480 134.8 379.7 32 256 32z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+</div>
+</div>
+</nav>
+<div class="tc-l pv6 ph3 ph4-ns">
+<h1 class="f2 f1-l fw2 white-90 mb0 lh-title">Curating Dependency Vulnerabilities</h1>
+</div>
+</div>
+</header>
+<main class=pb7 role=main>
+<article class="flex-l flex-wrap justify-between mw8 center ph3">
+<header class="mt4 w-100">
+<aside class="instapaper_ignoref b helvetica tracked">
+POSTS
+</aside>
+<div id=sharing class=mt3>
+<a href="https://www.facebook.com/sharer.php?u=https://beny23.github.io/posts/curating_vulnerabilities/" class="facebook no-underline" aria-label="share on Facebook"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M28.765 50.32h6.744V33.998h4.499l.596-5.624h-5.095l.007-2.816c0-1.466.14-2.253 2.244-2.253h2.812V17.68h-4.5c-5.405.0-7.307 2.729-7.307 7.317v3.377h-3.369v5.625h3.369V50.32zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd"/></svg>
+</a>
+<a href="https://twitter.com/share?url=https://beny23.github.io/posts/curating_vulnerabilities/&text=Curating%20Dependency%20Vulnerabilities" class="twitter no-underline" aria-label="share on Twitter"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</a>
+<a href="https://www.linkedin.com/shareArticle?mini=true&url=https://beny23.github.io/posts/curating_vulnerabilities/&title=Curating%20Dependency%20Vulnerabilities" class="linkedin no-underline" aria-label="share on LinkedIn"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</a>
+</div>
+<h1 class="f1 athelas mt3 mb1">Curating Dependency Vulnerabilities</h1>
+<time class="f6 mv4 dib tracked" datetime=2022-07-04T00:00:00Z>July 4, 2022</time>
+<span class="f6 mv4 dib tracked"> - 8 minutes read</span>
+<span class="f6 mv4 dib tracked"> - 1604 words</span>
+</header>
+<div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>In this post, I am going to look at an increasingly important part of securing applications: Your supply chain. This
+includes every library, tool or service that you are using to build, run and monitor your service.</p>
+<p>When the <a href=https://www.lunasec.io/docs/blog/log4j-zero-day/>log4shell</a> vulnerability hit, it wasn&rsquo;t just a matter of looking
+at the dependencies that your source code pulls in, but also at the infrastructure you&rsquo;re using and the build pipeline.</p>
+<p>Have you had a look at the vulnerability reports of your dependencies lately? Did you like what your saw? I didn&rsquo;t at first.
+Here&rsquo;s what I saw at a tax collecting agency in the UK where I work in AppSec:</p>
+<p><img src=/images/curating_vulnerabilities_xray_stats.png alt="Over 800,000 vulnerabilities in 36,000 artefacts"></p>
+<p>Now, I will admit this <a href=https://jfrog.com/xray/>X-Ray</a> report contains a bit of hyperbole. Yes, it is a screenshot from
+X-Ray but 36,000 artefacts contain current as well as older versions of our services. In actual total, there are about
+1,000 microservices in production and about 100,000 reports to consider, which encompass 1,000 different dependencies
+with 1,300 different CVEs (Common Vulnerabilities and Exposures).</p>
+<h1 id=how-am-i-ever-going-to-analyse-that>How am I ever going to analyse that?</h1>
+<p>CVEs have got a CVSS (Common Vulnerability Scoring System) score of 0-10. Plenty of people (and tools) use this score
+to allow setting up of policies. For example:</p>
+<ul>
+<li>Prevent any builds of where CVE scores greater than 8.5.</li>
+<li>Warn if there are any builds with CVEs greater than 7.</li>
+</ul>
+<p>And so on. But is that actually any use? My instinct has always been that the scores are too broad an indication.
+A CVSS score of 7.5 does not mean it is less dangerous than a CVE score of 9 or necessarily less of a priority.
+The scoring system is an way of trying to categorise problems in some very broad categories.
+Have a look at the <a href=https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator>CVSS calculator</a> and the
+<a href=https://nvd.nist.gov/vuln-metrics/cvss>CVSS metrics</a> to get a feel for how broad a score is. There also is the
+contention that since having a CVE on your CV is profitable for security professionals that some vulnerability scores get
+a little overegged. For a much more detailed critique of vulnerability scoring can be found
+<a href=https://theoryof.predictable.software/articles/a-closer-look-at-cvss-scores/>here</a>. That essay made me wonder about
+the distribution of CVE scores at my client (more on that later).</p>
+<p>I seriously would not recommend trying to look at all CVEs all at once (the 100,000 reports I mentioned earlier)
+because it just gets too overwhelming. Also, while the data that is contained in X-Ray reports is really useful
+(amongst other things it contains good descriptions and references), their UI is not fit for purpose. If I wanted to
+look at a report it would look like this:</p>
+<p><img src=/images/curating_vulnerabilities_useless_xray_ui.png alt="Unreadable X-Ray reports"></p>
+<p>There&rsquo;s a long list of 139,000 pages - with pretty much every column only readable by hovering over fields to look at
+tooltips. Maybe this works when you have a stack of ultra-widescreen monitors, but I happen to work on my laptop a lot
+and just cannot use the X-Ray UI for reports.</p>
+<p><img src=/images/curating_vulnerabilities_swordfish_analogy.png alt="Swordfish 7 screens required for X-ray"></p>
+<h2 id=apis-to-the-rescue>APIs to the rescue</h2>
+<p>Fortunately, X-Ray provides a nice <a href=https://www.jfrog.com/confluence/display/JFROG/Xray+REST+API>REST API</a> to
+generate and download reports. The API also helped me around limitations of the X-Ray exporting where it stubbornly
+refused to generate JSON reports with more than 500,000 results. I was also immensely helped by the fact that
+I am working with a platform that has a <a href=https://beny23.github.io/posts/catalogue_deepdive/>great service catalogue</a>, so I was able
+to integrate getting the list of deployed versions in production with the report generation.</p>
+<p><img src=/images/curating_vulnerabilities_pipeline.png alt="Vulnerability analytics pipeline"></p>
+<p>Next was to realise that the reports I got from X-Ray are raw. Without context, they do not tell me
+anything. It is pretty pointless knowing that I&rsquo;ve got 800,000 reports across all the services on the platform.
+I did not need data, I wanted information.</p>
+<p>With the raw data, I created the following reports:</p>
+<ul>
+<li>Every week, I extract the version numbers from the platform of services that are deployed using the service catalogue</li>
+<li>From that I generate X-Ray reports which gives me a list of CVEs and how many times they recorded - that gives me a
+view of vulnerabilities as they come in. This is done using a <a href=https://stedolan.github.io/jq/>JQ</a> script to avoid
+having to create a pivot table with tons of rows.</li>
+<li>I can sort by number of occurrences, score and more.</li>
+</ul>
+<p>This gives me a focus on which CVEs to look at first. Having an opinionated platform helps (see
+<a href=https://beny23.github.io/posts/making_software_quickly/>Making Software Quickly</a> for more details), because strong opinions mean
+that the amount of different patterns are limited - well, in theory anyway.</p>
+<p>In practice, at the tax collection agency those 1,000 microservices end up
+pulling in over 3,600 different dependencies (and that&rsquo;s JAR files alone). But at least, the platform does not
+support lots of different languages and frameworks. In my view, these opinions create guard rails and a paved road. And
+in case of AppSec work make life a lot easier.</p>
+<p>To illustrate my point: if every one of the 100 teams that look after
+those 1,000 microservices reinvented every pattern, there would not be any synergies. With strong patterns and guard
+rails, a centralised AppSec team that focuses solely on finding problems across the platform and keeping an eye on
+security trends becomes feasible. Without that centralisation, it would be very expensive to have security experts
+on every team. But I digress, I promised to talk about CVE score distribution earlier on:</p>
+<h2 id=scores---more-scores>Scores - more scores!</h2>
+<p>After a few weeks of looking at each CVE individually, weighing up the descriptions
+against my knowledge of patterns on the platform, I was able to decide
+which CVEs could be ignored, and which ones needed further investigation.</p>
+<p>Let&rsquo;s look at a couple of graphs. An interesting picture emerged. First of all, let&rsquo;s look at the distribution of
+CVE scores (<em>fig 1</em>):</p>
+<p><img src=/images/curating_vulnerabilities_cve_scores.png alt="CVE score distribution"></p>
+<p>The interesting fact is the peaky nature of the distribution and validates the
+<a href=https://theoryof.predictable.software/articles/a-closer-look-at-cvss-scores/>findings by Jacques Chester</a>. Please
+do resist the temptation of looking at CVE scores as a continuous value where a score of 7.5 is 2 units &ldquo;less worse&rdquo; than
+a CVE score of 9.5.</p>
+<p>My next graph tells the another story. Out of over 300 CVEs, I determined that 200 needed no action, and
+100 needed further in-depth investigation. Note, this does not imply finding an exploitable vulnerability, just that
+from the description alone it couldn&rsquo;t be ruled out whether there is something that needed attention or not (<em>fig 2</em>):</p>
+<p><img src=/images/curating_vulnerabilities_cve_scores_and_action.png alt="CVE score and actions"></p>
+<p>Looking at the above graph (<em>fig 2</em>), the CVEs that resulted in further investigation are in blue above the centre line, the
+ones that weren&rsquo;t considered actionable are in red below the line. From that snapshot it does not look like there is
+a correlation between CVE score and whether it should be actioned.</p>
+<p>Anecdotally, this is something that I have always felt. I have seen CVEs with score 10 that were not applicable due
+to the context required to make it exploitable and CVEs with score 7.5 that can take down a service in a single request.
+The only conclusion from this is that, unfortunately, policies that just use the CVSS score to determine whether
+a dependency should be blocked or not is only going to give you a false sense of security.</p>
+<p>Let&rsquo;s dig into the stats a bit more. By getting the raw data in JSON format and extracting information in it, I was able
+to look into which components/dependencies provide the most value in terms of spending effort investigating (<em>fig 3</em>):</p>
+<p><img src=/images/curating_vulnerabilities_vulnerable_components.png alt="CVEs by vulnerable components"></p>
+<p>The above chart is showing there is a concentration of CVEs at a impacting a few specific libraries (the above shows
+total occurrences). Again, don&rsquo;t be fooled by numbers - after my analysis of
+the CVEs, looking at whether they were actionable vs not-actionable paints a slightly less scary picture (<em>fig 4</em>):</p>
+<p><img src=/images/curating_vulnerabilities_cves_by_component.png alt="Actionable CVEs by vulnerable components"></p>
+<p>It appears while some components have got lots of CVEs associated with them, the actionable ones are not necessarily
+the most frequent ones.</p>
+<h1 id=important-caveat>Important Caveat</h1>
+<p>Please note, these numbers are not to be used to make sweeping generalisations. I&rsquo;m not saying that the high
+CVSS scores should be ignored in favour of lower ones in general. Yet, I found it very interesting that when I
+put context around the CVEs, different pictures emerge.</p>
+<h1 id=conclusion>Conclusion</h1>
+<p>My recommendations when working in the AppSec space and looking after vulnerabilities is to ensure that
+you turn data into information. It&rsquo;s no good rushing to tell development teams about every vulnerability, because at
+scale that&rsquo;s impractical. For me, the humble spreadsheet, has been invaluable.</p>
+<ul>
+<li>Try to categorise your CVEs!</li>
+<li>What are the most frequent vulnerabilities?</li>
+<li>Which ones have the highest scores?</li>
+<li>Can they be exploited?</li>
+<li>What type of vulnerabilities are the most common? (<a href=https://cwe.mitre.org/data/>CWE (Common Weakness Enumeration)</a>
+could be useful).</li>
+</ul>
+<p>In short, try to build a picture of what is going on in your system. It really helps if you know the code, and
+know how teams operate. Knowledge of and familiarity with the codebase is very important, so be prepared to read
+a lot of code and a lot of CVE descriptions. Knowledge of your infrastructure is also really important. WAFs, VPNs
+and engress protection can turn a really scary vulnerability that drops on a Friday afternoon into something that
+can be dealt with calmly on Monday morning rather than working frantically through the night/weekend to remediate.</p>
+<p>I was struck by Michael Brunton-Spall&rsquo;s <a href=https://cyberweekly.substack.com/p/cyberweekly-200-issue-200>200th Cyberweekly newsletter</a>.
+The value is not in producing the most links to Infosec stories in a week, but to pick out and prioritise the most
+interesting ones. Like a curator. When looking for vulnerabilities it is the same story. A story of prioritising
+anything - you need context to know which are most likely to cause problems for your system, investigate and
+fix accordingly.</p>
+<b>Tags</b>
+<a href=https://beny23.github.io/tags/appsec/>appsec</a> <a href=https://beny23.github.io/tags/agile/>agile</a> <a href=https://beny23.github.io/tags/security/>security</a> <a href=https://beny23.github.io/tags/catalogue/>catalogue</a> <a href=https://beny23.github.io/tags/digital-platform/>digital-platform</a> <a href=https://beny23.github.io/tags/cve/>cve</a> <a href=https://beny23.github.io/tags/spreadsheet/>spreadsheet</a><div class="mt6 instapaper_ignoref">
+</div>
+</div>
+<aside class="w-30-l mt6-l">
+<div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+<p class="f5 b mb3">Related</p>
+<ul class="pa0 list">
+<li class=mb2>
+<a href=/posts/catalogue_deepdive/>How to run a Digital Platform at Scale</a>
+</li>
+<li class=mb2>
+<a href=/posts/on_weaponisation_of_open_source/>On the weaponisation of open source</a>
+</li>
+<li class=mb2>
+<a href=/posts/what_makes_a_good_developer/>What makes a good developer</a>
+</li>
+<li class=mb2>
+<a href=/posts/pwnkit_how_to_check_and_exploit/>Pwnkit: How to exploit and check</a>
+</li>
+<li class=mb2>
+<a href=/posts/screen_record_meetings/>Record and publish your meeting</a>
+</li>
+<li class=mb2>
+<a href=/posts/one_plus_one_is_crash/>Exponential exploit: Why AppSec is hard</a>
+</li>
+<li class=mb2>
+<a href=/posts/the_shield_and_the_sword/>The Shield and the Sword</a>
+</li>
+<li class=mb2>
+<a href=/posts/making_software_quickly/>Making Software. Quickly.</a>
+</li>
+<li class=mb2>
+<a href=/posts/coerced_to_make_xerces_think/>Coerced to make Xerces think</a>
+</li>
+<li class=mb2>
+<a href=/posts/how_i_learned_to_stop_worrying_and_love_a_vulnerability/>How I learned to stop worrying and love a vulnerability</a>
+</li>
+<li class=mb2>
+<a href=/posts/hiding_xxe_in_spreadsheets/>Hiding XXE in Spreadsheets</a>
+</li>
+<li class=mb2>
+<a href=/posts/laughing_out_loud_malicious_auth/>Laughing out loud - Malicious Reauthentication</a>
+</li>
+</ul>
+</div>
+</aside>
+</article>
+</main>
+<footer class="bg-black bottom-0 w-100 pa3" role=contentinfo>
+<div class="flex justify-between">
+<a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href=https://beny23.github.io/>
+&copy; Software Design Systems 2022
+</a>
+<div>
+<a href=https://stackoverflow.com/users/227140/beny23 target=_blank class="link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Stack Overflow link" rel=noopener aria-label="follow on Stack Overflow——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32"><path d="M12 0C5.373.0.0 5.373.0 12s5.373 12 12 12 12-5.373 12-12S18.627.0 12 0zm.869 5.903 3.114 4.567-.975.665-3.115-4.567.976-.665zm-2.812 2.585 4.84 2.838-.6 1.017-4.842-2.838.602-1.017zm-1.276 2.724 5.413 1.521-.291 1.077-5.428-1.458.306-1.14zm-.588 2.461 5.687.569-.103 1.12-5.691-.513.107-1.176zm-.169 2.16h5.835V17H8.024v-1.167zM16 19H6v-6h1v5h8v-5h1v6zm.195-8.602-.945-5.446 1.162-.202.947 5.446-1.164.202z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://twitter.com/giskard23 target=_blank class="link-transition twitter link dib z-999 pt3 pt0-l mr1" title="Twitter link" rel=noopener aria-label="follow on Twitter——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://www.linkedin.com/in/gerald-benischke-9811b663 target=_blank class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel=noopener aria-label="follow on LinkedIn——Opens in a new window"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://github.com/beny23 target=_blank class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel=noopener aria-label="follow on Github——Opens in a new window"><svg height="32" style="enable-background:new 0 0 512 512" viewBox="0 0 512 512" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M256 32C132.3 32 32 134.8 32 261.7c0 101.5 64.2 187.5 153.2 217.9 11.2 2.1 15.3-5 15.3-11.1.0-5.5-.2-19.9-.3-39.1-62.3 13.9-75.5-30.8-75.5-30.8-10.2-26.5-24.9-33.6-24.9-33.6-20.3-14.3 1.5-14 1.5-14 22.5 1.6 34.3 23.7 34.3 23.7 20 35.1 52.4 25 65.2 19.1 2-14.8 7.8-25 14.2-30.7-49.7-5.8-102-25.5-102-113.5.0-25.1 8.7-45.6 23-61.6-2.3-5.8-10-29.2 2.2-60.8.0.0 18.8-6.2 61.6 23.5 17.9-5.1 37-7.6 56.1-7.7 19 .1 38.2 2.6 56.1 7.7 42.8-29.7 61.5-23.5 61.5-23.5 12.2 31.6 4.5 55 2.2 60.8 14.3 16.1 23 36.6 23 61.6.0 88.2-52.4 107.6-102.3 113.3 8 7.1 15.2 21.1 15.2 42.5.0 30.7-.3 55.5-.3 63 0 6.1 4 13.3 15.4 11C415.9 449.1 480 363.1 480 261.7 480 134.8 379.7 32 256 32z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+</div>
+</div>
+</footer>
+<script src=/dist/js/app.3fc0f988d21662902933.js></script>
+</body>
+</html>
