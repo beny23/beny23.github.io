@@ -18,7 +18,7 @@ Incidentally, I&rsquo;ve just demonstrated an easy mistake: I&rsquo;m not descri
 <meta itemprop=description content="There&rsquo;s a metaphor about the fight between attackers and defenders in the Denial of Service cybersecurity game. It&rsquo;s an &ldquo;arms race&rdquo; between ever bigger attacks throwing huge amounts of traffic at ever more sophisticated defenses (e.g. AWS shield).
 Incidentally, I&rsquo;ve just demonstrated an easy mistake: I&rsquo;m not describing a Denial of Service (DoS) attack, it&rsquo;s a Distributed Denial of Service (DDoS) attack. The aim is to overwhelm the infrastructure, either the networking infrastructure or the application by sending more requests than can be handled."><meta itemprop=datePublished content="2023-01-30T23:48:32+00:00">
 <meta itemprop=dateModified content="2023-01-30T23:48:32+00:00">
-<meta itemprop=wordCount content="841">
+<meta itemprop=wordCount content="883">
 <meta itemprop=keywords content="security,appsec,denial-of-service,playframework,"><meta name=twitter:card content="summary">
 <meta name=twitter:title content="Precision Munitions for Denial of Service">
 <meta name=twitter:description content="There&rsquo;s a metaphor about the fight between attackers and defenders in the Denial of Service cybersecurity game. It&rsquo;s an &ldquo;arms race&rdquo; between ever bigger attacks throwing huge amounts of traffic at ever more sophisticated defenses (e.g. AWS shield).
@@ -92,8 +92,8 @@ POSTS
 </div>
 <h1 class="f1 athelas mt3 mb1">Precision Munitions for Denial of Service</h1>
 <time class="f6 mv4 dib tracked" datetime=2023-01-30T23:48:32Z>January 30, 2023</time>
-<span class="f6 mv4 dib tracked"> - 4 minutes read</span>
-<span class="f6 mv4 dib tracked"> - 841 words</span>
+<span class="f6 mv4 dib tracked"> - 5 minutes read</span>
+<span class="f6 mv4 dib tracked"> - 883 words</span>
 </header>
 <div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>There&rsquo;s a metaphor about the fight between attackers and defenders in the Denial of Service cybersecurity game. It&rsquo;s an
 &ldquo;arms race&rdquo; between <a href=https://www.cloudflare.com/en-gb/learning/ddos/famous-ddos-attacks/>ever bigger attacks</a> throwing huge
@@ -180,6 +180,9 @@ note, I am not saying that Envoy&rsquo;s behaviour is wrong there!</li>
 <li>WAFs are an important defence mechanism but not the answer for everything</li>
 <li>To carry out precision strikes requires knowledge about the target system, but often it is easy to find out about
 who uses what framework.</li>
+<li>When evaluating vulnerabilities in frameworks, do not ignore CVEs with a lower CVSS score -
+denial of service CVEs will not reach a score of (I think) higher than 7.5. CVSS scores are a bit of a
+<a href=https://beny23.github.io/posts/curating_vulnerabilities/>bugbear of of mine</a> anyway!</li>
 </ul>
 <b>Tags</b>
 <a href=https://beny23.github.io/tags/security/>security</a> <a href=https://beny23.github.io/tags/appsec/>appsec</a> <a href=https://beny23.github.io/tags/denial-of-service/>denial-of-service</a> <a href=https://beny23.github.io/tags/playframework/>playframework</a>
