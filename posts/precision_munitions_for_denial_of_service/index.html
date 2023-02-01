@@ -18,7 +18,7 @@ Incidentally, I&rsquo;ve just demonstrated an easy mistake: I&rsquo;m not descri
 <meta itemprop=description content="There&rsquo;s a metaphor about the fight between attackers and defenders in the Denial of Service cybersecurity game. It&rsquo;s an &ldquo;arms race&rdquo; between ever bigger attacks throwing huge amounts of traffic at ever more sophisticated defenses (e.g. AWS shield).
 Incidentally, I&rsquo;ve just demonstrated an easy mistake: I&rsquo;m not describing a Denial of Service (DoS) attack, it&rsquo;s a Distributed Denial of Service (DDoS) attack. The aim is to overwhelm the infrastructure, either the networking infrastructure or the application by sending more requests than can be handled."><meta itemprop=datePublished content="2023-01-30T23:48:32+00:00">
 <meta itemprop=dateModified content="2023-01-30T23:48:32+00:00">
-<meta itemprop=wordCount content="883">
+<meta itemprop=wordCount content="886">
 <meta itemprop=keywords content="security,appsec,denial-of-service,playframework,"><meta name=twitter:card content="summary">
 <meta name=twitter:title content="Precision Munitions for Denial of Service">
 <meta name=twitter:description content="There&rsquo;s a metaphor about the fight between attackers and defenders in the Denial of Service cybersecurity game. It&rsquo;s an &ldquo;arms race&rdquo; between ever bigger attacks throwing huge amounts of traffic at ever more sophisticated defenses (e.g. AWS shield).
@@ -93,7 +93,7 @@ POSTS
 <h1 class="f1 athelas mt3 mb1">Precision Munitions for Denial of Service</h1>
 <time class="f6 mv4 dib tracked" datetime=2023-01-30T23:48:32Z>January 30, 2023</time>
 <span class="f6 mv4 dib tracked"> - 5 minutes read</span>
-<span class="f6 mv4 dib tracked"> - 883 words</span>
+<span class="f6 mv4 dib tracked"> - 886 words</span>
 </header>
 <div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>There&rsquo;s a metaphor about the fight between attackers and defenders in the Denial of Service cybersecurity game. It&rsquo;s an
 &ldquo;arms race&rdquo; between <a href=https://www.cloudflare.com/en-gb/learning/ddos/famous-ddos-attacks/>ever bigger attacks</a> throwing huge
@@ -159,9 +159,9 @@ for all of them to come back.</p>
 <p><img src=/images/precision_munitions_for_denial_of_service_whack_a_mole.png alt="Whack a mole"></p>
 <p>And then I can run the script again. And again. And again.</p>
 <h1 id=waf-to-the-rescue-or-not>WAF to the rescue! Or not.</h1>
-<p>The other interesting thing with this attack vector is that a WAF can be bypassed quite easily. As most WAFs only look
-at the first 8 or 16 KB and use regular expressions to find known bad patterns, it means that the payload can often
-be hidden by just prefixing it with 8K of whitespace.</p>
+<p>The other interesting thing with this attack vector is that a Web Application Firewall (WAF) can be bypassed quite easily.
+As most WAFs only look at the first 8 or 16 KB and use regular expressions to find known bad patterns, it means that the
+payload can often be hidden by just prefixing it with 8K of whitespace.</p>
 <p>And if the attacker keeps running 20 requests every minute, it is quite conceivable that they could keep a system
 down for quite a while as it would be difficult to distinguish the attack payloads from normal payloads.</p>
 <h1 id=what-to-do-about-it>What to do about it?</h1>
