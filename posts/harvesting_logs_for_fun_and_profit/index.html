@@ -16,7 +16,7 @@
 <meta itemprop=name content="Harvesting Logs for Fun and Profit">
 <meta itemprop=description content="From a security point of view, application logs are two-sided. On the one hand, it is really important to have good observability, to find out what is happening and what has happened. On the other hand, we don&rsquo;t want to leak sensitive information. In this post I am going to look at the kinds of things you might find in your logs. The juicy bits are Personal Identifying Information (PII) or security credentials."><meta itemprop=datePublished content="2023-03-23T00:00:00+00:00">
 <meta itemprop=dateModified content="2023-03-23T00:00:00+00:00">
-<meta itemprop=wordCount content="1729">
+<meta itemprop=wordCount content="1726">
 <meta itemprop=keywords content="appsec,security,logs,scale,"><meta name=twitter:card content="summary">
 <meta name=twitter:title content="Harvesting Logs for Fun and Profit">
 <meta name=twitter:description content="From a security point of view, application logs are two-sided. On the one hand, it is really important to have good observability, to find out what is happening and what has happened. On the other hand, we don&rsquo;t want to leak sensitive information. In this post I am going to look at the kinds of things you might find in your logs. The juicy bits are Personal Identifying Information (PII) or security credentials.">
@@ -90,7 +90,7 @@ POSTS
 <h1 class="f1 athelas mt3 mb1">Harvesting Logs for Fun and Profit</h1>
 <time class="f6 mv4 dib tracked" datetime=2023-03-23T00:00:00Z>March 23, 2023</time>
 <span class="f6 mv4 dib tracked"> - 9 minutes read</span>
-<span class="f6 mv4 dib tracked"> - 1729 words</span>
+<span class="f6 mv4 dib tracked"> - 1726 words</span>
 </header>
 <div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>From a security point of view, application logs are two-sided. On the one hand, it is really important to have good
 observability, to find out what is happening and what has happened. On the other hand, we don&rsquo;t want to leak
@@ -100,7 +100,7 @@ operating at scale.</p>
 <p><img src=/images/harvesting_logs_for_fun_and_profit_overview.png alt="PII Flow"></p>
 <p>In any suitably large organisation, the number of services or log streams are going to be much bigger than
 is possible for anyone to keep in their heads. This makes it really important to have good logging infrastructure.
-I don&rsquo;t want to be able to have to ssh into individual instances to be able to search log files. Fortunately, there
+I don&rsquo;t want to have to ssh into individual instances to be able to search log files. Fortunately, there
 are a number of solutions that allow the logs to be shipped to a central place and then searched. A popular approach
 is the <a href=https://www.elastic.co/what-is/elk-stack>ELK stack</a> which is ElasticSearch (storage, indexing and searching),
 Logstash (shipping the logs from services) and Kibana (User interface). Other approaches are available, but for the
