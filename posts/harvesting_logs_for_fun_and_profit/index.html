@@ -222,7 +222,7 @@ though I had to exclude a fair few services and terms</li>
 include the authorisation header but obfuscate the value.</li>
 <li>Looking for Bearer AND <code>/[A-Z0-9]{32}/</code> can be easier (assuming the bearer token is a 32-character string)</li>
 </ul>
-<h2 id=based-64-encoded-strings>Based-64 encoded strings</h2>
+<h2 id=base-64-encoded-strings>Base-64 encoded strings</h2>
 <ul>
 <li>Searching for <code>eyJ*</code> will return base64 encoded JSON - as this is the base64 representation of <code>{"</code> which will
 typically lead to some interesting JSON. Because base64 data is not immediately visible in the logs, it often
