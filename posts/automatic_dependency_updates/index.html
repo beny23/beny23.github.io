@@ -2,28 +2,37 @@
 <head>
 <meta charset=utf-8>
 <meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
-<title>security | Tales about Software Engineering</title>
+<title>The Case Against Automatic Dependency Updates | Tales about Software Engineering</title>
 <meta name=viewport content="width=device-width,minimum-scale=1">
 <meta name=generator content="Hugo 0.92.0">
 <meta name=ROBOTS content="INDEX, FOLLOW">
 <link href=/dist/css/app.4fc0b62e4b82c997bb0041217cd6b979.css rel=stylesheet>
-<link href=/tags/security/index.xml rel=alternate type=application/rss+xml title="Tales about Software Engineering">
-<link href=/tags/security/index.xml rel=feed type=application/rss+xml title="Tales about Software Engineering">
-<meta property="og:title" content="security">
-<meta property="og:description" content="Writings about software: development and security">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://beny23.github.io/tags/security/">
-<meta itemprop=name content="security">
-<meta itemprop=description content="Writings about software: development and security"><meta name=twitter:card content="summary">
-<meta name=twitter:title content="security">
-<meta name=twitter:description content="Writings about software: development and security">
+<meta property="og:title" content="The Case Against Automatic Dependency Updates">
+<meta property="og:description" content="The question of automatic dependency updates came up in our Slack channel the other day. There was a lot of nodding on how it is a good thing. Tools like Dependabot and Renovate were mentioned. Yet I was a dissenting voice. Why?
+The case for automatic dependency updates is simple and seductive:
+ A bot would automatically scan your dependencies in your source code and create pull requests to update your libraries to the latest versions, sometimes even automatically merging it in.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://beny23.github.io/posts/automatic_dependency_updates/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2023-04-21T00:00:00+00:00">
+<meta property="article:modified_time" content="2023-04-21T00:00:00+00:00">
+<meta itemprop=name content="The Case Against Automatic Dependency Updates">
+<meta itemprop=description content="The question of automatic dependency updates came up in our Slack channel the other day. There was a lot of nodding on how it is a good thing. Tools like Dependabot and Renovate were mentioned. Yet I was a dissenting voice. Why?
+The case for automatic dependency updates is simple and seductive:
+ A bot would automatically scan your dependencies in your source code and create pull requests to update your libraries to the latest versions, sometimes even automatically merging it in."><meta itemprop=datePublished content="2023-04-21T00:00:00+00:00">
+<meta itemprop=dateModified content="2023-04-21T00:00:00+00:00">
+<meta itemprop=wordCount content="1093">
+<meta itemprop=keywords content="appsec,security,dependencies,scale,"><meta name=twitter:card content="summary">
+<meta name=twitter:title content="The Case Against Automatic Dependency Updates">
+<meta name=twitter:description content="The question of automatic dependency updates came up in our Slack channel the other day. There was a lot of nodding on how it is a good thing. Tools like Dependabot and Renovate were mentioned. Yet I was a dissenting voice. Why?
+The case for automatic dependency updates is simple and seductive:
+ A bot would automatically scan your dependencies in your source code and create pull requests to update your libraries to the latest versions, sometimes even automatically merging it in.">
 <script type=application/javascript>var doNotTrack=!1;doNotTrack||(window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga('create','UA-171035600-1','auto'),ga('send','pageview'))</script>
 <script async src=https://www.google-analytics.com/analytics.js></script>
 <link rel=me href=https://infosec.exchange/@beny23>
 </head>
 <body class="ma0 avenir bg-near-white production">
-<header class="cover bg-top" style=background-image:url(https://beny23.github.io/images/background.png)>
-<div class=bg-black-60>
+<header class="cover bg-top" style=background-image:url(https://beny23.github.io/images/automatic_dependency_updates_title.png)>
+<div class="pb3-m pb6-l bg-black-60">
 <nav class="pv3 ph3 ph4-ns" role=navigation>
 <div class="flex-l justify-between items-center center">
 <a href=/ class="f3 fw2 hover-white no-underline white-90 dib">
@@ -65,217 +74,163 @@ Tags
 </div>
 </div>
 </nav>
-<div class="tc-l pv4 pv6-l ph3 ph4-ns">
-<h1 class="f2 f-subheadline-l fw2 white-90 mb0 lh-title">
-security
-</h1>
+<div class="tc-l pv6 ph3 ph4-ns">
+<h1 class="f2 f1-l fw2 white-90 mb0 lh-title">The Case Against Automatic Dependency Updates</h1>
 </div>
 </div>
 </header>
 <main class=pb7 role=main>
-<article class="cf pa3 pa4-m pa4-l">
-<div class="measure-wide-l center f4 lh-copy nested-copy-line-height nested-links nested-img mid-gray">
-<p>Below you will find pages that utilize the taxonomy term “security”</p>
+<article class="flex-l flex-wrap justify-between mw8 center ph3">
+<header class="mt4 w-100">
+<aside class="instapaper_ignoref b helvetica tracked">
+POSTS
+</aside>
+<div id=sharing class=mt3>
+<a href="https://www.facebook.com/sharer.php?u=https://beny23.github.io/posts/automatic_dependency_updates/" class="facebook no-underline" aria-label="share on Facebook"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M28.765 50.32h6.744V33.998h4.499l.596-5.624h-5.095l.007-2.816c0-1.466.14-2.253 2.244-2.253h2.812V17.68h-4.5c-5.405.0-7.307 2.729-7.307 7.317v3.377h-3.369v5.625h3.369V50.32zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd"/></svg>
+</a>
+<a href="https://twitter.com/share?url=https://beny23.github.io/posts/automatic_dependency_updates/&text=The%20Case%20Against%20Automatic%20Dependency%20Updates" class="twitter no-underline" aria-label="share on Twitter"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</a>
+<a href="https://www.linkedin.com/shareArticle?mini=true&url=https://beny23.github.io/posts/automatic_dependency_updates/&title=The%20Case%20Against%20Automatic%20Dependency%20Updates" class="linkedin no-underline" aria-label="share on LinkedIn"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</a>
 </div>
+<h1 class="f1 athelas mt3 mb1">The Case Against Automatic Dependency Updates</h1>
+<time class="f6 mv4 dib tracked" datetime=2023-04-21T00:00:00Z>April 21, 2023</time>
+<span class="f6 mv4 dib tracked"> - 6 minutes read</span>
+<span class="f6 mv4 dib tracked"> - 1093 words</span>
+</header>
+<div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>The question of automatic dependency updates came up in our Slack channel the other day. There was a lot of nodding
+on how it is a good thing. Tools like <a href=https://github.blog/2020-06-01-keep-all-your-packages-up-to-date-with-dependabot/>Dependabot</a>
+and <a href=https://docs.renovatebot.com>Renovate</a> were mentioned. Yet I was a dissenting voice. Why?</p>
+<p>The case for automatic dependency updates is simple and seductive:</p>
+<ul>
+<li>A bot would automatically scan your dependencies in your source code and create pull requests to update your libraries
+to the latest versions, sometimes even automatically merging it in.</li>
+<li>&ldquo;it helps keeping things up to date a lot quicker&rdquo;</li>
+<li>&ldquo;it fixes supply chain problems quicker&rdquo;</li>
+</ul>
+<p>Now what is wrong with that? How could I not want to keep my dependencies up-to-date? Most of my work is in
+<a href=/tags/appsec/>AppSec</a> after all! I can practically hear the shouts of &ldquo;Heretic!&rdquo;</p>
+<p><img src=/images/automatic_dependency_updates_witch.png alt="Not updating your dependencies? Burn Him!"></p>
+<p>Furthermore, I&rsquo;ve previously shown what a pain <a href=https://beny23.github.io/posts/curating_vulnerabilities/>keeping on top of dependency vulnerabilities</a>
+is. Why not just update everything automatically and be safe automatically?</p>
+<p>I think the following obstacles need to be overcome:</p>
+<h1 id=continuous-integration>Continuous Integration</h1>
+<p>First of all, automatic dependency updates do require mature delivery pipelines. It&rsquo;s no good automatically updating
+your dependencies if building your system is a bottleneck. Or if the quality of your automated tests would not catch
+those subtle bugs that might be introduced because a minor library update pulls in a transitive dependency that is incompatible
+with another library and it sails through to production and suddenly things start breaking.</p>
+<p>It also means that long-lived feature branches are out. You wouldn&rsquo;t want your colleague to work on a new feature
+only to find that in the meantime a few libraries have changed and all their testing has gone out of the window.</p>
+<p>Hold on a minute! <a href=https://martinfowler.com/articles/continuousIntegration.html>Continuous integration</a> is a good
+thing. And <a href=https://thinkinglabs.io/articles/2021/04/26/on-the-evilness-of-feature-branching.html>long-lived branches are a bad thing</a>.
+What about my dissenting voice? Well, good practice does not happen everywhere. I&rsquo;ve experienced plenty of places where
+working in this manner is still alien. GitFlow is still abundantly practiced despite it being a <a href=https://youtu.be/_w6TwnLCFwA>bad idea</a>.</p>
+<p>If you&rsquo;re unlucky enough to be in one of those places, automatically updating dependencies might not be a good idea.</p>
+<h1 id=continuous-delivery>Continuous Delivery</h1>
+<p>So let&rsquo;s assume you are building your software quickly. What about releasing it? How easy is it for you to get
+those automatically updated dependencies into production? Does it happen as part of your pipeline? Are you practicing
+<a href=https://www.equalexperts.com/blog/our-thinking/what-is-you-build-it-you-run-it/>You Build It You Run It</a>? Or
+is there a complicated bureaucratic release process? Do you have to book a slot with the Change Advisory Board (CAB)
+and get the green light to release a new version of your software from &ldquo;the business&rdquo;. Or do you have change freezes
+during &ldquo;Key Business Events&rdquo;?</p>
+<p>In such places it might not be the best idea to push for automatically updating dependencies.</p>
+<h1 id=maintenance-at-scale>Maintenance at Scale</h1>
+<p>Let&rsquo;s assume that you are continuously building, you have good automated tests, and can deploy quickly and without
+paperwork. Sounds like bliss? But what if your team is looking after 100 services? This is quite common in software. All
+too often, services are created by project teams that crank out feature after feature and then the team gets disbanded
+or moved on when the project is finished and the service enters maintenance mode. But software is
+<a href=https://www.stevesmith.tech/blog/the-maintenance-mode-myth/>never finished</a>. Someone has to look after it. Fix bugs.
+Make small changes. Implement new requirements. And update dependencies.</p>
+<p>It might sound tempting to just automate the dependency updates, but I think that at scale it is not feasible to make
+lots of changes just because a dependency gets updated. If there is that subtle bug that might only found in
+production, overworked live teams often don&rsquo;t get the time to monitor all the deployments and look for signs of things
+subtly going wrong.</p>
+<p>Automatically updating dependencies might not such a good idea then.</p>
+<h1 id=legacy-software>Legacy software</h1>
+<p>Commonly the software we&rsquo;re looking after is old. With dependencies that are out of support and no longer updated.
+It should be added that &ldquo;old&rdquo; does not mean &ldquo;bad&rdquo;. There is a lot of ancient software at the heart of government,
+defence, banks, insurance and retail operations. It&rsquo;s usually those services that makes money or are the most critical
+for successful operations.</p>
+<p>How do you update dependencies then? All too often, the only way to fix a vulnerability is to change the dependency to
+a new major version or a completely different library. Automatic updates do not help there.</p>
+<h1 id=but-but-but-security>But but but security?</h1>
+<p>What about security? And supply chain attacks? I&rsquo;m in the <a href=https://snyk.io/blog/red-teams-vs-blue-teams/>blue team</a>.
+Surely I want to update as quickly as I can?</p>
+<p>There&rsquo;s a brilliant illustration of the problem of dependencies:</p>
+<p><img src=/images/automatic_dependency_updates_black_hole.png alt="Heaviest objects in the universe: Node modules"></p>
+<p>But it isn&rsquo;t just Node.js services that pull in a ridiculous amount of libraries. At the time of writing, I am currently
+in a Scala shop and I counted 438 JAR files in one of our services. Dependency hell is not just a special place
+for Javascript developers.</p>
+<p>In order to navigate this hell, it is important to realise what impact vulnerabilities can have. In
+<a href=https://beny23.github.io/posts/curating_vulnerabilities/>Curating Dependency Vulnerabilities</a> I show how that many vulnerabilities
+are false positives. In <a href=https://beny23.github.io/posts/on_weaponisation_of_open_source/>on the weaponisation of open source</a>
+I explore how automatically updating can have negative impact without it being traditional supply chain poisoning.</p>
+<h1 id=update-with-intent>Update with Intent</h1>
+<p>This is why I think that software should be updated with intent. It should be a positive choice to make an update to a
+dependency. Otherwise, I think there is a risk that complacency creeps in. If there&rsquo;s a system in place that
+updates my dependencies automatically, how likely am I to investigate the supply chain and miss vulnerable
+transitive dependencies for which there is no fix yet?</p>
+<p>There&rsquo;s another point, I actually don&rsquo;t think the automated tools that update dependencies save that much time.
+I mean how difficult is it really to go to your repository, find the library definitions in <code>package.json</code>, <code>build.sbt</code>
+or <code>pom.xml</code> and update a couple of version numbers. The code change is a 5-minute job. Especially when github allows
+editing files and creating a PR from within your browser. It&rsquo;s all the other bits, the testing,
+the verification, the paperwork, the deployments that take time.</p>
+<p>Note, I am not a Luddite. I am all for automation. But I&rsquo;d rather automate the detection of possible problems rather
+than the fixing of it, because more often than not, the fix is never that simple.</p>
+<p>For an alternative viewpoint, I highly recommend reading
+<a href=https://www.cosotateam.com/post/automating-dependency-updates-the-big-debate>Automating dependency updates: the big debate</a></p>
+<p>What is right for you? The answer - as with so many things in Software Engineering - is inevitably &ldquo;it depends&rdquo;.</p>
+<b>Tags</b>
+<a href=https://beny23.github.io/tags/appsec/>appsec</a> <a href=https://beny23.github.io/tags/security/>security</a> <a href=https://beny23.github.io/tags/dependencies/>dependencies</a> <a href=https://beny23.github.io/tags/scale/>scale</a>
+<p>
+If you'd like to find more of my writing, why not follow me on
+<a href=https://twitter.com/giskard23 title="Twitter link" rel=noopener aria-label="follow on Twitter - Opens in a new window">Twitter</a> or
+<a href=https://infosec.exchange/@beny23 title="Mastodon link" rel=noopener aria-label="follow on Mastodon - Opens in a new window">Mastodon</a>?
+</p>
+<div class="mt6 instapaper_ignoref">
+</div>
+</div>
+<aside class="w-30-l mt6-l">
+<div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+<p class="f5 b mb3">Related</p>
+<ul class="pa0 list">
+<li class=mb2>
+<a href=/posts/harvesting_logs_for_fun_and_profit/>Harvesting Logs for Fun and Profit</a>
+</li>
+<li class=mb2>
+<a href=/posts/why_appsec_fails/>Why AppSec fails</a>
+</li>
+<li class=mb2>
+<a href=/posts/precision_munitions_for_denial_of_service/>Precision Munitions for Denial of Service</a>
+</li>
+<li class=mb2>
+<a href=/posts/curating_vulnerabilities/>Curating Dependency Vulnerabilities</a>
+</li>
+<li class=mb2>
+<a href=/posts/on_weaponisation_of_open_source/>On the weaponisation of open source</a>
+</li>
+<li class=mb2>
+<a href=/posts/pwnkit_how_to_check_and_exploit/>Pwnkit: How to exploit and check</a>
+</li>
+<li class=mb2>
+<a href=/posts/one_plus_one_is_crash/>Exponential exploit: Why AppSec is hard</a>
+</li>
+<li class=mb2>
+<a href=/posts/coerced_to_make_xerces_think/>Coerced to make Xerces think</a>
+</li>
+<li class=mb2>
+<a href=/posts/how_i_learned_to_stop_worrying_and_love_a_vulnerability/>How I learned to stop worrying and love a vulnerability</a>
+</li>
+<li class=mb2>
+<a href=/posts/hiding_xxe_in_spreadsheets/>Hiding XXE in Spreadsheets</a>
+</li>
+<li class=mb2>
+<a href=/posts/laughing_out_loud_malicious_auth/>Laughing out loud - Malicious Reauthentication</a>
+</li>
+</ul>
+</div>
+</aside>
 </article>
-<div class="mw8 center">
-<section class="flex-ns flex-wrap justify-around mt5">
-<div class="relative w-100 mb4 bg-white">
-<div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/automatic_dependency_updates/ class="link black dim">
-The Case Against Automatic Dependency Updates
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-The question of automatic dependency updates came up in our Slack channel the other day. There was a lot of nodding on how it is a good thing. Tools like Dependabot and Renovate were mentioned. Yet I was a dissenting voice. Why?
-The case for automatic dependency updates is simple and seductive:
-A bot would automatically scan your dependencies in your source code and create pull requests to update your libraries to the latest versions, sometimes even automatically merging it in.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 mb4 bg-white">
-<div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/harvesting_logs_for_fun_and_profit/ class="link black dim">
-Harvesting Logs for Fun and Profit
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-From a security point of view, application logs are two-sided. On the one hand, it is really important to have good observability, to find out what is happening and what has happened. On the other hand, we don&rsquo;t want to leak sensitive information. In this post I am going to look at the kinds of things you might find in your logs. The juicy bits are Personal Identifying Information (PII) or security credentials.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 mb4 bg-white">
-<div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/why_appsec_fails/ class="link black dim">
-Why AppSec fails
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-Let me tell you a story about Application Security (AppSec). It contains heroes and villains, and I&rsquo;m not necessarily thinking about the defenders and attackers here. It contains lots of interesting technology that is often overemphasised. We&rsquo;ve got whole industries that work on letting us know how scary it is out there, vulnerabilities that are marketed like rock stars and terminology that makes you quiver in your boots: who would want to fall victim to an Advanced Persistent Threat (APT)?
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 mb4 bg-white">
-<div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/precision_munitions_for_denial_of_service/ class="link black dim">
-Precision Munitions for Denial of Service
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-There&rsquo;s a metaphor about the fight between attackers and defenders in the Denial of Service cybersecurity game. It&rsquo;s an &ldquo;arms race&rdquo; between ever bigger attacks throwing huge amounts of traffic at ever more sophisticated defenses (e.g. AWS shield).
-Incidentally, I&rsquo;ve just demonstrated an easy mistake: I&rsquo;m not describing a Denial of Service (DoS) attack, it&rsquo;s a Distributed Denial of Service (DDoS) attack. The aim is to overwhelm the infrastructure, either the networking infrastructure or the application by sending more requests than can be handled.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 mb4 bg-white">
-<div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/curating_vulnerabilities/ class="link black dim">
-Curating Dependency Vulnerabilities
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-In this post, I am going to look at an increasingly important part of securing applications: Your supply chain. This includes every library, tool or service that you are using to build, run and monitor your service.
-When the log4shell vulnerability hit, it wasn&rsquo;t just a matter of looking at the dependencies that your source code pulls in, but also at the infrastructure you&rsquo;re using and the build pipeline.
-Have you had a look at the vulnerability reports of your dependencies lately?
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 mb4 bg-white">
-<div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/on_weaponisation_of_open_source/ class="link black dim">
-On the weaponisation of open source
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-First of all I need the preface this article on how much I abhor the Russian invasion of Ukraine and I wholeheartedly support the sanctions. However, I think the conflict has spilled over into areas of software development that have got some unintended consequences attached.
-As part of this post, I&rsquo;m going to look at
-the decision by MongoDB to cut off services in Russia the destructive change in a node library that deleted files on Russian IPs a change in code/licence in a community terraform module to assert that Putin is a dickhead MongoDB cutting off Russian customers MongoDB is a company and in order to comply with sanctions they have decided to cut off Russian customers.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 mb4 bg-white">
-<div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/pwnkit_how_to_check_and_exploit/ class="link black dim">
-Pwnkit: How to exploit and check
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-Pwnkit is a vulnerability that uses a bug in polkit to elevate permissions to root. This write-up shows how to reproduce it using Ubuntu and what to do to check whether a system is vulnerable.
-What went wrong? Quoting from the original researchers:
-This vulnerability is an attacker&rsquo;s dream come true:
-pkexec is installed by default on all major Linux distributions; pkexec is vulnerable since its creation, in May 2009; any unprivileged local user can exploit this vulnerability to obtain full root privileges; although this vulnerability is technically a memory corruption, it is exploitable instantly, reliably, in an architecture-independent way; and it is exploitable even if the polkit daemon itself is not running.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 mb4 bg-white">
-<div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/one_plus_one_is_crash/ class="link black dim">
-Exponential exploit: Why AppSec is hard
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-In this blog post, I would like to explore how missing input validation even in a trivial service can leave parts of server infrastructure crumbling.
-In my opinion, this why securing applications (AppSec) is very difficult. Put supply chain attacks, unpatched systems and misconfiguring services to one side for a minute and consider that a lot of software is written by developers who do not necessarily consider all the edge cases or implications of what can go wrong even in the simplest of pieces of code (or just copy/paste from Stackoverflow).
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 mb4 bg-white">
-<div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/coerced_to_make_xerces_think/ class="link black dim">
-Coerced to make Xerces think
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-More and more I&rsquo;m thinking that XML is evil! This is the third part of my series on why, as a software engineer, it is very useful to think about the potentially dangerous combination of outdated libraries and XML.
-I recently carried out a review of the dependency scanning results CVE-2012-0881:
-Apache Xerces2 Java allows remote attackers to cause a denial of service (CPU consumption) via a crafted message to an XML service, which triggers hash table collisions.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 mb4 bg-white">
-<div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/how_i_learned_to_stop_worrying_and_love_a_vulnerability/ class="link black dim">
-How I learned to stop worrying and love a vulnerability
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-Security specialists. Arghhh! They&rsquo;re all sitting in their &lsquo;ivory tower&rsquo; without anything better to do than to take a baseball bat to your hard work and tell you how you&rsquo;ve not considered some obscure vulnerability CVE-142341231/4234 in a library that you didn&rsquo;t even know existed. Not only that, there is definitely no way that you can deploy now, even when the product owner is breathing down your neck saying that nobody is going home until we&rsquo;ve fixed this!
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 mb4 bg-white">
-<div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/hiding_xxe_in_spreadsheets/ class="link black dim">
-Hiding XXE in Spreadsheets
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-Recently I tried to poke holes in a service. I found myself laughing out loud. This was a vulnerability whereby modifying a SAML authentication while being rePOSTed via the browser allowed me to inject a malicious payload (see XML External Entity (XXE) Processing and XML External Entity (XXE) Prevention Cheat Sheet) that could be used to use up a service&rsquo;s memory and CPU. Health checks and automatic service restarts would have healed the service but it still would have allowed an attacker to mount a Denial of Service attack without needing a lot of requests.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 mb4 bg-white">
-<div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/laughing_out_loud_malicious_auth/ class="link black dim">
-Laughing out loud - Malicious Reauthentication
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-Background I had found a vulnerability that made it is possible to insert maliciously crafted XML into the SAML payload that a reauthentication application returned to perform a Denial of Service (DoS) attack. The vulnerability came about due to the use of a out-of-date but still widely used library.
-The service could have been made to consume a lot of CPU and memory causing it respond very slowly if at all.
-</div>
-</div>
-</div>
-</div>
-</section>
-</div>
 </main>
 <footer class="bg-black bottom-0 w-100 pa3" role=contentinfo>
 <div class="flex justify-between">
