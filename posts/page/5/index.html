@@ -80,6 +80,23 @@ Posts
 <div class="bg-white mb3 pa4 gray overflow-hidden">
 <span class="f6 db">Posts</span>
 <h1 class="f3 near-black">
+<a href=https://beny23.github.io/posts/rds_tcps_db_link/ class="link black dim">
+Fixing Oracle DB Link Certificate Errors in RDS
+</a>
+</h1>
+<div class="nested-links f5 lh-copy nested-copy-line-height">
+After upgrading my AWS RDS instance from Oracle 11g Oracle 19c, my DB Link stopped working with a certificate error. Uh-oh.
+The symptoms of the problem that I encountered are best summed up by this SQL*Plus snippet:
+SQL> select * from dual@test1; select * from dual@test1 * ERROR at line 1: ORA-29024: Certificate validation failure A bit of context:
+The above is testing an Oracle Database Link &ldquo;test1&rdquo; which was created using the TCPS protocol (i.
+</div>
+</div>
+</div>
+</div>
+<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
+<div class="bg-white mb3 pa4 gray overflow-hidden">
+<span class="f6 db">Posts</span>
+<h1 class="f3 near-black">
 <a href=https://beny23.github.io/posts/social_network_distance/ class="link black dim">
 Social network distance
 </a>
