@@ -2,27 +2,30 @@
 <head>
 <meta charset=utf-8>
 <meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
-<title>Tales about Software Engineering</title>
+<title>BSides Leeds 2023: Get the basics right | Tales about Software Engineering</title>
 <meta name=viewport content="width=device-width,minimum-scale=1">
 <meta name=generator content="Hugo 0.92.0">
 <meta name=ROBOTS content="INDEX, FOLLOW">
 <link href=/dist/css/app.4fc0b62e4b82c997bb0041217cd6b979.css rel=stylesheet>
-<link href=/posts/index.xml rel=alternate type=application/rss+xml title="Tales about Software Engineering">
-<link href=/posts/index.xml rel=feed type=application/rss+xml title="Tales about Software Engineering">
-<meta property="og:title" content="Posts">
-<meta property="og:description" content="Writings about software: development and security">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://beny23.github.io/posts/">
-<meta itemprop=name content="Posts">
-<meta itemprop=description content="Writings about software: development and security"><meta name=twitter:card content="summary">
-<meta name=twitter:title content="Posts">
-<meta name=twitter:description content="Writings about software: development and security">
+<meta property="og:title" content="BSides Leeds 2023: Get the basics right">
+<meta property="og:description" content="It is a couple of weeks after my trip to Leeds to go speak at BSides. Now, if you&rsquo;ve never been to a BSides - and I had only been to one prior - then hopefully this gives you a bit of a feel as to what to expect. In short, there&rsquo;s lots of interesting people with great talks and insights and something that feels just right. A bit of community and some weird people.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://beny23.github.io/posts/bsides_leeds_2023/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2023-07-04T00:00:00+00:00">
+<meta property="article:modified_time" content="2023-07-04T00:00:00+00:00">
+<meta itemprop=name content="BSides Leeds 2023: Get the basics right">
+<meta itemprop=description content="It is a couple of weeks after my trip to Leeds to go speak at BSides. Now, if you&rsquo;ve never been to a BSides - and I had only been to one prior - then hopefully this gives you a bit of a feel as to what to expect. In short, there&rsquo;s lots of interesting people with great talks and insights and something that feels just right. A bit of community and some weird people."><meta itemprop=datePublished content="2023-07-04T00:00:00+00:00">
+<meta itemprop=dateModified content="2023-07-04T00:00:00+00:00">
+<meta itemprop=wordCount content="636">
+<meta itemprop=keywords content="bsides,conference,security,"><meta name=twitter:card content="summary">
+<meta name=twitter:title content="BSides Leeds 2023: Get the basics right">
+<meta name=twitter:description content="It is a couple of weeks after my trip to Leeds to go speak at BSides. Now, if you&rsquo;ve never been to a BSides - and I had only been to one prior - then hopefully this gives you a bit of a feel as to what to expect. In short, there&rsquo;s lots of interesting people with great talks and insights and something that feels just right. A bit of community and some weird people.">
 <link rel=me href=https://infosec.exchange/@beny23>
 <script data-goatcounter=https://beny23.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
 </head>
 <body class="ma0 avenir bg-near-white production">
-<header class="cover bg-top" style=background-image:url(https://beny23.github.io/images/background.png)>
-<div class=bg-black-60>
+<header class="cover bg-top" style=background-image:url(https://beny23.github.io/images/bsides_leeds_2023_title.png)>
+<div class="pb3-m pb6-l bg-black-60">
 <nav class="pv3 ph3 ph4-ns" role=navigation>
 <div class="flex-l justify-between items-center center">
 <a href=/ class="f3 fw2 hover-white no-underline white-90 dib">
@@ -64,203 +67,140 @@ Tags
 </div>
 </div>
 </nav>
-<div class="tc-l pv4 pv6-l ph3 ph4-ns">
-<h1 class="f2 f-subheadline-l fw2 white-90 mb0 lh-title">
-Posts
-</h1>
+<div class="tc-l pv6 ph3 ph4-ns">
+<h1 class="f2 f1-l fw2 white-90 mb0 lh-title">BSides Leeds 2023: Get the basics right</h1>
 </div>
 </div>
 </header>
 <main class=pb7 role=main>
-<article class="pa3 pa4-ns nested-copy-line-height nested-img">
-<section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy mid-gray"></section>
-<section class="flex-ns flex-wrap justify-around mt5">
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/notes_from_a_small_conference/ class="link black dim">
-The agile power of saying no
+<article class="flex-l flex-wrap justify-between mw8 center ph3">
+<header class="mt4 w-100">
+<aside class="instapaper_ignoref b helvetica tracked">
+POSTS
+</aside>
+<div id=sharing class=mt3>
+<a href="https://www.facebook.com/sharer.php?u=https://beny23.github.io/posts/bsides_leeds_2023/" class="facebook no-underline" aria-label="share on Facebook"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M28.765 50.32h6.744V33.998h4.499l.596-5.624h-5.095l.007-2.816c0-1.466.14-2.253 2.244-2.253h2.812V17.68h-4.5c-5.405.0-7.307 2.729-7.307 7.317v3.377h-3.369v5.625h3.369V50.32zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd"/></svg>
 </a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-I am sitting on the train as I type this coming back from my first IRL conference. Lean Agile Scotland 2022 was brilliant. I met so many people with ideas that just chime with my thinking on agile, I feel energised and full of ideas
-No Bugs No Decisions No Deadlines No Fear What follows are some thoughts that I took away from some of sessions the conference. There were lots of exciting talks and workshops and it was a pity that I couldn&rsquo;t clone myself to go to more of them (I was gutted to miss sessions that coincided with my own talk).
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/agile_india_2022_speaker_interview_questions_3/ class="link black dim">
-What do you think are the most exciting developments in software product engineering today?
+<a href="https://twitter.com/share?url=https://beny23.github.io/posts/bsides_leeds_2023/&text=BSides%20Leeds%202023:%20Get%20the%20basics%20right" class="twitter no-underline" aria-label="share on Twitter"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
 </a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-This is part of my series of interview questions for Agile India 2022.
-Thinking about exciting developments in software development as a developer immediately brings magpies to mind. What is the latest technology that can grab our attention. What&rsquo;s the latest shiny? Could it be some crypto tech? Some no-code development? Or programming in the metaverse maybe?
-No, no, and NO! Crypto is a scourge that wastes energy, kills the planet and destroys lives, no-code and low code will mean some actual software engineers will have to pick up the pieces when it inevitably will go wrong and the metaverse (second second life) looks to be a great way to make the web as tedious to use than going to an actual shop where you can&rsquo;t find anything because the items have moved to another shelf yet again.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/agile_india_2022_speaker_interview_questions_2/ class="link black dim">
-What do you think is the biggest challenge faced by the software product engineering community today?
+<a href="https://www.linkedin.com/shareArticle?mini=true&url=https://beny23.github.io/posts/bsides_leeds_2023/&title=BSides%20Leeds%202023:%20Get%20the%20basics%20right" class="linkedin no-underline" aria-label="share on LinkedIn"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
 </a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-This is part of my series of interview questions for Agile India 2022.
-It is difficult to articulate what the biggest challenge to software product engineering is, because there&rsquo;s a fair few of them, so I&rsquo;ll try to describe a few of my bug bears.
-Process over people In my opinion, a huge issue that we unfortunately find all too often is when the principles of the agile manifesto are ignored or not applied.
+</div>
+<h1 class="f1 athelas mt3 mb1">BSides Leeds 2023: Get the basics right</h1>
+<time class="f6 mv4 dib tracked" datetime=2023-07-04T00:00:00Z>July 4, 2023</time>
+<span class="f6 mv4 dib tracked"> - 3 minutes read</span>
+<span class="f6 mv4 dib tracked"> - 636 words</span>
+</header>
+<div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>It is a couple of weeks after my trip to Leeds to go speak at BSides. Now, if you&rsquo;ve never been to a BSides -
+and I had only been to one prior - then hopefully this gives you a bit of a feel as to what to expect. In short,
+there&rsquo;s lots of interesting people with great talks and insights and something that feels just right. A bit of
+community and some weird people. Weird in a very good way!</p>
+<p>Now, I have to admit, that at the beginning I was a little bit put off by all this puff-piecery on how important
+this spirit of community was and how BSides can be considered family. Note my slightly skeptical body posture:</p>
+<p><img src=/images/bsides_leeds_2023_skeptic.png alt="BSides audience"></p>
+<p>But by the end of the day, I was very much a convert and already wondering how I would broach the subject of going
+away for more conferences with my long-suffering wife.</p>
+<h1 id=tell-us-about-the-talks>Tell us about the talks</h1>
+<p>There were many highlights during the keynotes and talks of the red, blue and purple tracks and I tried to go to as
+many as I could, but a couple of patterns emerged:</p>
+<h1 id=get-the-basics-right>Get the Basics Right</h1>
+<p>Security is not about the latest zero-day or a complicated kill chain linking together 6 vulnerabilities. Of course,
+these are the things that sound sexy or allow you to register domain names for a cool sounding threat moniker, but more often
+than not an unsecured network share with a list of passports by applicants will bear more fruit than the latest
+l33t sk1llz.</p>
+<p><img src=/images/bsides_leeds_2023_basics.png alt="Getting the basics right"></p>
+<p>It is not also about going straight to a red team supplier and getting them to physically break into your office and
+hack into the printer while wearing black pyjamas. That&rsquo;s no use if you have not even had a pen test.
+Or you had a pen test but haven&rsquo;t implemented the recommendations.</p>
+<p>Getting the basics right is the first advice from red, blue and purple teams. I&rsquo;m still a tad unclear as to what
+the exact differences are, just that the red keynote ribbed the blue team, the blue team speaker made fun of purple
+and the purple keynote was more profane that anything. Profane is not a typo. <code>#youhadtobethere</code></p>
+<p><img src=/images/bsides_leeds_2023_spidermen.png alt="Spidermen meme"></p>
+<h1 id=experimental>Experimental</h1>
+<p>One of my favourite speakers on the day was <a href=https://twitter.com/coffee_fueled>James Bore</a> who took his talk down
+a very fundamental rabbit hole, making us question what is meant by &ldquo;a business&rdquo;, what is meant by &ldquo;security&rdquo; and
+&ldquo;safety&rdquo;. Illustrating once more that getting the basics right and even questioning the language that we&rsquo;re using
+make such a big difference.</p>
+<p><img src=/images/bsides_leeds_2023_james_bore.png alt="James Bore"></p>
+<p>I was reminded of Ian Levy changing the abbreviation of &ldquo;APT&rdquo; from Advanced Persistent Threat to
+<a href=https://www.theregister.com/2017/02/03/security_threat_solutions/>Adequate Pernicious Toe-rag</a>. It changes the
+threat landscape a little bit if instead of throwing money at vendors to save us from Matrix-style uberhackers that
+will pwn us no matter what, we think a little bit about the risks.</p>
+<p><img src=/images/bsides_leeds_2023_shut_up_and_take_my_money.jpg alt="Shut up and take my money"></p>
+<p>Talking of money, I very much enjoyed <a href=https://twitter.com/lisaforteuk>Lisa Forte</a>&rsquo;s demotivational posters about
+how to deal with ransomware</p>
+<p><img src=/images/bsides_leeds_2023_paying_ransomware.png alt="Demotivational Ransomware Posters"></p>
+<h1 id=was-it-all-talk>Was it all talk?</h1>
+<p>Well, it was a shame that the programme was so packed. I did manage to pop my head into the
+<a href=https://www.infosecbattlebots.com>InfoSec Battle Bots</a> and pick up a couple of stickers at the sponsor stalls.
+But I didn&rsquo;t get to do the lockpicking or car hacking or the scavenger hunt (though that might have been a good thing,
+judging by the fact that when I sat in the green room I was most amused by a conversation about whether shaving
+eyebrows off could be eligible for scavenger hunt points or not - like I said, weird but in a good way).</p>
+<p>I thoroughly enjoyed the day. Oh and I did a talk based on <a href=https://beny23.github.io/posts/precision_munitions_for_denial_of_service/>this post</a> too. Which was fun!</p>
+<p>Thank you <a href=https://bsidesleeds.com/meet-the-team/>BSides Leeds</a>. Community rocks! Go if you have the chance!</p>
+<b>Tags</b>
+<a href=https://beny23.github.io/tags/bsides/>bsides</a> <a href=https://beny23.github.io/tags/conference/>conference</a> <a href=https://beny23.github.io/tags/security/>security</a>
+<p>
+If you'd like to find more of my writing, why not follow me on
+<a href=https://twitter.com/giskard23 title="Twitter link" rel=noopener aria-label="follow on Twitter - Opens in a new window">Twitter</a> or
+<a href=https://infosec.exchange/@beny23 title="Mastodon link" rel=noopener aria-label="follow on Mastodon - Opens in a new window">Mastodon</a>?
+</p>
+<div class="mt6 instapaper_ignoref">
 </div>
 </div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/agile_india_2022_speaker_interview_questions/ class="link black dim">
-What got you started in modern software development methods?
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-After being accepted for speaking at Agile India 2022 I was asked a few questions. I figured rather than a paragraph, the questions would make interesting blog posts:
-I came to agile completely the wrong way. I&rsquo;ve been developing software professionally since I was a teenager and was lucky enough to start out with projects where I was given plenty of agency to decide on how to tackle problems and the independence to make my own mistakes and learn from them.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/my_take_on_engineering_room_9/ class="link black dim">
-Less is more agile
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-Dave Farley and Allen Holub are two people that I respect hugely when it comes to Software Development. I&rsquo;ve been following them on twitter for quite a while, and am always taken in about their takes on driving continuous delivery and &ldquo;lowercase agile&rdquo; forward. So when both came together for Dave&rsquo;s Engineering Room (sponsored by Equal Experts, who I work with), it was bound to be very interesting.
-In this post I try to outline my key takeaways from watching the chat.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/simple_and_secure_services_for_all/ class="link black dim">
-A mission statement that actually makes sense
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-I was really positively and pleasantly surprised when I found out what HMRC Digital&rsquo;s mission statement was.
-Normally, I am not a fan of mission statements. They usually read like this:
-Our mission is focused on six core aspirations the company continually strives to achieve&mldr;
-Or some such drivel. Verbal gymnastics to make a company sound like everything to everyone - without being offensive to anyone - which then gets used to &ldquo;align&rdquo; people on mandated fun days.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/curating_vulnerabilities/ class="link black dim">
-Curating Dependency Vulnerabilities
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-In this post, I am going to look at an increasingly important part of securing applications: Your supply chain. This includes every library, tool or service that you are using to build, run and monitor your service.
-When the log4shell vulnerability hit, it wasn&rsquo;t just a matter of looking at the dependencies that your source code pulls in, but also at the infrastructure you&rsquo;re using and the build pipeline.
-Have you had a look at the vulnerability reports of your dependencies lately?
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/catalogue_deepdive/ class="link black dim">
-How to run a Digital Platform at Scale
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-This post peels back the covers on what it is like to work with a large digital platform. The platform in question is MDTP - Multichannel Digital Tax Platform, which supports a UK-based tax collection agency which is using a hyperscale cloud provider with a sideline in books.
-I&rsquo;ve previously described what it is like to work in MDTP (Making Software. Quickly) during the Covid-19 responses that allowed the UK government to provide financial support for millions turning around projects in record time.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/on_weaponisation_of_open_source/ class="link black dim">
-On the weaponisation of open source
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-First of all I need the preface this article on how much I abhor the Russian invasion of Ukraine and I wholeheartedly support the sanctions. However, I think the conflict has spilled over into areas of software development that have got some unintended consequences attached.
-As part of this post, I&rsquo;m going to look at
-the decision by MongoDB to cut off services in Russia the destructive change in a node library that deleted files on Russian IPs a change in code/licence in a community terraform module to assert that Putin is a dickhead MongoDB cutting off Russian customers MongoDB is a company and in order to comply with sanctions they have decided to cut off Russian customers.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/what_makes_a_good_developer/ class="link black dim">
-What makes a good developer
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-A few days back as part of a general discussion about interviewing at Equal Experts, we looked at the question &ldquo;What makes a good developer?&rdquo; Could we come up with a list of qualities in a developer that we&rsquo;d want to look for? This post illustrates my thinking.
-Why do you ask? To put it in a bit of context, I&rsquo;m a software developer, I&rsquo;m not a recruiter, but I&rsquo;ve been involved with technical interviewing for quite a while, and have marked a fair number of take-home tests over the years, but recently we thought that the experience was not as good as it could be.
-</div>
-</div>
-</div>
-</div>
-</section>
-<ul class="pagination pagination-default">
-<li class=page-item>
-<a href=/posts/ aria-label=First class=page-link role=button><span aria-hidden=true>&#171;&#171;</span></a>
+<aside class="w-30-l mt6-l">
+<div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+<p class="f5 b mb3">Related</p>
+<ul class="pa0 list">
+<li class=mb2>
+<a href=/posts/devops_enterprise_summit_2023_wednesday/>DevOps Enterprise Summit - airport culture</a>
 </li>
-<li class=page-item>
-<a href=/posts/ aria-label=Previous class=page-link role=button><span aria-hidden=true>&#171;</span></a>
+<li class=mb2>
+<a href=/posts/devops_enterprise_summit_2023_tuesday/>DevOps Enterprise Summit - simple paper cranes</a>
 </li>
-<li class=page-item>
-<a href=/posts/ aria-label="Page 1" class=page-link role=button>1</a>
+<li class=mb2>
+<a href=/posts/automatic_dependency_updates/>The Case Against Automatic Dependency Updates</a>
 </li>
-<li class="page-item active">
-<a aria-current=page aria-label="Page 2" class=page-link role=button>2</a>
+<li class=mb2>
+<a href=/posts/harvesting_logs_for_fun_and_profit/>Harvesting Logs for Fun and Profit</a>
 </li>
-<li class=page-item>
-<a href=/posts/page/3/ aria-label="Page 3" class=page-link role=button>3</a>
+<li class=mb2>
+<a href=/posts/why_appsec_fails/>Why AppSec fails</a>
 </li>
-<li class=page-item>
-<a href=/posts/page/4/ aria-label="Page 4" class=page-link role=button>4</a>
+<li class=mb2>
+<a href=/posts/precision_munitions_for_denial_of_service/>Precision Munitions for Denial of Service</a>
 </li>
-<li class=page-item>
-<a href=/posts/page/5/ aria-label="Page 5" class=page-link role=button>5</a>
+<li class=mb2>
+<a href=/posts/notes_from_a_small_conference/>The agile power of saying no</a>
 </li>
-<li class=page-item>
-<a href=/posts/page/3/ aria-label=Next class=page-link role=button><span aria-hidden=true>&#187;</span></a>
+<li class=mb2>
+<a href=/posts/curating_vulnerabilities/>Curating Dependency Vulnerabilities</a>
 </li>
-<li class=page-item>
-<a href=/posts/page/6/ aria-label=Last class=page-link role=button><span aria-hidden=true>&#187;&#187;</span></a>
+<li class=mb2>
+<a href=/posts/on_weaponisation_of_open_source/>On the weaponisation of open source</a>
 </li>
-</ul></article>
+<li class=mb2>
+<a href=/posts/pwnkit_how_to_check_and_exploit/>Pwnkit: How to exploit and check</a>
+</li>
+<li class=mb2>
+<a href=/posts/one_plus_one_is_crash/>Exponential exploit: Why AppSec is hard</a>
+</li>
+<li class=mb2>
+<a href=/posts/coerced_to_make_xerces_think/>Coerced to make Xerces think</a>
+</li>
+<li class=mb2>
+<a href=/posts/how_i_learned_to_stop_worrying_and_love_a_vulnerability/>How I learned to stop worrying and love a vulnerability</a>
+</li>
+<li class=mb2>
+<a href=/posts/hiding_xxe_in_spreadsheets/>Hiding XXE in Spreadsheets</a>
+</li>
+<li class=mb2>
+<a href=/posts/laughing_out_loud_malicious_auth/>Laughing out loud - Malicious Reauthentication</a>
+</li>
+</ul>
+</div>
+</aside>
+</article>
 </main>
 <footer class="bg-black bottom-0 w-100 pa3" role=contentinfo>
 <div class="flex justify-between">
