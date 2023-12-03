@@ -2,27 +2,33 @@
 <head>
 <meta charset=utf-8>
 <meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
-<title>Tales about Software Engineering</title>
+<title>AI-dvent of Code 2023: Day 2 | Tales about Software Engineering</title>
 <meta name=viewport content="width=device-width,minimum-scale=1">
 <meta name=generator content="Hugo 0.92.0">
 <meta name=ROBOTS content="INDEX, FOLLOW">
 <link href=/dist/css/app.4fc0b62e4b82c997bb0041217cd6b979.css rel=stylesheet>
-<link href=/posts/index.xml rel=alternate type=application/rss+xml title="Tales about Software Engineering">
-<link href=/posts/index.xml rel=feed type=application/rss+xml title="Tales about Software Engineering">
-<meta property="og:title" content="Posts">
-<meta property="og:description" content="Writings about software: development and security">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://beny23.github.io/posts/">
-<meta itemprop=name content="Posts">
-<meta itemprop=description content="Writings about software: development and security"><meta name=twitter:card content="summary">
-<meta name=twitter:title content="Posts">
-<meta name=twitter:description content="Writings about software: development and security">
+<meta property="og:title" content="AI-dvent of Code 2023: Day 2">
+<meta property="og:description" content="After day 1 of Advent of Code was only partially successful, I thought I would change my approach. Yesterday I tried to get the LLM to develop the whole solution in one go. But that was more like argumentative programming rather than conversational programming, so for the day 2 puzzle I start with small problems and hope to put it all together at the end.
+Let&rsquo;s get started The problem looked quite straightforward, parse something like the following">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://beny23.github.io/posts/advent_of_code_2023_day_2_ai_experiments/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2023-12-03T00:00:00+00:00">
+<meta property="article:modified_time" content="2023-12-03T00:00:00+00:00">
+<meta itemprop=name content="AI-dvent of Code 2023: Day 2">
+<meta itemprop=description content="After day 1 of Advent of Code was only partially successful, I thought I would change my approach. Yesterday I tried to get the LLM to develop the whole solution in one go. But that was more like argumentative programming rather than conversational programming, so for the day 2 puzzle I start with small problems and hope to put it all together at the end.
+Let&rsquo;s get started The problem looked quite straightforward, parse something like the following"><meta itemprop=datePublished content="2023-12-03T00:00:00+00:00">
+<meta itemprop=dateModified content="2023-12-03T00:00:00+00:00">
+<meta itemprop=wordCount content="703">
+<meta itemprop=keywords content="functional,kotlin,advent-of-code,llm,"><meta name=twitter:card content="summary">
+<meta name=twitter:title content="AI-dvent of Code 2023: Day 2">
+<meta name=twitter:description content="After day 1 of Advent of Code was only partially successful, I thought I would change my approach. Yesterday I tried to get the LLM to develop the whole solution in one go. But that was more like argumentative programming rather than conversational programming, so for the day 2 puzzle I start with small problems and hope to put it all together at the end.
+Let&rsquo;s get started The problem looked quite straightforward, parse something like the following">
 <link rel=me href=https://infosec.exchange/@beny23>
 <script data-goatcounter=https://beny23.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
 </head>
 <body class="ma0 avenir bg-near-white production">
-<header class="cover bg-top" style=background-image:url(https://beny23.github.io/images/background.png)>
-<div class=bg-black-60>
+<header class="cover bg-top" style=background-image:url(https://beny23.github.io/images/advent_of_code_2023_day_2_ai_experiments_title.png)>
+<div class="pb3-m pb6-l bg-black-60">
 <nav class="pv3 ph3 ph4-ns" role=navigation>
 <div class="flex-l justify-between items-center center">
 <a href=/ class="f3 fw2 hover-white no-underline white-90 dib">
@@ -64,202 +70,177 @@ Tags
 </div>
 </div>
 </nav>
-<div class="tc-l pv4 pv6-l ph3 ph4-ns">
-<h1 class="f2 f-subheadline-l fw2 white-90 mb0 lh-title">
-Posts
-</h1>
+<div class="tc-l pv6 ph3 ph4-ns">
+<h1 class="f2 f1-l fw2 white-90 mb0 lh-title">AI-dvent of Code 2023: Day 2</h1>
 </div>
 </div>
 </header>
 <main class=pb7 role=main>
-<article class="pa3 pa4-ns nested-copy-line-height nested-img">
-<section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy mid-gray"></section>
-<section class="flex-ns flex-wrap justify-around mt5">
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/agile_india_2022_speaker_interview_questions/ class="link black dim">
-What got you started in modern software development methods?
+<article class="flex-l flex-wrap justify-between mw8 center ph3">
+<header class="mt4 w-100">
+<aside class="instapaper_ignoref b helvetica tracked">
+POSTS
+</aside>
+<div id=sharing class=mt3>
+<a href="https://www.facebook.com/sharer.php?u=https://beny23.github.io/posts/advent_of_code_2023_day_2_ai_experiments/" class="facebook no-underline" aria-label="share on Facebook"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M28.765 50.32h6.744V33.998h4.499l.596-5.624h-5.095l.007-2.816c0-1.466.14-2.253 2.244-2.253h2.812V17.68h-4.5c-5.405.0-7.307 2.729-7.307 7.317v3.377h-3.369v5.625h3.369V50.32zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd"/></svg>
 </a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-After being accepted for speaking at Agile India 2022 I was asked a few questions. I figured rather than a paragraph, the questions would make interesting blog posts:
-I came to agile completely the wrong way. I&rsquo;ve been developing software professionally since I was a teenager and was lucky enough to start out with projects where I was given plenty of agency to decide on how to tackle problems and the independence to make my own mistakes and learn from them.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/my_take_on_engineering_room_9/ class="link black dim">
-Less is more agile
+<a href="https://twitter.com/share?url=https://beny23.github.io/posts/advent_of_code_2023_day_2_ai_experiments/&text=AI-dvent%20of%20Code%202023:%20Day%202" class="twitter no-underline" aria-label="share on Twitter"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
 </a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-Dave Farley and Allen Holub are two people that I respect hugely when it comes to Software Development. I&rsquo;ve been following them on twitter for quite a while, and am always taken in about their takes on driving continuous delivery and &ldquo;lowercase agile&rdquo; forward. So when both came together for Dave&rsquo;s Engineering Room (sponsored by Equal Experts, who I work with), it was bound to be very interesting.
-In this post I try to outline my key takeaways from watching the chat.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/simple_and_secure_services_for_all/ class="link black dim">
-A mission statement that actually makes sense
+<a href="https://www.linkedin.com/shareArticle?mini=true&url=https://beny23.github.io/posts/advent_of_code_2023_day_2_ai_experiments/&title=AI-dvent%20of%20Code%202023:%20Day%202" class="linkedin no-underline" aria-label="share on LinkedIn"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
 </a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-I was really positively and pleasantly surprised when I found out what HMRC Digital&rsquo;s mission statement was.
-Normally, I am not a fan of mission statements. They usually read like this:
-Our mission is focused on six core aspirations the company continually strives to achieve&mldr;
-Or some such drivel. Verbal gymnastics to make a company sound like everything to everyone - without being offensive to anyone - which then gets used to &ldquo;align&rdquo; people on mandated fun days.
+</div>
+<h1 class="f1 athelas mt3 mb1">AI-dvent of Code 2023: Day 2</h1>
+<time class="f6 mv4 dib tracked" datetime=2023-12-03T00:00:00Z>December 3, 2023</time>
+<span class="f6 mv4 dib tracked"> - 4 minutes read</span>
+<span class="f6 mv4 dib tracked"> - 703 words</span>
+</header>
+<div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>After <a href=https://beny23.github.io/posts/advent_of_code_2023_day_1_ai_experiments/>day 1</a> of <a href=https://adventofcode.com/2023>Advent of Code</a>
+was only partially successful, I thought I would change my approach. Yesterday I tried to get the LLM to develop the
+whole solution in one go. But that was more like argumentative programming rather than conversational programming, so
+for the <a href=https://adventofcode.com/2023/day/2>day 2 puzzle</a> I start with small problems and hope to put it all together
+at the end.</p>
+<h1 id=lets-get-started>Let&rsquo;s get started</h1>
+<p>The problem looked quite straightforward, parse something like the following</p>
+<pre tabindex=0><code>Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
+Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
+</code></pre><p>These are games where different coloured cubes are hidden in a bag, and the Elves pick a handful of cubes (delimited by
+semicolon). So I thought, let&rsquo;s start by parsing numbers and colours.</p>
+<pre tabindex=0><code>&gt;&gt;&gt; create a function in kotlin that parses the following 
+&gt;&gt;&gt; &quot;5 blue, 4 red, 13 green&quot; and extracts the number of 
+&gt;&gt;&gt; red, blue and green
+
+Here's an example of how you could do this in Kotlin:
+
+fun parseColors(colorString: String): Map&lt;String, Int&gt; {
+  val colors = colorString.split(&quot;,&quot;)
+  return colors.associateWith { it.substringBefore(&quot; &quot;).trim().toInt() }
+}
+</code></pre><p>I also thought I should do some testing, that will allow me to check the what codellama comes up with quickly:</p>
+<pre tabindex=0><code>&gt;&gt;&gt; write some tests for the parseColors function 
+
+Here are a few examples of how you could test the `parseColors()` function in Kotlin:
+
+class ParseColorsTest {
+    @Test
+    fun `should parse colors correctly`() {
+        val colorString = &quot;5 blue, 4 red, 13 green&quot;
+        val expectedResult = mapOf(&quot;blue&quot; to 5, &quot;red&quot; to 4, &quot;green&quot; to 13)
+        assertEquals(expectedResult, parseColors(colorString))
+    }
+}
+</code></pre><p>Hey, I didn&rsquo;t know that Kotlin can use backticks for function names, that&rsquo;s neat! Learned something new again.</p>
+<p>Unfortunately, the tests fell over:</p>
+<pre tabindex=0><code>Tests &gt; should parse colors correctly() FAILED
+    java.lang.NumberFormatException: For input string: &quot;&quot;
+        at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)
+        at java.base/java.lang.Integer.parseInt(Integer.java:671)
+        at java.base/java.lang.Integer.parseInt(Integer.java:777)
+        at Part1Kt.parseColors(Part1.kt:5)
+        at Tests.should parse colors correctly(Tests.kt:9)
+</code></pre><p>After a few bits of back and forth, and eventually giving up and just writing it myself, I had some passing tests.</p>
+<p>So I thought, let&rsquo;s write some more tests!</p>
+<pre tabindex=0><code>&gt;&gt;&gt; create a test case for 5 red and 2 green
+
+Here's an example of how you could create a test case for &quot;5 red&quot; and &quot;2 green&quot;:
+
+@Test
+fun `should return correct values for 5 red and 2 green`() {
+    val input = listOf(&quot;5 blue&quot;, &quot;4 red&quot;, &quot;13 green&quot;)
+    val expectedOutput = mapOf(5 to &quot;blue&quot;, 4 to &quot;red&quot;, 13 to &quot;green&quot;)
+    assertEquals(expectedOutput, parseColors(input))
+}
+</code></pre><p>Well that&rsquo;s just silly, the same test as before, just with the test name changed. Let&rsquo;s try that again:</p>
+<pre tabindex=0><code>&gt;&gt;&gt; the above test case has blue in it, I don't want that
+
+I apologize for the confusion. You are correct that the previous test case 
+included &quot;blue&quot; as a value in the expected output map. Here's an updated version 
+of the test case that does not include &quot;blue&quot;:
+
+@Test
+fun `should return correct values for 5 red and 2 green`() {
+    val input = listOf(&quot;5&quot;, &quot;4 red&quot;, &quot;13 green&quot;)
+    val expectedOutput = mapOf(5 to null, 4 to &quot;red&quot;, 13 to &quot;green&quot;)
+    assertEquals(expectedOutput, parseColors(input))
+}
+</code></pre><p>So we just remove the word &ldquo;blue&rdquo; - ah genius!</p>
+<p><img src=/images/advent_of_code_2023_day_2_ai_experiments_facepalm.png alt="Picard Facepalm"></p>
+<p>And so it went on. I get the feeling that either Eric knows exactly how to trip up AI code assists, or (more likely)
+LLMs just regurgitate stuff that sound good, but more often than not it is actually not compiling, not working or just
+too pedantic to actually make &ldquo;collaborating&rdquo; worthwhile. I keep thinking, that it is just trying to annoy me. But that
+of course is anthropomorphising the stochastic parrot.</p>
+<h1 id=tell-us-about-kotlin-then>Tell us about Kotlin then!</h1>
+<p>With all the time spent trying to get some sense out of CodeLlama, I&rsquo;m not sure whether my solutions are idiomatic,
+but I very much liked that Kotlin can be used in a very functional way, without classes. I hadn&rsquo;t realised that before,
+and just imagined it was very much closer to Java:</p>
+<ul>
+<li><a href=https://github.com/beny23/advent-of-code/blob/main/2023/kotlin-ai/day2/src/main/kotlin/Part1.kt>https://github.com/beny23/advent-of-code/blob/main/2023/kotlin-ai/day2/src/main/kotlin/Part1.kt</a></li>
+<li><a href=https://github.com/beny23/advent-of-code/blob/main/2023/kotlin-ai/day2/src/main/kotlin/Part2.kt>https://github.com/beny23/advent-of-code/blob/main/2023/kotlin-ai/day2/src/main/kotlin/Part2.kt</a></li>
+</ul>
+<p>I&rsquo;ll be back for more frustrations with LLMs for the next day, if you think I&rsquo;m doing something glaringly obviously
+wrong, please reach out. I don&rsquo;t want to just bash LLMs, but so far my scepticism has been reinforced.</p>
+<b>Tags</b>
+<a href=https://beny23.github.io/tags/functional/>functional</a> <a href=https://beny23.github.io/tags/kotlin/>kotlin</a> <a href=https://beny23.github.io/tags/advent-of-code/>advent-of-code</a> <a href=https://beny23.github.io/tags/llm/>llm</a>
+<p>
+If you'd like to find more of my writing, why not follow me on
+<a href=https://twitter.com/giskard23 title="Twitter link" rel=noopener aria-label="follow on Twitter - Opens in a new window">Twitter</a> or
+<a href=https://infosec.exchange/@beny23 title="Mastodon link" rel=noopener aria-label="follow on Mastodon - Opens in a new window">Mastodon</a>?
+</p>
+<div class="mt6 instapaper_ignoref">
 </div>
 </div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/curating_vulnerabilities/ class="link black dim">
-Curating Dependency Vulnerabilities
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-In this post, I am going to look at an increasingly important part of securing applications: Your supply chain. This includes every library, tool or service that you are using to build, run and monitor your service.
-When the log4shell vulnerability hit, it wasn&rsquo;t just a matter of looking at the dependencies that your source code pulls in, but also at the infrastructure you&rsquo;re using and the build pipeline.
-Have you had a look at the vulnerability reports of your dependencies lately?
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/catalogue_deepdive/ class="link black dim">
-How to run a Digital Platform at Scale
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-This post peels back the covers on what it is like to work with a large digital platform. The platform in question is MDTP - Multichannel Digital Tax Platform, which supports a UK-based tax collection agency which is using a hyperscale cloud provider with a sideline in books.
-I&rsquo;ve previously described what it is like to work in MDTP (Making Software. Quickly) during the Covid-19 responses that allowed the UK government to provide financial support for millions turning around projects in record time.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/on_weaponisation_of_open_source/ class="link black dim">
-On the weaponisation of open source
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-First of all I need the preface this article on how much I abhor the Russian invasion of Ukraine and I wholeheartedly support the sanctions. However, I think the conflict has spilled over into areas of software development that have got some unintended consequences attached.
-As part of this post, I&rsquo;m going to look at
-the decision by MongoDB to cut off services in Russia the destructive change in a node library that deleted files on Russian IPs a change in code/licence in a community terraform module to assert that Putin is a dickhead MongoDB cutting off Russian customers MongoDB is a company and in order to comply with sanctions they have decided to cut off Russian customers.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/what_makes_a_good_developer/ class="link black dim">
-What makes a good developer
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-A few days back as part of a general discussion about interviewing at Equal Experts, we looked at the question &ldquo;What makes a good developer?&rdquo; Could we come up with a list of qualities in a developer that we&rsquo;d want to look for? This post illustrates my thinking.
-Why do you ask? To put it in a bit of context, I&rsquo;m a software developer, I&rsquo;m not a recruiter, but I&rsquo;ve been involved with technical interviewing for quite a while, and have marked a fair number of take-home tests over the years, but recently we thought that the experience was not as good as it could be.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/pwnkit_how_to_check_and_exploit/ class="link black dim">
-Pwnkit: How to exploit and check
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-Pwnkit is a vulnerability that uses a bug in polkit to elevate permissions to root. This write-up shows how to reproduce it using Ubuntu and what to do to check whether a system is vulnerable.
-What went wrong? Quoting from the original researchers:
-This vulnerability is an attacker&rsquo;s dream come true:
-pkexec is installed by default on all major Linux distributions; pkexec is vulnerable since its creation, in May 2009; any unprivileged local user can exploit this vulnerability to obtain full root privileges; although this vulnerability is technically a memory corruption, it is exploitable instantly, reliably, in an architecture-independent way; and it is exploitable even if the polkit daemon itself is not running.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/crypto_when_will_the_madness_stop/ class="link black dim">
-Bitcoin: When will the madness stop?
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-In this writing I ask: When will this madness end? When will we wake up from this fascination with cryptocurrencies (chief amongst which Bitcoin) that is turning technological orthodoxy on it&rsquo;s head: It used to be that technological progress was measured on making things cheaper, faster, more secure or more scalable. But it seems that Bitcoin does not follow these.
-Bitcoin Over the last 12 years, it is hard to have lived and not notice the poster child of blockchains: Bitcoin.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/advent_of_code_2021_day_22/ class="link black dim">
-Advent of code 2021: Day 22
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-Day 22 of Advent of Code 2021 was all about cubes. The problem statement provided us with coordinates of cubes and an &ldquo;on&rdquo; or &ldquo;off&rdquo; instructions. These instructions needed to be carried out in order. The first part of the problem was deceptively simple. So much so that I didn&rsquo;t go for the &ldquo;obvious&rdquo; solution initially because I thought it wouldn&rsquo;t scale. As it happened I ended up implementing it anyway as my optimised approach wasn&rsquo;t working because I made a simple mistake.
-</div>
-</div>
-</div>
-</div>
-</section>
-<ul class="pagination pagination-default">
-<li class=page-item>
-<a href=/posts/ aria-label=First class=page-link role=button><span aria-hidden=true>&#171;&#171;</span></a>
+<aside class="w-30-l mt6-l">
+<div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+<p class="f5 b mb3">Related</p>
+<ul class="pa0 list">
+<li class=mb2>
+<a href=/posts/advent_of_code_2023_day_1_ai_experiments/>AI-dvent of Code 2023: Day 1</a>
 </li>
-<li class=page-item>
-<a href=/posts/page/2/ aria-label=Previous class=page-link role=button><span aria-hidden=true>&#171;</span></a>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_22/>Advent of code 2021: Day 22</a>
 </li>
-<li class=page-item>
-<a href=/posts/ aria-label="Page 1" class=page-link role=button>1</a>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_21/>Advent of code 2021: Day 21</a>
 </li>
-<li class=page-item>
-<a href=/posts/page/2/ aria-label="Page 2" class=page-link role=button>2</a>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_20/>Advent of code 2021: Day 20</a>
 </li>
-<li class="page-item active">
-<a aria-current=page aria-label="Page 3" class=page-link role=button>3</a>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_18/>Advent of code 2021: Day 18</a>
 </li>
-<li class=page-item>
-<a href=/posts/page/4/ aria-label="Page 4" class=page-link role=button>4</a>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_17/>Advent of code 2021: Day 17</a>
 </li>
-<li class=page-item>
-<a href=/posts/page/5/ aria-label="Page 5" class=page-link role=button>5</a>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_16/>Advent of code 2021: Day 16</a>
 </li>
-<li class=page-item>
-<a href=/posts/page/4/ aria-label=Next class=page-link role=button><span aria-hidden=true>&#187;</span></a>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_15/>Advent of code 2021: Day 15</a>
 </li>
-<li class=page-item>
-<a href=/posts/page/7/ aria-label=Last class=page-link role=button><span aria-hidden=true>&#187;&#187;</span></a>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_14/>Advent of code 2021: Day 14</a>
 </li>
-</ul></article>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_13/>Advent of code 2021: Day 13</a>
+</li>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_12/>Advent of code 2021: Day 12</a>
+</li>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_11/>Advent of code 2021: Day 11</a>
+</li>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_10/>Advent of code 2021: Day 10</a>
+</li>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_9/>Advent of code 2021: Day 9</a>
+</li>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_8/>Advent of code 2021: Day 8</a>
+</li>
+</ul>
+</div>
+</aside>
+</article>
 </main>
 <footer class="bg-black bottom-0 w-100 pa3" role=contentinfo>
 <div class="flex justify-between">
