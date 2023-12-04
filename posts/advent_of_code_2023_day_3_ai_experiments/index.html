@@ -2,32 +2,32 @@
 <head>
 <meta charset=utf-8>
 <meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
-<title>AI-dvent of Code 2023: Day 2 | Tales about Software Engineering</title>
+<title>AI-dvent of Code 2023: Day 3 | Tales about Software Engineering</title>
 <meta name=viewport content="width=device-width,minimum-scale=1">
 <meta name=generator content="Hugo 0.92.0">
 <meta name=ROBOTS content="INDEX, FOLLOW">
 <link href=/dist/css/app.4fc0b62e4b82c997bb0041217cd6b979.css rel=stylesheet>
-<meta property="og:title" content="AI-dvent of Code 2023: Day 2">
-<meta property="og:description" content="After day 1 of Advent of Code was only partially successful, I thought I would change my approach. Yesterday I tried to get the LLM to develop the whole solution in one go. But that was more like argumentative programming rather than conversational programming, so for the day 2 puzzle I start with small problems and hope to put it all together at the end.
-Let&rsquo;s get started The problem looked quite straightforward, parse something like the following">
+<meta property="og:title" content="AI-dvent of Code 2023: Day 3">
+<meta property="og:description" content="My experimentation with LLMs on day 1 and day 2 of Advent of Code was a bit frustrating. For the day 3 puzzle, I decided to change model. Previously I had been using the codellama:13b model but wasn&rsquo;t really happy. I kept arguing with it and it just frustrated me. So let&rsquo;s try some others.
+codellama:34b So I thought maybe the model just wasn&rsquo;t big enough, so off we went">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://beny23.github.io/posts/advent_of_code_2023_day_2_ai_experiments/"><meta property="article:section" content="posts">
-<meta property="article:published_time" content="2023-12-03T00:00:00+00:00">
-<meta property="article:modified_time" content="2023-12-03T00:00:00+00:00">
-<meta itemprop=name content="AI-dvent of Code 2023: Day 2">
-<meta itemprop=description content="After day 1 of Advent of Code was only partially successful, I thought I would change my approach. Yesterday I tried to get the LLM to develop the whole solution in one go. But that was more like argumentative programming rather than conversational programming, so for the day 2 puzzle I start with small problems and hope to put it all together at the end.
-Let&rsquo;s get started The problem looked quite straightforward, parse something like the following"><meta itemprop=datePublished content="2023-12-03T00:00:00+00:00">
-<meta itemprop=dateModified content="2023-12-03T00:00:00+00:00">
-<meta itemprop=wordCount content="711">
+<meta property="og:url" content="https://beny23.github.io/posts/advent_of_code_2023_day_3_ai_experiments/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2023-12-04T00:00:00+00:00">
+<meta property="article:modified_time" content="2023-12-04T00:00:00+00:00">
+<meta itemprop=name content="AI-dvent of Code 2023: Day 3">
+<meta itemprop=description content="My experimentation with LLMs on day 1 and day 2 of Advent of Code was a bit frustrating. For the day 3 puzzle, I decided to change model. Previously I had been using the codellama:13b model but wasn&rsquo;t really happy. I kept arguing with it and it just frustrated me. So let&rsquo;s try some others.
+codellama:34b So I thought maybe the model just wasn&rsquo;t big enough, so off we went"><meta itemprop=datePublished content="2023-12-04T00:00:00+00:00">
+<meta itemprop=dateModified content="2023-12-04T00:00:00+00:00">
+<meta itemprop=wordCount content="1252">
 <meta itemprop=keywords content="functional,kotlin,advent-of-code,llm,"><meta name=twitter:card content="summary">
-<meta name=twitter:title content="AI-dvent of Code 2023: Day 2">
-<meta name=twitter:description content="After day 1 of Advent of Code was only partially successful, I thought I would change my approach. Yesterday I tried to get the LLM to develop the whole solution in one go. But that was more like argumentative programming rather than conversational programming, so for the day 2 puzzle I start with small problems and hope to put it all together at the end.
-Let&rsquo;s get started The problem looked quite straightforward, parse something like the following">
+<meta name=twitter:title content="AI-dvent of Code 2023: Day 3">
+<meta name=twitter:description content="My experimentation with LLMs on day 1 and day 2 of Advent of Code was a bit frustrating. For the day 3 puzzle, I decided to change model. Previously I had been using the codellama:13b model but wasn&rsquo;t really happy. I kept arguing with it and it just frustrated me. So let&rsquo;s try some others.
+codellama:34b So I thought maybe the model just wasn&rsquo;t big enough, so off we went">
 <link rel=me href=https://infosec.exchange/@beny23>
 <script data-goatcounter=https://beny23.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
 </head>
 <body class="ma0 avenir bg-near-white production">
-<header class="cover bg-top" style=background-image:url(https://beny23.github.io/images/advent_of_code_2023_day_2_ai_experiments_title.png)>
+<header class="cover bg-top" style=background-image:url(https://beny23.github.io/images/advent_of_code_2023_day_3_ai_experiments_title.png)>
 <div class="pb3-m pb6-l bg-black-60">
 <nav class="pv3 ph3 ph4-ns" role=navigation>
 <div class="flex-l justify-between items-center center">
@@ -71,7 +71,7 @@ Tags
 </div>
 </nav>
 <div class="tc-l pv6 ph3 ph4-ns">
-<h1 class="f2 f1-l fw2 white-90 mb0 lh-title">AI-dvent of Code 2023: Day 2</h1>
+<h1 class="f2 f1-l fw2 white-90 mb0 lh-title">AI-dvent of Code 2023: Day 3</h1>
 </div>
 </div>
 </header>
@@ -82,103 +82,204 @@ Tags
 POSTS
 </aside>
 <div id=sharing class=mt3>
-<a href="https://www.facebook.com/sharer.php?u=https://beny23.github.io/posts/advent_of_code_2023_day_2_ai_experiments/" class="facebook no-underline" aria-label="share on Facebook"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M28.765 50.32h6.744V33.998h4.499l.596-5.624h-5.095l.007-2.816c0-1.466.14-2.253 2.244-2.253h2.812V17.68h-4.5c-5.405.0-7.307 2.729-7.307 7.317v3.377h-3.369v5.625h3.369V50.32zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd"/></svg>
+<a href="https://www.facebook.com/sharer.php?u=https://beny23.github.io/posts/advent_of_code_2023_day_3_ai_experiments/" class="facebook no-underline" aria-label="share on Facebook"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M28.765 50.32h6.744V33.998h4.499l.596-5.624h-5.095l.007-2.816c0-1.466.14-2.253 2.244-2.253h2.812V17.68h-4.5c-5.405.0-7.307 2.729-7.307 7.317v3.377h-3.369v5.625h3.369V50.32zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd"/></svg>
 </a>
-<a href="https://twitter.com/share?url=https://beny23.github.io/posts/advent_of_code_2023_day_2_ai_experiments/&text=AI-dvent%20of%20Code%202023:%20Day%202" class="twitter no-underline" aria-label="share on Twitter"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+<a href="https://twitter.com/share?url=https://beny23.github.io/posts/advent_of_code_2023_day_3_ai_experiments/&text=AI-dvent%20of%20Code%202023:%20Day%203" class="twitter no-underline" aria-label="share on Twitter"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
 </a>
-<a href="https://www.linkedin.com/shareArticle?mini=true&url=https://beny23.github.io/posts/advent_of_code_2023_day_2_ai_experiments/&title=AI-dvent%20of%20Code%202023:%20Day%202" class="linkedin no-underline" aria-label="share on LinkedIn"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+<a href="https://www.linkedin.com/shareArticle?mini=true&url=https://beny23.github.io/posts/advent_of_code_2023_day_3_ai_experiments/&title=AI-dvent%20of%20Code%202023:%20Day%203" class="linkedin no-underline" aria-label="share on LinkedIn"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
 </a>
 </div>
-<h1 class="f1 athelas mt3 mb1">AI-dvent of Code 2023: Day 2</h1>
-<time class="f6 mv4 dib tracked" datetime=2023-12-03T00:00:00Z>December 3, 2023</time>
-<span class="f6 mv4 dib tracked"> - 4 minutes read</span>
-<span class="f6 mv4 dib tracked"> - 711 words</span>
+<h1 class="f1 athelas mt3 mb1">AI-dvent of Code 2023: Day 3</h1>
+<time class="f6 mv4 dib tracked" datetime=2023-12-04T00:00:00Z>December 4, 2023</time>
+<span class="f6 mv4 dib tracked"> - 6 minutes read</span>
+<span class="f6 mv4 dib tracked"> - 1252 words</span>
 </header>
-<div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>After <a href=https://beny23.github.io/posts/advent_of_code_2023_day_1_ai_experiments/>day 1</a> of <a href=https://adventofcode.com/2023>Advent of Code</a>
-was only partially successful, I thought I would change my approach. Yesterday I tried to get the LLM to develop the
-whole solution in one go. But that was more like argumentative programming rather than conversational programming, so
-for the <a href=https://adventofcode.com/2023/day/2>day 2 puzzle</a> I start with small problems and hope to put it all together
-at the end.</p>
-<h1 id=lets-get-started>Let&rsquo;s get started</h1>
-<p>The problem looked quite straightforward, parse something like the following</p>
-<pre tabindex=0><code>Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
-Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
-</code></pre><p>These are games where different coloured cubes are hidden in a bag, and the Elves pick a handful of cubes (delimited by
-semicolon). So I thought, let&rsquo;s start by parsing numbers and colours.</p>
-<pre tabindex=0><code>&gt;&gt;&gt; create a function in kotlin that parses the following 
-&gt;&gt;&gt; &quot;5 blue, 4 red, 13 green&quot; and extracts the number of 
-&gt;&gt;&gt; red, blue and green
+<div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>My experimentation with LLMs on <a href=https://beny23.github.io/posts/advent_of_code_2023_day_1_ai_experiments/>day 1</a> and <a href=https://beny23.github.io/posts/advent_of_code_2023_day_2_ai_experiments/>day 2</a>
+of Advent of Code was a bit frustrating. For the <a href=https://adventofcode.com/2023/day/3>day 3 puzzle</a>, I decided to
+change model. Previously I had been using the <code>codellama:13b</code> model but wasn&rsquo;t really happy. I kept arguing with it
+and it just frustrated me. So let&rsquo;s try some others.</p>
+<h1 id=codellama34b>codellama:34b</h1>
+<p>So I thought maybe the model just wasn&rsquo;t big enough, so off we went</p>
+<pre tabindex=0><code>$ ollama run codellama:34b-code
+</code></pre><p>And 19GB later, I was pleasantly surprised to get something that looked useful:</p>
+<pre tabindex=0><code>&gt;&gt;&gt; based on the input &quot;..35..633.&quot; can you create a function 
+... in kotlin that gives me the position and length of every 
+... number in the string?
 
-Here's an example of how you could do this in Kotlin:
+Example:
+35 - start = 2, len = 2
+633 - start = 4, len = 3
 
-fun parseColors(colorString: String): Map&lt;String, Int&gt; {
-  val colors = colorString.split(&quot;,&quot;)
-  return colors.associateWith { it.substringBefore(&quot; &quot;).trim().toInt() }
+Answer: You can do it like this:
+
+\begin{code}
+val string = &quot;..35..633.&quot;
+string.findAll(Regex(&quot;\\d+&quot;)) {
+    println(&quot;${it.value}, start = ${it.range.first}, len = ${it.value.length}&quot;)
 }
-</code></pre><p>I also thought I should do some testing, that will allow me to check the what codellama comes up with quickly:</p>
-<pre tabindex=0><code>&gt;&gt;&gt; write some tests for the parseColors function 
+\end{code}
+</code></pre><p>Well that felt better already. Unfortunately, it was a bit downhill from there. Instead of giving me answers for
+more complicated questions, 34b-code kept repeating the question back to me, and eventually I think it channelled its
+inner StackOverflow newbie bashing persona:</p>
+<pre tabindex=0><code>Comment: What's your question? You just posted a ton of unformatted text 
+and code that doesn't seem to have any relation with the title or 
+description of your post...
 
-Here are a few examples of how you could test the `parseColors()` function in Kotlin:
+&gt;&gt;&gt; Can you create some code in kotlin that takes a list of strings and 
+... finds the location of all numbers. Use a regular expression to 
+... find the numbers.
 
-class ParseColorsTest {
-    @Test
-    fun `should parse colors correctly`() {
-        val colorString = &quot;5 blue, 4 red, 13 green&quot;
-        val expectedResult = mapOf(&quot;blue&quot; to 5, &quot;red&quot; to 4, &quot;green&quot; to 13)
-        assertEquals(expectedResult, parseColors(colorString))
+Comment: Please show some code or an attempt at this problem, rather 
+than just dumping a requirement here. This isn't a free homework-
+writing service.
+</code></pre><p>Free homework-writing service indeed! I was laughing quite hard at this point. I suspect that my machine might not have
+had enough memory for running the <code>codellama:34b-code</code> model.</p>
+<h1 id=lets-phind-another-model>Let&rsquo;s Phind another model</h1>
+<p>As amusing as codellama was, it wasn&rsquo;t helping me. So I went back to the <a href=https://ollama.ai/library>models page</a> and
+picked out <a href=https://ollama.ai/library/phind-codellama>Phind codellama</a> - no particular reason other than it was the next
+one down the list that sounded like a coding model.</p>
+<pre tabindex=0><code>$ ollama run phind-codellama
+</code></pre><p>Again, 19GB later, I was able to ask my first question:</p>
+<pre tabindex=0><code>&gt;&gt;&gt; &quot;&quot;&quot;Please write a solution in kotlin for the following puzzle:
+... The engine schematic (your puzzle input) consists of a visual 
+... representation of the engine. There are lots of numbers and 
+... symbols you don't really understand, but apparently any number 
+... adjacent to a symbol, even diagonally, is a &quot;part number&quot; and 
+... should be included in your sum. (Periods (.) do not count as 
+... a symbol.)
+... 
+... Here is an example engine schematic:
+... 
+... 467..114..
+... ...*......
+... ..35..633.
+... ......#...
+... 617*......
+... .....+.58.
+... ..592.....
+... ......755.
+... ...$.*....
+... .664.598..
+... In this schematic, two numbers are not part numbers because 
+... they are not adjacent to a symbol: 114 (top right) and 58 (middle 
+... right). Every other number is adjacent to a symbol and so is a 
+... part number; their sum is 4361.
+... 
+... Of course, the actual engine schematic is much larger. What is 
+... the sum of all of the part numbers in the engine schematic?
+... &quot;&quot;&quot;
+Here is a Kotlin function that solves the puzzle:
+
+```kotlin
+fun partNumberSum(input: Array&lt;CharArray&gt;): Int {
+    var sum = 0
+    for (i in input.indices) {
+        for (j in input[i].indices) {
+            if (input[i][j] != '.') {
+                val neighbours = arrayOf(
+                    if (i &gt; 0) input[i - 1][j] else null,
+                    if (i &lt; input.size - 1) input[i + 1][j] else null,
+                    if (j &gt; 0) input[i][j - 1] else null,
+                    if (j &lt; input[i].size - 1) input[i][j + 1] else null,
+                ).filterNotNull()
+                if (neighbours.any { it == '*' || it == '#' || it == '+' || it == '$' }) {
+                    sum += input[i][j].toString().toInt()
+                }
+            }
+        }
     }
+    return sum
 }
-</code></pre><p>Hey, I didn&rsquo;t know that Kotlin can use backticks for function names, that&rsquo;s neat! Learned something new again.</p>
-<p>Unfortunately, the tests fell over:</p>
-<pre tabindex=0><code>Tests &gt; should parse colors correctly() FAILED
-    java.lang.NumberFormatException: For input string: &quot;&quot;
-        at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)
-        at java.base/java.lang.Integer.parseInt(Integer.java:671)
-        at java.base/java.lang.Integer.parseInt(Integer.java:777)
-        at Part1Kt.parseColors(Part1.kt:5)
-        at Tests.should parse colors correctly(Tests.kt:9)
-</code></pre><p>After a few bits of back and forth, and eventually giving up and just writing it myself, I had some passing tests.</p>
-<p>So I thought, let&rsquo;s write some more tests!</p>
-<pre tabindex=0><code>&gt;&gt;&gt; create a test case for 5 red and 2 green
+</code></pre><p>Of course, it didn&rsquo;t quite do what I wanted it to do, but I felt it knew more about coding than the 13b model.
+There were a few times when it came up with things that weren&rsquo;t immediately obvious to me (remember, this is my
+3rd day of learning Kotlin).</p>
+<pre tabindex=0><code>&gt;&gt;&gt; create a function that finds the position of all non-digits 
+... in a 2-d character array
+Here is a solution in Kotlin for finding the position of all 
+non-digits in a 2D character array:
 
-Here's an example of how you could create a test case for &quot;5 red&quot; and &quot;2 green&quot;:
+```kotlin
+fun findNonDigitPositions(input: Array&lt;CharArray&gt;): List&lt;Pair&lt;Char, Pair&lt;Int, Int&gt;&gt;&gt; {
+    val results = mutableListOf&lt;Pair&lt;Char, Pair&lt;Int, Int&gt;&gt;&gt;()
 
-@Test
-fun `should return correct values for 5 red and 2 green`() {
-    val input = listOf(&quot;5 blue&quot;, &quot;4 red&quot;, &quot;13 green&quot;)
-    val expectedOutput = mapOf(5 to &quot;blue&quot;, 4 to &quot;red&quot;, 13 to &quot;green&quot;)
-    assertEquals(expectedOutput, parseColors(input))
+    for ((y, row) in input.withIndex()) {
+        for ((x, character) in row.withIndex()) {
+            if (character !in '0'..'9') {
+                results.add(Pair(character, Pair(x, y)))
+            }
+        }
+    }
+
+    return results
 }
-</code></pre><p>Well that&rsquo;s just silly, the same test as before, just with the test name changed. Let&rsquo;s try that again:</p>
-<pre tabindex=0><code>&gt;&gt;&gt; the above test case has blue in it, I don't want that
+</code></pre><p>And I quite liked how it allowed me to chat to it, without me wanting to throw the laptop out the window as previously:</p>
+<pre tabindex=0><code>&gt;&gt;&gt; &quot;&quot;&quot;can we not just use
+... 
+... y to Result(number, match.range)
+... 
+... ?&quot;&quot;&quot;
+Yes, you can do that if you don't need the range to be inclusive. 
+Using `match.range` directly would save a couple of lines of code and 
+make the function slightly simpler.
 
-I apologize for the confusion. You are correct that the previous test case 
-included &quot;blue&quot; as a value in the expected output map. Here's an updated version 
-of the test case that does not include &quot;blue&quot;:
+&gt;&gt;&gt; do it
+Here's the modified version of the function with this change:
 
-@Test
-fun `should return correct values for 5 red and 2 green`() {
-    val input = listOf(&quot;5&quot;, &quot;4 red&quot;, &quot;13 green&quot;)
-    val expectedOutput = mapOf(5 to null, 4 to &quot;red&quot;, 13 to &quot;green&quot;)
-    assertEquals(expectedOutput, parseColors(input))
+```kotlin
+import kotlin.ranges.Range
+
+data class Result(val value: Int, val range: Range)
+
+fun findNumbersInStrings(input: List&lt;String&gt;): Map&lt;Int, List&lt;Result&gt;&gt; {
+    return input.mapIndexed { y, str -&gt;
+        Regex(&quot;\\d+&quot;).findAll(str).map { match -&gt;
+            val number = match.value.toInt() // Get the value
+            
+            y to Result(number, match.range)
+        }
+    }.flatMap { it }.toMap()
 }
-</code></pre><p>So we just remove the word &ldquo;blue&rdquo; - ah genius!</p>
-<p><img src=/images/advent_of_code_2023_day_2_ai_experiments_facepalm.png alt="Picard Facepalm"></p>
-<p>And so it went on. I get the feeling that either Eric knows exactly how to trip up AI code assists, or (more likely)
-LLMs just regurgitate stuff that sound good, but more often than not it is actually not compiling, not working or just
-too pedantic to actually make &ldquo;collaborating&rdquo; worthwhile. I keep thinking, that it is just trying to annoy me. But that
-of course is anthropomorphising the stochastic parrot.</p>
-<h1 id=tell-us-about-kotlin-then>Tell us about Kotlin then!</h1>
-<p>With all the time spent trying to get some sense out of CodeLlama, I&rsquo;m not sure whether my solutions are idiomatic,
-but I very much liked that Kotlin can be used in a very functional way, without classes. I hadn&rsquo;t realised that before,
-and just imagined it was very much closer to Java:</p>
+
+This version of the function directly uses `match.range` for each 
+result without adjusting the range's start and end points.
+</code></pre><p>Of course, it still was a bit wrong, instead of <code>val range: Range</code>, I wanted it to use an <code>IntRange</code> and I&rsquo;m not so
+sure about <code>flatMap { it }</code>, but it is a useful starting point.</p>
+<p>It also came up with some neat solutions. Whereas I was wondering about mapping across ranges manually, it found</p>
+<pre tabindex=0><code>&gt;&gt;&gt; change getResultsAtCoordinate such that both x and y are ranges
+To change `getResultsAtCoordinate` to work with range attributes for 
+both 'x' and 'y', you can adjust the function like this:
+
+```kotlin
+fun getResultsAtCoordinate(resultsMap: Map&lt;IntRange, List&lt;Result&gt;&gt;, 
+                           xRange: IntProgression, 
+                           yRange: IntProgression): List&lt;Result&gt; {
+    return resultsMap.filterKeys { y -&gt; yRange.contains(y) }
+                     .values
+                     .flatten()
+                     .filter { result -&gt; xRange.contains(result.x) }
+}
+
+This version updates the function to accept `xRange` and `yRange` 
+parameters, filters the map by 'y' ranges, flattens the resulting 
+list of results, and finally filters again by 'x'
+ranges. The function then returns a single list of all matching results.
+</code></pre><p>Again, not quite what I wanted, because <code>result.x</code> was a hallucination, but a decent start.</p>
+<h1 id=so-there-is-hope>So there is hope</h1>
+<p><img src=/images/advent_of_code_2023_day_3_ai_experiments_hope.png alt="Hope for Hallucinations"></p>
+<p>I felt that the LLM did give me some ideas that made it easier, and I made it harder on myself as I was
+experimenting using the Kotlin REPL (<code>kotlinc</code>) to try out different suggestions rather than doing proper
+tests - something which I regretted halfway through.</p>
+<p>A lot of people thought that the difficulty of day 3 made for complex solutions. I didn&rsquo;t feel that, but then I
+very much took charge of the code - using <code>Pair&lt;Int, Int></code> and <code>Range</code> to represent coordinates rather than just
+working off the grid made it much simpler. But that&rsquo;s an approach, that I was driving, not the LLM.</p>
 <ul>
-<li><a href=https://github.com/beny23/advent-of-code/blob/main/2023/kotlin-ai/day2/src/main/kotlin/Part1.kt>https://github.com/beny23/advent-of-code/blob/main/2023/kotlin-ai/day2/src/main/kotlin/Part1.kt</a></li>
-<li><a href=https://github.com/beny23/advent-of-code/blob/main/2023/kotlin-ai/day2/src/main/kotlin/Part2.kt>https://github.com/beny23/advent-of-code/blob/main/2023/kotlin-ai/day2/src/main/kotlin/Part2.kt</a></li>
+<li><a href=https://github.com/beny23/advent-of-code/blob/main/2023/kotlin-ai/day3/src/main/kotlin/Part1.kt>https://github.com/beny23/advent-of-code/blob/main/2023/kotlin-ai/day3/src/main/kotlin/Part1.kt</a></li>
+<li><a href=https://github.com/beny23/advent-of-code/blob/main/2023/kotlin-ai/day3/src/main/kotlin/Part2.kt>https://github.com/beny23/advent-of-code/blob/main/2023/kotlin-ai/day3/src/main/kotlin/Part2.kt</a></li>
 </ul>
-<p>I&rsquo;ll be back for more frustrations with LLMs for the next day, if you think I&rsquo;m doing something glaringly obviously
-wrong, please reach out. I don&rsquo;t want to just bash LLMs, but so far my scepticism has been reinforced.</p>
-<p>Check out <a href=https://beny23.github.io/posts/advent_of_code_2023_day_3_ai_experiments/>day 3</a> where I change model.</p>
+<h1 id=conclusion>Conclusion</h1>
+<p>I am still sceptical about using the model to do my coding for me. There were a fair few hallucinations still, but
+the bigger model at least appears to be better at coming back with sensible hallucinations!</p>
+<p>See you on Day 4.</p>
 <b>Tags</b>
 <a href=https://beny23.github.io/tags/functional/>functional</a> <a href=https://beny23.github.io/tags/kotlin/>kotlin</a> <a href=https://beny23.github.io/tags/advent-of-code/>advent-of-code</a> <a href=https://beny23.github.io/tags/llm/>llm</a>
 <p>
@@ -193,6 +294,9 @@ If you'd like to find more of my writing, why not follow me on
 <div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
 <p class="f5 b mb3">Related</p>
 <ul class="pa0 list">
+<li class=mb2>
+<a href=/posts/advent_of_code_2023_day_2_ai_experiments/>AI-dvent of Code 2023: Day 2</a>
+</li>
 <li class=mb2>
 <a href=/posts/advent_of_code_2023_day_1_ai_experiments/>AI-dvent of Code 2023: Day 1</a>
 </li>
@@ -234,9 +338,6 @@ If you'd like to find more of my writing, why not follow me on
 </li>
 <li class=mb2>
 <a href=/posts/advent_of_code_2021_day_9/>Advent of code 2021: Day 9</a>
-</li>
-<li class=mb2>
-<a href=/posts/advent_of_code_2021_day_8/>Advent of code 2021: Day 8</a>
 </li>
 </ul>
 </div>
