@@ -2,27 +2,33 @@
 <head>
 <meta charset=utf-8>
 <meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
-<title>Tales about Software Engineering</title>
+<title>AI-dvent of Code 2023: Day 4 | Tales about Software Engineering</title>
 <meta name=viewport content="width=device-width,minimum-scale=1">
 <meta name=generator content="Hugo 0.92.0">
 <meta name=ROBOTS content="INDEX, FOLLOW">
 <link href=/dist/css/app.4fc0b62e4b82c997bb0041217cd6b979.css rel=stylesheet>
-<link href=/posts/index.xml rel=alternate type=application/rss+xml title="Tales about Software Engineering">
-<link href=/posts/index.xml rel=feed type=application/rss+xml title="Tales about Software Engineering">
-<meta property="og:title" content="Posts">
-<meta property="og:description" content="Writings about software: development and security">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://beny23.github.io/posts/">
-<meta itemprop=name content="Posts">
-<meta itemprop=description content="Writings about software: development and security"><meta name=twitter:card content="summary">
-<meta name=twitter:title content="Posts">
-<meta name=twitter:description content="Writings about software: development and security">
+<meta property="og:title" content="AI-dvent of Code 2023: Day 4">
+<meta property="og:description" content="After the glimmer of hope on day 3 I was quite optimistic for the day 4 puzzle. I kept going with the phind-codellama model. I continued with keeping the model on a fairly tight leash and just being very specific as to what I wanted it to do.
+What&rsquo;s the puzzle? So, for the first part, we had to parse a text file and then match up numbers and winning numbers.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://beny23.github.io/posts/advent_of_code_2023_day_4_ai_experiments/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2023-12-05T00:00:00+00:00">
+<meta property="article:modified_time" content="2023-12-05T00:00:00+00:00">
+<meta itemprop=name content="AI-dvent of Code 2023: Day 4">
+<meta itemprop=description content="After the glimmer of hope on day 3 I was quite optimistic for the day 4 puzzle. I kept going with the phind-codellama model. I continued with keeping the model on a fairly tight leash and just being very specific as to what I wanted it to do.
+What&rsquo;s the puzzle? So, for the first part, we had to parse a text file and then match up numbers and winning numbers."><meta itemprop=datePublished content="2023-12-05T00:00:00+00:00">
+<meta itemprop=dateModified content="2023-12-05T00:00:00+00:00">
+<meta itemprop=wordCount content="739">
+<meta itemprop=keywords content="functional,kotlin,advent-of-code,llm,"><meta name=twitter:card content="summary">
+<meta name=twitter:title content="AI-dvent of Code 2023: Day 4">
+<meta name=twitter:description content="After the glimmer of hope on day 3 I was quite optimistic for the day 4 puzzle. I kept going with the phind-codellama model. I continued with keeping the model on a fairly tight leash and just being very specific as to what I wanted it to do.
+What&rsquo;s the puzzle? So, for the first part, we had to parse a text file and then match up numbers and winning numbers.">
 <link rel=me href=https://infosec.exchange/@beny23>
 <script data-goatcounter=https://beny23.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
 </head>
 <body class="ma0 avenir bg-near-white production">
-<header class="cover bg-top" style=background-image:url(https://beny23.github.io/images/background.png)>
-<div class=bg-black-60>
+<header class="cover bg-top" style=background-image:url(https://beny23.github.io/images/advent_of_code_2023_day_4_ai_experiments_title.png)>
+<div class="pb3-m pb6-l bg-black-60">
 <nav class="pv3 ph3 ph4-ns" role=navigation>
 <div class="flex-l justify-between items-center center">
 <a href=/ class="f3 fw2 hover-white no-underline white-90 dib">
@@ -64,205 +70,222 @@ Tags
 </div>
 </div>
 </nav>
-<div class="tc-l pv4 pv6-l ph3 ph4-ns">
-<h1 class="f2 f-subheadline-l fw2 white-90 mb0 lh-title">
-Posts
-</h1>
+<div class="tc-l pv6 ph3 ph4-ns">
+<h1 class="f2 f1-l fw2 white-90 mb0 lh-title">AI-dvent of Code 2023: Day 4</h1>
 </div>
 </div>
 </header>
 <main class=pb7 role=main>
-<article class="pa3 pa4-ns nested-copy-line-height nested-img">
-<section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy mid-gray"></section>
-<section class="flex-ns flex-wrap justify-around mt5">
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/agile_india_2022_speaker_interview_questions_3/ class="link black dim">
-What do you think are the most exciting developments in software product engineering today?
+<article class="flex-l flex-wrap justify-between mw8 center ph3">
+<header class="mt4 w-100">
+<aside class="instapaper_ignoref b helvetica tracked">
+POSTS
+</aside>
+<div id=sharing class=mt3>
+<a href="https://www.facebook.com/sharer.php?u=https://beny23.github.io/posts/advent_of_code_2023_day_4_ai_experiments/" class="facebook no-underline" aria-label="share on Facebook"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M28.765 50.32h6.744V33.998h4.499l.596-5.624h-5.095l.007-2.816c0-1.466.14-2.253 2.244-2.253h2.812V17.68h-4.5c-5.405.0-7.307 2.729-7.307 7.317v3.377h-3.369v5.625h3.369V50.32zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd"/></svg>
 </a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-This is part of my series of interview questions for Agile India 2022.
-Thinking about exciting developments in software development as a developer immediately brings magpies to mind. What is the latest technology that can grab our attention. What&rsquo;s the latest shiny? Could it be some crypto tech? Some no-code development? Or programming in the metaverse maybe?
-No, no, and NO! Crypto is a scourge that wastes energy, kills the planet and destroys lives, no-code and low code will mean some actual software engineers will have to pick up the pieces when it inevitably will go wrong and the metaverse (second second life) looks to be a great way to make the web as tedious to use than going to an actual shop where you can&rsquo;t find anything because the items have moved to another shelf yet again.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/agile_india_2022_speaker_interview_questions_2/ class="link black dim">
-What do you think is the biggest challenge faced by the software product engineering community today?
+<a href="https://twitter.com/share?url=https://beny23.github.io/posts/advent_of_code_2023_day_4_ai_experiments/&text=AI-dvent%20of%20Code%202023:%20Day%204" class="twitter no-underline" aria-label="share on Twitter"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
 </a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-This is part of my series of interview questions for Agile India 2022.
-It is difficult to articulate what the biggest challenge to software product engineering is, because there&rsquo;s a fair few of them, so I&rsquo;ll try to describe a few of my bug bears.
-Process over people In my opinion, a huge issue that we unfortunately find all too often is when the principles of the agile manifesto are ignored or not applied.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/agile_india_2022_speaker_interview_questions/ class="link black dim">
-What got you started in modern software development methods?
+<a href="https://www.linkedin.com/shareArticle?mini=true&url=https://beny23.github.io/posts/advent_of_code_2023_day_4_ai_experiments/&title=AI-dvent%20of%20Code%202023:%20Day%204" class="linkedin no-underline" aria-label="share on LinkedIn"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
 </a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-After being accepted for speaking at Agile India 2022 I was asked a few questions. I figured rather than a paragraph, the questions would make interesting blog posts:
-I came to agile completely the wrong way. I&rsquo;ve been developing software professionally since I was a teenager and was lucky enough to start out with projects where I was given plenty of agency to decide on how to tackle problems and the independence to make my own mistakes and learn from them.
+</div>
+<h1 class="f1 athelas mt3 mb1">AI-dvent of Code 2023: Day 4</h1>
+<time class="f6 mv4 dib tracked" datetime=2023-12-05T00:00:00Z>December 5, 2023</time>
+<span class="f6 mv4 dib tracked"> - 4 minutes read</span>
+<span class="f6 mv4 dib tracked"> - 739 words</span>
+</header>
+<div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>After the glimmer of hope on <a href=https://beny23.github.io/posts/advent_of_code_2023_day_3_ai_experiments/>day 3</a> I was quite optimistic
+for the <a href=https://adventofcode.com/2023/day/4>day 4 puzzle</a>. I kept going with the <code>phind-codellama</code> model.
+I continued with keeping the model on a fairly tight leash and just being very specific as to what I wanted it to do.</p>
+<h1 id=whats-the-puzzle>What&rsquo;s the puzzle?</h1>
+<p>So, for the first part, we had to parse a text file and then match up numbers and winning numbers.</p>
+<p>Fairly early on, I asked the model to come up for a test case for my parsing code, and this is what it came up with:</p>
+<pre tabindex=0><code>@Test
+fun testParseCards() {
+    val input = listOf(
+        &quot;Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53&quot;,
+        &quot;Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19&quot;)
+    val expected = listOf(
+        Pair(setOf(41, 48, 83, 86, 17), setOf(83, 86, 6, 31, 17, 9, 48, 53)),
+        Pair(setOf(13, 32, 20, 16, 61), setOf(61, 30, 68, 82, 17, 32, 24, 19))
+    )
+    assertEquals(expected, parseCards(input))
+}
+</code></pre><p>Which is fairly impressive. Though I still have been creating the function first and asking the
+model for a test straight after. Really I should be creating the test first, but I&rsquo;m still finding my feet. Any
+excuse really ;-)</p>
+<p>For part 1, I got a bit enthused about playing with Kotlin, so I didn&rsquo;t end up consulting the model, for the rest of
+the solution:</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-kotlin data-lang=kotlin><span style=color:#ff79c6>fun</span> <span style=color:#50fa7b>parseNumbers</span>(input: String) =
+    input.split(<span style=color:#f1fa8c>&#34; &#34;</span>)
+        .filter { !<span style=color:#ff79c6>it</span>.equals(<span style=color:#f1fa8c>&#34;&#34;</span>) }
+        .map { <span style=color:#ff79c6>it</span>.toInt() }.toSet()
+
+<span style=color:#ff79c6>fun</span> <span style=color:#50fa7b>parseCards</span>(input: List&lt;String&gt;) =
+    input.map { line <span style=color:#ff79c6>-&gt;</span>
+        <span style=color:#ff79c6>val</span> (_, winning, mine) = line.split(Regex(<span style=color:#f1fa8c>&#34;[:|]&#34;</span>))
+        Pair(parseNumbers(winning), parseNumbers(mine))
+    }
+
+<span style=color:#ff79c6>fun</span> <span style=color:#50fa7b>calculateWinners</span>(input: List&lt;Pair&lt;Set&lt;Int&gt;, Set&lt;Int&gt;&gt;&gt;) =
+    input.map { (winning, mine) <span style=color:#ff79c6>-&gt;</span> 
+        winning.intersect(mine).size 
+    }
+</code></pre></td></tr></table>
+</div>
+</div><p>I am really beginning to enjoy the cleanness of using kotlin functionally. The destructuring is what I&rsquo;m used to from
+Scala and Haskell, and for AoC I find the conciseness that just functions allow really useful.</p>
+<h1 id=code-analysis>Code Analysis</h1>
+<p>For part 2, gave the model some homework. I told it what I had done and asked it to generate some code based on it:</p>
+<pre tabindex=0><code>&gt;&gt;&gt; &quot;&quot;&quot;
+... based on the following code, I would like to have a function 
+... that processes the list of strings in reverse and creates a 
+... stack where the number of cumulative wins are placed:
+... 
+... [see code above]
+... &quot;&quot;&quot;
+```Kotlin
+fun calculateCumulativeWins(input: List&lt;String&gt;): Stack&lt;Int&gt; {
+    val cards = parseCards(input)
+    val winners = calculateWinners(cards).reversed() 
+    
+    val cumulativeWins = winners.scan(0, Int::plus) 
+    return Stack&lt;Int&gt;().apply { addAll(cumulativeWins) }
+}
+
+In this example, I've added an extension function `scan` to 
+calculate the cumulative sum. It takes the list of winners 
+and applies the `plus` operation in sequence, accumulating
+the results. The result is then converted into a `Stack&lt;Int&gt;` 
+for easy access.
+</code></pre><p>Now, that didn&rsquo;t work - for a pretty obvious reason, but let&rsquo;s see whether the model can figure it out:</p>
+<pre tabindex=0><code>&gt;&gt;&gt; &quot;&quot;&quot;
+... The code produces the following error, is there an import missing?
+...
+... Unresolved reference: Stack
+... &quot;&quot;&quot;
+Yes, you need to import the `Stack` class from the `java.util` package 
+at the beginning of your file:
+
+```Kotlin
+import java.util.Stack
+</code></pre><p>Less impressive was that my initial idea of creating a stack and working out the solution by going through the list
+backwards didn&rsquo;t get anywhere, but that was my dead end.</p>
+<p>Eventually, I just ended up with a solution based on some bits generated by the AI:</p>
+<pre tabindex=0><code>&gt;&gt;&gt; then it should process the winners list by iterating 
+... over the winners array and adding e to each of the mutable 
+... list from the index and for n elements
+To modify the `calculateCumulativeWins` function as you described, 
+you can use the following code:
+
+```Kotlin
+fun calculateCumulativeWins(input: List&lt;String&gt;): MutableList&lt;Int&gt; {
+    val cards = parseCards(input)
+    val winners = calculateWinners(cards).reversed() 
+    
+    val cumulativeWins = MutableList(winners.size) { 0 } 
+    
+    for (index in winners.indices) {
+        val e = winners[index]
+        for (n in index until winners.size) {
+            cumulativeWins[n] += e 
+        }
+    }
+    
+    return cumulativeWins 
+}
+</code></pre><p>This wasn&rsquo;t a million miles away from the solution I used:</p>
+<ul>
+<li><a href=https://github.com/beny23/advent-of-code/blob/main/2023/kotlin-ai/day4/src/main/kotlin/Part1.kt>https://github.com/beny23/advent-of-code/blob/main/2023/kotlin-ai/day4/src/main/kotlin/Part1.kt</a></li>
+<li><a href=https://github.com/beny23/advent-of-code/blob/main/2023/kotlin-ai/day4/src/main/kotlin/Part2.kt>https://github.com/beny23/advent-of-code/blob/main/2023/kotlin-ai/day4/src/main/kotlin/Part2.kt</a></li>
+</ul>
+<h1 id=conclusion>Conclusion</h1>
+<p>The conclusions for day 4 were pretty much the same as <a href=https://beny23.github.io/posts/advent_of_code_2023_day_3_ai_experiments/>day 3</a>
+and I am still pretty sure that I&rsquo;m faster googling than having a conversation with the LLM. But I also haven&rsquo;t
+seen it completely fail yet.</p>
+<p>See you on Day 5 when there is a choice between brute force and a bit of thinking.</p>
+<b>Tags</b>
+<a href=https://beny23.github.io/tags/functional/>functional</a> <a href=https://beny23.github.io/tags/kotlin/>kotlin</a> <a href=https://beny23.github.io/tags/advent-of-code/>advent-of-code</a> <a href=https://beny23.github.io/tags/llm/>llm</a>
+<p>
+If you'd like to find more of my writing, why not follow me on
+<a href=https://twitter.com/giskard23 title="Twitter link" rel=noopener aria-label="follow on Twitter - Opens in a new window">Twitter</a> or
+<a href=https://infosec.exchange/@beny23 title="Mastodon link" rel=noopener aria-label="follow on Mastodon - Opens in a new window">Mastodon</a>?
+</p>
+<div class="mt6 instapaper_ignoref">
 </div>
 </div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/my_take_on_engineering_room_9/ class="link black dim">
-Less is more agile
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-Dave Farley and Allen Holub are two people that I respect hugely when it comes to Software Development. I&rsquo;ve been following them on twitter for quite a while, and am always taken in about their takes on driving continuous delivery and &ldquo;lowercase agile&rdquo; forward. So when both came together for Dave&rsquo;s Engineering Room (sponsored by Equal Experts, who I work with), it was bound to be very interesting.
-In this post I try to outline my key takeaways from watching the chat.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/simple_and_secure_services_for_all/ class="link black dim">
-A mission statement that actually makes sense
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-I was really positively and pleasantly surprised when I found out what HMRC Digital&rsquo;s mission statement was.
-Normally, I am not a fan of mission statements. They usually read like this:
-Our mission is focused on six core aspirations the company continually strives to achieve&mldr;
-Or some such drivel. Verbal gymnastics to make a company sound like everything to everyone - without being offensive to anyone - which then gets used to &ldquo;align&rdquo; people on mandated fun days.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/curating_vulnerabilities/ class="link black dim">
-Curating Dependency Vulnerabilities
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-In this post, I am going to look at an increasingly important part of securing applications: Your supply chain. This includes every library, tool or service that you are using to build, run and monitor your service.
-When the log4shell vulnerability hit, it wasn&rsquo;t just a matter of looking at the dependencies that your source code pulls in, but also at the infrastructure you&rsquo;re using and the build pipeline.
-Have you had a look at the vulnerability reports of your dependencies lately?
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/catalogue_deepdive/ class="link black dim">
-How to run a Digital Platform at Scale
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-This post peels back the covers on what it is like to work with a large digital platform. The platform in question is MDTP - Multichannel Digital Tax Platform, which supports a UK-based tax collection agency which is using a hyperscale cloud provider with a sideline in books.
-I&rsquo;ve previously described what it is like to work in MDTP (Making Software. Quickly) during the Covid-19 responses that allowed the UK government to provide financial support for millions turning around projects in record time.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/on_weaponisation_of_open_source/ class="link black dim">
-On the weaponisation of open source
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-First of all I need the preface this article on how much I abhor the Russian invasion of Ukraine and I wholeheartedly support the sanctions. However, I think the conflict has spilled over into areas of software development that have got some unintended consequences attached.
-As part of this post, I&rsquo;m going to look at
-the decision by MongoDB to cut off services in Russia the destructive change in a node library that deleted files on Russian IPs a change in code/licence in a community terraform module to assert that Putin is a dickhead MongoDB cutting off Russian customers MongoDB is a company and in order to comply with sanctions they have decided to cut off Russian customers.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/what_makes_a_good_developer/ class="link black dim">
-What makes a good developer
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-A few days back as part of a general discussion about interviewing at Equal Experts, we looked at the question &ldquo;What makes a good developer?&rdquo; Could we come up with a list of qualities in a developer that we&rsquo;d want to look for? This post illustrates my thinking.
-Why do you ask? To put it in a bit of context, I&rsquo;m a software developer, I&rsquo;m not a recruiter, but I&rsquo;ve been involved with technical interviewing for quite a while, and have marked a fair number of take-home tests over the years, but recently we thought that the experience was not as good as it could be.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/pwnkit_how_to_check_and_exploit/ class="link black dim">
-Pwnkit: How to exploit and check
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-Pwnkit is a vulnerability that uses a bug in polkit to elevate permissions to root. This write-up shows how to reproduce it using Ubuntu and what to do to check whether a system is vulnerable.
-What went wrong? Quoting from the original researchers:
-This vulnerability is an attacker&rsquo;s dream come true:
-pkexec is installed by default on all major Linux distributions; pkexec is vulnerable since its creation, in May 2009; any unprivileged local user can exploit this vulnerability to obtain full root privileges; although this vulnerability is technically a memory corruption, it is exploitable instantly, reliably, in an architecture-independent way; and it is exploitable even if the polkit daemon itself is not running.
-</div>
-</div>
-</div>
-</div>
-</section>
-<ul class="pagination pagination-default">
-<li class=page-item>
-<a href=/posts/ aria-label=First class=page-link role=button><span aria-hidden=true>&#171;&#171;</span></a>
+<aside class="w-30-l mt6-l">
+<div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+<p class="f5 b mb3">Related</p>
+<ul class="pa0 list">
+<li class=mb2>
+<a href=/posts/advent_of_code_2023_day_3_ai_experiments/>AI-dvent of Code 2023: Day 3</a>
 </li>
-<li class=page-item>
-<a href=/posts/page/2/ aria-label=Previous class=page-link role=button><span aria-hidden=true>&#171;</span></a>
+<li class=mb2>
+<a href=/posts/advent_of_code_2023_day_2_ai_experiments/>AI-dvent of Code 2023: Day 2</a>
 </li>
-<li class=page-item>
-<a href=/posts/ aria-label="Page 1" class=page-link role=button>1</a>
+<li class=mb2>
+<a href=/posts/advent_of_code_2023_day_1_ai_experiments/>AI-dvent of Code 2023: Day 1</a>
 </li>
-<li class=page-item>
-<a href=/posts/page/2/ aria-label="Page 2" class=page-link role=button>2</a>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_22/>Advent of code 2021: Day 22</a>
 </li>
-<li class="page-item active">
-<a aria-current=page aria-label="Page 3" class=page-link role=button>3</a>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_21/>Advent of code 2021: Day 21</a>
 </li>
-<li class=page-item>
-<a href=/posts/page/4/ aria-label="Page 4" class=page-link role=button>4</a>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_20/>Advent of code 2021: Day 20</a>
 </li>
-<li class=page-item>
-<a href=/posts/page/5/ aria-label="Page 5" class=page-link role=button>5</a>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_18/>Advent of code 2021: Day 18</a>
 </li>
-<li class=page-item>
-<a href=/posts/page/4/ aria-label=Next class=page-link role=button><span aria-hidden=true>&#187;</span></a>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_17/>Advent of code 2021: Day 17</a>
 </li>
-<li class=page-item>
-<a href=/posts/page/7/ aria-label=Last class=page-link role=button><span aria-hidden=true>&#187;&#187;</span></a>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_16/>Advent of code 2021: Day 16</a>
 </li>
-</ul></article>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_15/>Advent of code 2021: Day 15</a>
+</li>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_14/>Advent of code 2021: Day 14</a>
+</li>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_13/>Advent of code 2021: Day 13</a>
+</li>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_12/>Advent of code 2021: Day 12</a>
+</li>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_11/>Advent of code 2021: Day 11</a>
+</li>
+<li class=mb2>
+<a href=/posts/advent_of_code_2021_day_10/>Advent of code 2021: Day 10</a>
+</li>
+</ul>
+</div>
+</aside>
+</article>
 </main>
 <footer class="bg-black bottom-0 w-100 pa3" role=contentinfo>
 <div class="flex justify-between">
