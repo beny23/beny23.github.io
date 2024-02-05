@@ -2,27 +2,30 @@
 <head>
 <meta charset=utf-8>
 <meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
-<title>Tales about Software Engineering</title>
+<title>Resisting compliance is futile | Tales about Software Engineering</title>
 <meta name=viewport content="width=device-width,minimum-scale=1">
 <meta name=generator content="Hugo 0.92.0">
 <meta name=ROBOTS content="INDEX, FOLLOW">
 <link href=/dist/css/app.4fc0b62e4b82c997bb0041217cd6b979.css rel=stylesheet>
-<link href=/posts/index.xml rel=alternate type=application/rss+xml title="Tales about Software Engineering">
-<link href=/posts/index.xml rel=feed type=application/rss+xml title="Tales about Software Engineering">
-<meta property="og:title" content="Posts">
-<meta property="og:description" content="Writings about software: development and security">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://beny23.github.io/posts/">
-<meta itemprop=name content="Posts">
-<meta itemprop=description content="Writings about software: development and security"><meta name=twitter:card content="summary">
-<meta name=twitter:title content="Posts">
-<meta name=twitter:description content="Writings about software: development and security">
+<meta property="og:title" content="Resisting compliance is futile">
+<meta property="og:description" content="About two months ago I stumbled across a great YouTube video of a talk by Charity Majors called Compliance standards should be modern development practices. Now let&rsquo;s step back for a minute. Am I seriously suggesting that anything with the word &ldquo;compliance&rdquo; is going to be a riveting watch? Why, yes I am. And with good reason. I&rsquo;m a fan of good security and I like agile. And I think one of the major stumbling blocks about putting Sec into DevOps is to forget the agile origins of DevOps culture.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://beny23.github.io/posts/my_take_on_compliance_in_modern_dev/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2024-02-05T00:00:00+00:00">
+<meta property="article:modified_time" content="2024-02-05T00:00:00+00:00">
+<meta itemprop=name content="Resisting compliance is futile">
+<meta itemprop=description content="About two months ago I stumbled across a great YouTube video of a talk by Charity Majors called Compliance standards should be modern development practices. Now let&rsquo;s step back for a minute. Am I seriously suggesting that anything with the word &ldquo;compliance&rdquo; is going to be a riveting watch? Why, yes I am. And with good reason. I&rsquo;m a fan of good security and I like agile. And I think one of the major stumbling blocks about putting Sec into DevOps is to forget the agile origins of DevOps culture."><meta itemprop=datePublished content="2024-02-05T00:00:00+00:00">
+<meta itemprop=dateModified content="2024-02-05T00:00:00+00:00">
+<meta itemprop=wordCount content="1049">
+<meta itemprop=keywords content="my-take-on,agile,compliance,appsec,"><meta name=twitter:card content="summary">
+<meta name=twitter:title content="Resisting compliance is futile">
+<meta name=twitter:description content="About two months ago I stumbled across a great YouTube video of a talk by Charity Majors called Compliance standards should be modern development practices. Now let&rsquo;s step back for a minute. Am I seriously suggesting that anything with the word &ldquo;compliance&rdquo; is going to be a riveting watch? Why, yes I am. And with good reason. I&rsquo;m a fan of good security and I like agile. And I think one of the major stumbling blocks about putting Sec into DevOps is to forget the agile origins of DevOps culture.">
 <link rel=me href=https://infosec.exchange/@beny23>
 <script data-goatcounter=https://beny23.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
 </head>
 <body class="ma0 avenir bg-near-white production">
-<header class="cover bg-top" style=background-image:url(https://beny23.github.io/images/background.png)>
-<div class=bg-black-60>
+<header class="cover bg-top" style=background-image:url(https://beny23.github.io/images/my_take_on_compliance_in_modern_dev_title.png)>
+<div class="pb3-m pb6-l bg-black-60">
 <nav class="pv3 ph3 ph4-ns" role=navigation>
 <div class="flex-l justify-between items-center center">
 <a href=/ class="f3 fw2 hover-white no-underline white-90 dib">
@@ -64,200 +67,180 @@ Tags
 </div>
 </div>
 </nav>
-<div class="tc-l pv4 pv6-l ph3 ph4-ns">
-<h1 class="f2 f-subheadline-l fw2 white-90 mb0 lh-title">
-Posts
-</h1>
+<div class="tc-l pv6 ph3 ph4-ns">
+<h1 class="f2 f1-l fw2 white-90 mb0 lh-title">Resisting compliance is futile</h1>
 </div>
 </div>
 </header>
 <main class=pb7 role=main>
-<article class="pa3 pa4-ns nested-copy-line-height nested-img">
-<section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy mid-gray"></section>
-<section class="flex-ns flex-wrap justify-around mt5">
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/advent_of_code_2021_day_5/ class="link black dim">
-Advent of code 2021: Day 5
+<article class="flex-l flex-wrap justify-between mw8 center ph3">
+<header class="mt4 w-100">
+<aside class="instapaper_ignoref b helvetica tracked">
+POSTS
+</aside>
+<div id=sharing class=mt3>
+<a href="https://www.facebook.com/sharer.php?u=https://beny23.github.io/posts/my_take_on_compliance_in_modern_dev/" class="facebook no-underline" aria-label="share on Facebook"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M28.765 50.32h6.744V33.998h4.499l.596-5.624h-5.095l.007-2.816c0-1.466.14-2.253 2.244-2.253h2.812V17.68h-4.5c-5.405.0-7.307 2.729-7.307 7.317v3.377h-3.369v5.625h3.369V50.32zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd"/></svg>
 </a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-Following from my efforts on Day 4 of Advent of Code 2021 I was encouraged to try writing up more of my attempts to teach myself Haskell while having fun trying to solve puzzles.
-The problem The exercise was concerned with drawing lines on a grid and finding intersections:
-An entry like 1,1 -> 1,3 covers points 1,1, 1,2, and 1,3. An entry like 9,7 -> 7,7 covers points 9,7, 8,7, and 7,7.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/advent_of_code_2021_day_4/ class="link black dim">
-Advent of code 2021: Day 4
+<a href="https://twitter.com/share?url=https://beny23.github.io/posts/my_take_on_compliance_in_modern_dev/&text=Resisting%20compliance%20is%20futile" class="twitter no-underline" aria-label="share on Twitter"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
 </a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-For Advent of Code 2021 rather than just thinking &ldquo;Hey, what a good idea - I should give that a go&rdquo; and then promptly forgetting about it, I thought it would be a good opportunity to explore Haskell a bit more.
-On day 4 - when I started scratching my head for a bit - I discovered one interesting aspect about a functionally pure approach &ldquo;forced&rdquo; on me by Haskell.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/screen_record_meetings/ class="link black dim">
-Record and publish your meeting
+<a href="https://www.linkedin.com/shareArticle?mini=true&url=https://beny23.github.io/posts/my_take_on_compliance_in_modern_dev/&title=Resisting%20compliance%20is%20futile" class="linkedin no-underline" aria-label="share on LinkedIn"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
 </a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-Scenario: You&rsquo;re in a handover session and explain everything in great detail but Dave is too hungover, Jim is on holiday and Jane is at another meeting and Chris isn&rsquo;t asking any questions and in any case Trevor (who is actually going to be looking after this system after handover) hasn&rsquo;t been recruited yet.
-Wouldn&rsquo;t it be useful to record the session and make it available? Now, this piece of writing does not explore whether we should be recording meetings, nor does it attempt to answer the question of whether good documentation wouldn&rsquo;t be preferable to having to sit and spend hours watching someone droning on about something that could be condensed into a five minute read of a blog post.
+</div>
+<h1 class="f1 athelas mt3 mb1">Resisting compliance is futile</h1>
+<time class="f6 mv4 dib tracked" datetime=2024-02-05T00:00:00Z>February 5, 2024</time>
+<span class="f6 mv4 dib tracked"> - 5 minutes read</span>
+<span class="f6 mv4 dib tracked"> - 1049 words</span>
+</header>
+<div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>About two months ago I stumbled across a great YouTube video of a talk by <a href=https://twitter.com/mipsytipsy>Charity Majors</a> called
+<a href="https://www.youtube.com/watch?v=tuunGZ-4wPQ">Compliance standards should be modern development practices</a>. Now let&rsquo;s
+step back for a minute. Am I seriously suggesting that anything with the word &ldquo;compliance&rdquo; is going to be a riveting
+watch? Why, yes I am. And with good reason. I&rsquo;m a fan of <a href=https://beny23.github.io/posts/why_appsec_fails/>good security</a> and I like
+<a href=https://beny23.github.io/posts/appsec_loves_agile/>agile</a>. And I think one of the major stumbling blocks about putting Sec into DevOps is to
+forget the agile origins of DevOps culture.</p>
+<p><img src=/images/my_take_on_compliance_in_modern_dev_comply_or_die.png alt="Comply or Die"></p>
+<p>This is where books like <a href=https://itrevolution.com/product/investments-unlimited/>Investments Unlimited</a> or
+<a href=https://beny23.github.io/posts/my_take_on_wiring_winning_org/>Wiring the Winning Organisation</a> come into their own. And this talk by
+Charity at FinTech DevCon about compliance, standards and software development fits right in.</p>
+<p>There a few points that stuck in my mind:</p>
+<blockquote>
+<p>Everyone tests in production, only some actually admit it</p>
+</blockquote>
+<p>Modern software development is all about fast feedback loops. Getting into production as quickly as you can, allows you
+to find problems quicker and therefore fix them quicker. How often have we had to learn that all bugs cannot be prevented?</p>
+<p>I&rsquo;ve been in waterfall organisations that spend months writing detailed requirements specifications, high-level and
+low-level design documents, test strategy documents, test plans using enough paper to burn a good chunk of rainforest.
+And when we went into production, we found something didn&rsquo;t work properly, and we had to pull all-nighters to get the
+system up and running.</p>
+<p>The bad old days, you might say. Nobody does that anymore, right? Right?</p>
+<p>But I&rsquo;ve also been in agile shops - or shops that think that they are agile - where deployments happen often
+and something falls through the cracks and isn&rsquo;t discovered for months on end. Until the regulator comes along and
+drops a huge fine.</p>
+<p>Charity&rsquo;s comment challenges us to be honest. There is only so much faulty behaviour that we can observe in
+testing environments, and I like the idea of being honest about testing in production. Once we accept that, the next
+few steps are logical:</p>
+<p>First, &ldquo;you build it you run it&rdquo;. That&rsquo;s the idea that</p>
+<blockquote>
+<ul>
+<li>You can&rsquo;t operate the code if you didn&rsquo;t develop it</li>
+<li>You can&rsquo;t develop the code if you don&rsquo;t operate it</li>
+</ul>
+</blockquote>
+<p>A development team whose code causes regular middle-of-the-night alerts that wake up the Ops team won&rsquo;t get fixed with
+the same urgency if it&rsquo;s <em>you</em> that gets woken up at 4am. And an Ops team that doesn&rsquo;t know how the code work, won&rsquo;t be
+able to diagnose faults as efficiently as the people who wrote the code. Well, in theory anyway. All too often have I
+looked at a snippet of code and thought &ldquo;who wrote this shit?&rdquo; - inevitably to be followed by &ldquo;Oh, it was me&rdquo;.</p>
+<p><img src=/images/my_take_on_compliance_in_modern_dev_facepalm.png alt=Facepalm></p>
+<p>Second, when consciously testing in production, it is important to build observability into your software. You need to be able
+to look at your service and check whether there&rsquo;s anything weird going on. Or unexpected. And as co-founder of
+<a href=https://honeycomb.io/>honeycomb.io</a>, Charity has forgotten more about Observability than I will ever learn, so when
+she states that fast feedback loops are important and that continuous deployments make things safer, I would
+trust that. In any case, the <a href=https://itrevolution.com/product/accelerate/>Accelerate book</a> has shown how gates make software worse.</p>
+<h1 id=but-but-soc2-and-iso-27001>But but, SOC2 and ISO 27001</h1>
+<p>Compliance is all about the triad of confidentiality, integrity and availability. You must protect customer data, you
+must have policies and follow them. Frameworks such as SOC2 and ISO 27001 do not prescribe <em>how</em> to do that.</p>
+<p>Too often people I&rsquo;ve heard:</p>
+<blockquote>
+<p>We&rsquo;d love to work agile or test in production, but we can&rsquo;t because of regulation!</p>
+</blockquote>
+<p>It&rsquo;s just not true. Talk to your risk team. Find out what the frameworks actually say!</p>
+<p>If the paperwork and the processes becomes more important than the security, then that is security theatre. And that
+drags us down and makes us less secure. If our engineers constantly have to think about compliance, then we&rsquo;re doing
+something wrong. <a href=https://twitter.com/shehackspurple>Tanya Janca</a> did a <a href=https://youtu.be/-ZxY2XlM3-0>great talk</a>
+about how slowing developers down artificially leads to worse security.</p>
+<p>Engineering performance should be on everyone&rsquo;s mind. Anything that stops us from moving to production quickly, means
+we lengthen our feedback loops.</p>
+<blockquote>
+<p>Undeployed software ages like milk</p>
+</blockquote>
+<p>Another great quote. The longer we leave software undeployed, say because of &ldquo;change freezes&rdquo;, the bigger the changes
+get when we finally open the floodgates. Ben Conrad did a great piece about
+<a href=https://www.linkedin.com/pulse/how-change-freeze-can-create-risk-ben-conrad/>why change freezes don&rsquo;t work</a>.</p>
+<h1 id=theres-no-i-in-team>There&rsquo;s no I in Team</h1>
+<p>I also found myself nodding very vehemently when Charity talked about teams. It&rsquo;s teams that make great software,
+individuals may be talented or very experienced, but unless a team works well together and pulls in the same direction, it
+will not work.</p>
+<p>To put it another way &ldquo;great teams make great engineers&rdquo;. I&rsquo;ve observed this many a time. Places where people have
+worked well together end up delivering software at an unbelievable pace, and bringing junior engineers in those teams
+lifts them to the same level. I&rsquo;ve been on teams where after a year being part of it, every member could go out and step
+up to a tech lead role no problem. And I&rsquo;ve also seen toxic teams, where politics and infighting led to a death by 1000
+cuts.</p>
+<p>Social-technical team performance so much more important than individual performance. The ability to ship quickly is
+informed by the team you are in, not your individual skill. In a good team shipping code should be as small, common,
+regular, unremarkable as a heartbeat.</p>
+<h1 id=conclusion>Conclusion</h1>
+<p>I enjoyed the talk and find it very encouraging that from so many different places, I find similar messages about working
+in an agile fashion, where DevOps and DevSecOps means bringing the right culture. Peter Drucker said &ldquo;culture eats
+strategy for breakfast&rdquo;. <a href=https://twitter.com/RealGeneKim>Gene Kim</a> stressed the importance &ldquo;social circuitry&rdquo;.
+<a href=https://twitter.com/AmyCEdmondson>Amy Edmondson</a> taught us about the importance of psychological safety.
+Example after example of &ldquo;people over process&rdquo;, so let&rsquo;s make sure we treat compliance the same way.
+Anything else is futile!</p>
+<p><img src=/images/my_take_on_compliance_in_modern_dev_resistance_is_futile.png alt="Resistance if futile"></p>
+<p>That last sentence was maybe a bit tongue in cheek, I certainly don&rsquo;t subscribe to the idea that it&rsquo;s all YOLO and
+we can throw out all policies and process documentation, but process and policy needs to support people doing their
+work, not the other way round.</p>
+<b>Tags</b>
+<a href=https://beny23.github.io/tags/my-take-on/>my-take-on</a> <a href=https://beny23.github.io/tags/agile/>agile</a> <a href=https://beny23.github.io/tags/compliance/>compliance</a> <a href=https://beny23.github.io/tags/appsec/>appsec</a>
+<p>
+If you'd like to find more of my writing, why not follow me on
+<a href=https://twitter.com/giskard23 title="Twitter link" rel=noopener aria-label="follow on Twitter - Opens in a new window">Twitter</a> or
+<a href=https://infosec.exchange/@beny23 title="Mastodon link" rel=noopener aria-label="follow on Mastodon - Opens in a new window">Mastodon</a>?
+</p>
+<div class="mt6 instapaper_ignoref">
 </div>
 </div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/fizzbuzz_without_ifs/ class="link black dim">
-Fizzbuzz without if clauses
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-In this writing I aim to complete a Fizzbuzz without if statements, conditionals, pattern matching or even using modulus calculations. And if that isn&rsquo;t enough I thought I&rsquo;d use the opportunity to explore Haskell.
-The idea originated in the Friday lunchtime &ldquo;Curry Club&rdquo; at HMRC Digital where a few like-minded software engineers are getting together to teach themselves Haskell. (For those not in on the joke, the language is named after the logician Haskell Curry).
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/one_plus_one_is_crash/ class="link black dim">
-Exponential exploit: Why AppSec is hard
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-In this blog post, I would like to explore how missing input validation even in a trivial service can leave parts of server infrastructure crumbling.
-In my opinion, this why securing applications (AppSec) is very difficult. Put supply chain attacks, unpatched systems and misconfiguring services to one side for a minute and consider that a lot of software is written by developers who do not necessarily consider all the edge cases or implications of what can go wrong even in the simplest of pieces of code (or just copy/paste from Stackoverflow).
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/rds_tcps_db_link/ class="link black dim">
-Fixing Oracle DB Link Certificate Errors in RDS
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-After upgrading my AWS RDS instance from Oracle 11g Oracle 19c, my DB Link stopped working with a certificate error. Uh-oh.
-The symptoms of the problem that I encountered are best summed up by this SQL*Plus snippet:
-SQL> select * from dual@test1; select * from dual@test1 * ERROR at line 1: ORA-29024: Certificate validation failure A bit of context:
-The above is testing an Oracle Database Link &ldquo;test1&rdquo; which was created using the TCPS protocol (i.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/social_network_distance/ class="link black dim">
-Social network distance
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-It&rsquo;s now about two weeks since the HMRCs splurge on getting the UK to go out for a meal has finished. In discount dining finder I showed how to make a map-based tool to search all Eat Out to Help Out (EOTHO) establishments in very little time.
-What follows is the story of what happened after the site launched, and how I failed to make a dent at marketing.
-To recap:
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/discounted_dining_finder/ class="link black dim">
-Discounted Dining Finder
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-This post describes how I developed the Discount Dining Finder a lookup map tool for the Eat Out to Help Out scheme in my spare time. I currently work with Equal Experts and HMRC. The aim of this writing is to provide an insight into how problems of scaling services can be solved by having no servers and not using &ldquo;serverless services&rdquo; either.
-Aperitif A really nice side effect in working in a high functioning environment is that sometimes you&rsquo;re involved in bouncing ideas off each other.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/the_shield_and_the_sword/ class="link black dim">
-The Shield and the Sword
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-To successfully deliver software a developer needs a shield and a sword.
-A good product owner, delivery manager or alike that will shield the engineers from having to attend too many meetings, giving long-winded status updates and essentially allow them to get on with it. Shields go to all the meetings with the &ldquo;business&rdquo; and explain what can and cannot be done, without the engineer having to attend. A shield would also filter all the last-minute requirements or requests for gold plating without having to be dragged into endless meetings.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/making_software_quickly/ class="link black dim">
-Making Software. Quickly.
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-In this post, I describe my personal experience of being part of a software development team working with Equal Experts and HMRC during Covid-19. Under normal circumstances, we&rsquo;re responsible for tax services such as Self Assessment, PAYE Expenses and Benefits, VAT submissions amongst others. These services run on the Multi-channel Digital Tax Platform (MDTP). This platform is hosted in a hyperscale cloud (the cloud provider has a sideline selling books), run in-house by HMRC teams made up of permanent staff and consultants.
-</div>
-</div>
-</div>
-</div>
-</section>
-<ul class="pagination pagination-default">
-<li class=page-item>
-<a href=/posts/ aria-label=First class=page-link role=button><span aria-hidden=true>&#171;&#171;</span></a>
+<aside class="w-30-l mt6-l">
+<div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+<p class="f5 b mb3">Related</p>
+<ul class="pa0 list">
+<li class=mb2>
+<a href=/posts/my_take_on_wiring_winning_org/>Victorification: Wiring the Winning Organisation Book Review</a>
 </li>
-<li class=page-item>
-<a href=/posts/page/5/ aria-label=Previous class=page-link role=button><span aria-hidden=true>&#171;</span></a>
+<li class=mb2>
+<a href=/posts/appsec_loves_agile/>AppSec loves Agile</a>
 </li>
-<li class=page-item>
-<a href=/posts/page/3/ aria-label="Page 3" class=page-link role=button>3</a>
+<li class=mb2>
+<a href=/posts/why_appsec_fails/>Why AppSec fails</a>
 </li>
-<li class=page-item>
-<a href=/posts/page/4/ aria-label="Page 4" class=page-link role=button>4</a>
+<li class=mb2>
+<a href=/posts/my_take_on_engineering_room_9/>Less is more agile</a>
 </li>
-<li class=page-item>
-<a href=/posts/page/5/ aria-label="Page 5" class=page-link role=button>5</a>
+<li class=mb2>
+<a href=/posts/curating_vulnerabilities/>Curating Dependency Vulnerabilities</a>
 </li>
-<li class="page-item active">
-<a aria-current=page aria-label="Page 6" class=page-link role=button>6</a>
+<li class=mb2>
+<a href=/posts/my_take_on_engineering_room_1/>Context and Lines - My Take on Engineering Room Ep 1</a>
 </li>
-<li class=page-item>
-<a href=/posts/page/7/ aria-label="Page 7" class=page-link role=button>7</a>
+<li class=mb2>
+<a href=/posts/bsides_ncl_2023/>BSides Newcastle 2023: Chaos for the future</a>
 </li>
-<li class=page-item>
-<a href=/posts/page/7/ aria-label=Next class=page-link role=button><span aria-hidden=true>&#187;</span></a>
+<li class=mb2>
+<a href=/posts/leave_the_badge_at_the_door/>Leave the badge at the door</a>
 </li>
-<li class=page-item>
-<a href=/posts/page/7/ aria-label=Last class=page-link role=button><span aria-hidden=true>&#187;&#187;</span></a>
+<li class=mb2>
+<a href=/posts/aotb_2023/>Agile on the Beach 2023: we're going to need a bigger boat</a>
 </li>
-</ul></article>
+<li class=mb2>
+<a href=/posts/devops_enterprise_summit_2023_wednesday/>DevOps Enterprise Summit - airport culture</a>
+</li>
+<li class=mb2>
+<a href=/posts/devops_enterprise_summit_2023_tuesday/>DevOps Enterprise Summit - simple paper cranes</a>
+</li>
+<li class=mb2>
+<a href=/posts/worst_jobs_for_best_engineers/>Your Best Engineers Should Look After the Worst Systems</a>
+</li>
+<li class=mb2>
+<a href=/posts/automatic_dependency_updates/>The Case Against Automatic Dependency Updates</a>
+</li>
+<li class=mb2>
+<a href=/posts/harvesting_logs_for_fun_and_profit/>Harvesting Logs for Fun and Profit</a>
+</li>
+<li class=mb2>
+<a href=/posts/precision_munitions_for_denial_of_service/>Precision Munitions for Denial of Service</a>
+</li>
+</ul>
+</div>
+</aside>
+</article>
 </main>
 <footer class="bg-black bottom-0 w-100 pa3" role=contentinfo>
 <div class="flex justify-between">
