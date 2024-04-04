@@ -2,27 +2,30 @@
 <head>
 <meta charset=utf-8>
 <meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
-<title>Tales about Software Engineering</title>
+<title>XZ Backdoor: Not the End of Open Source | Tales about Software Engineering</title>
 <meta name=viewport content="width=device-width,minimum-scale=1">
 <meta name=generator content="Hugo 0.92.0">
 <meta name=ROBOTS content="INDEX, FOLLOW">
 <link href=/dist/css/app.4fc0b62e4b82c997bb0041217cd6b979.css rel=stylesheet>
-<link href=/posts/index.xml rel=alternate type=application/rss+xml title="Tales about Software Engineering">
-<link href=/posts/index.xml rel=feed type=application/rss+xml title="Tales about Software Engineering">
-<meta property="og:title" content="Posts">
-<meta property="og:description" content="Writings about software: development and security">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://beny23.github.io/posts/">
-<meta itemprop=name content="Posts">
-<meta itemprop=description content="Writings about software: development and security"><meta name=twitter:card content="summary">
-<meta name=twitter:title content="Posts">
-<meta name=twitter:description content="Writings about software: development and security">
+<meta property="og:title" content="XZ Backdoor: Not the End of Open Source">
+<meta property="og:description" content="When I stumbled across a post that an encryption library offers a potential backdoor to SSH connectivity on Good Friday, my first thought was: why is it always on a Friday that these things drop? And then my second one: oh bugger, here goes my weekend. Now, I won&rsquo;t go into the technical details, there are many, many, many, many better resources out there, but I can&rsquo;t help thinking that this would/should force the software industry to think.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://beny23.github.io/posts/xz_backdoor_is_not_the_end_of_open_source/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2024-04-04T00:00:00+00:00">
+<meta property="article:modified_time" content="2024-04-04T00:00:00+00:00">
+<meta itemprop=name content="XZ Backdoor: Not the End of Open Source">
+<meta itemprop=description content="When I stumbled across a post that an encryption library offers a potential backdoor to SSH connectivity on Good Friday, my first thought was: why is it always on a Friday that these things drop? And then my second one: oh bugger, here goes my weekend. Now, I won&rsquo;t go into the technical details, there are many, many, many, many better resources out there, but I can&rsquo;t help thinking that this would/should force the software industry to think."><meta itemprop=datePublished content="2024-04-04T00:00:00+00:00">
+<meta itemprop=dateModified content="2024-04-04T00:00:00+00:00">
+<meta itemprop=wordCount content="1072">
+<meta itemprop=keywords content="open-source,security,"><meta name=twitter:card content="summary">
+<meta name=twitter:title content="XZ Backdoor: Not the End of Open Source">
+<meta name=twitter:description content="When I stumbled across a post that an encryption library offers a potential backdoor to SSH connectivity on Good Friday, my first thought was: why is it always on a Friday that these things drop? And then my second one: oh bugger, here goes my weekend. Now, I won&rsquo;t go into the technical details, there are many, many, many, many better resources out there, but I can&rsquo;t help thinking that this would/should force the software industry to think.">
 <link rel=me href=https://infosec.exchange/@beny23>
 <script data-goatcounter=https://beny23.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
 </head>
 <body class="ma0 avenir bg-near-white production">
-<header class="cover bg-top" style=background-image:url(https://beny23.github.io/images/background.png)>
-<div class=bg-black-60>
+<header class="cover bg-top" style=background-image:url(https://beny23.github.io/images/xz_backdoor_is_not_the_end_of_open_source_title.jpg)>
+<div class="pb3-m pb6-l bg-black-60">
 <nav class="pv3 ph3 ph4-ns" role=navigation>
 <div class="flex-l justify-between items-center center">
 <a href=/ class="f3 fw2 hover-white no-underline white-90 dib">
@@ -64,149 +67,182 @@ Tags
 </div>
 </div>
 </nav>
-<div class="tc-l pv4 pv6-l ph3 ph4-ns">
-<h1 class="f2 f-subheadline-l fw2 white-90 mb0 lh-title">
-Posts
-</h1>
+<div class="tc-l pv6 ph3 ph4-ns">
+<h1 class="f2 f1-l fw2 white-90 mb0 lh-title">XZ Backdoor: Not the End of Open Source</h1>
 </div>
 </div>
 </header>
 <main class=pb7 role=main>
-<article class="pa3 pa4-ns nested-copy-line-height nested-img">
-<section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy mid-gray"></section>
-<section class="flex-ns flex-wrap justify-around mt5">
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/the_shield_and_the_sword/ class="link black dim">
-The Shield and the Sword
+<article class="flex-l flex-wrap justify-between mw8 center ph3">
+<header class="mt4 w-100">
+<aside class="instapaper_ignoref b helvetica tracked">
+POSTS
+</aside>
+<div id=sharing class=mt3>
+<a href="https://www.facebook.com/sharer.php?u=https://beny23.github.io/posts/xz_backdoor_is_not_the_end_of_open_source/" class="facebook no-underline" aria-label="share on Facebook"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M28.765 50.32h6.744V33.998h4.499l.596-5.624h-5.095l.007-2.816c0-1.466.14-2.253 2.244-2.253h2.812V17.68h-4.5c-5.405.0-7.307 2.729-7.307 7.317v3.377h-3.369v5.625h3.369V50.32zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd"/></svg>
 </a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-To successfully deliver software a developer needs a shield and a sword.
-A good product owner, delivery manager or alike that will shield the engineers from having to attend too many meetings, giving long-winded status updates and essentially allow them to get on with it. Shields go to all the meetings with the &ldquo;business&rdquo; and explain what can and cannot be done, without the engineer having to attend. A shield would also filter all the last-minute requirements or requests for gold plating without having to be dragged into endless meetings.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/making_software_quickly/ class="link black dim">
-Making Software. Quickly.
+<a href="https://twitter.com/share?url=https://beny23.github.io/posts/xz_backdoor_is_not_the_end_of_open_source/&text=XZ%20Backdoor:%20Not%20the%20End%20of%20Open%20Source" class="twitter no-underline" aria-label="share on Twitter"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
 </a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-In this post, I describe my personal experience of being part of a software development team working with Equal Experts and HMRC during Covid-19. Under normal circumstances, we&rsquo;re responsible for tax services such as Self Assessment, PAYE Expenses and Benefits, VAT submissions amongst others. These services run on the Multi-channel Digital Tax Platform (MDTP). This platform is hosted in a hyperscale cloud (the cloud provider has a sideline selling books), run in-house by HMRC teams made up of permanent staff and consultants.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/one_million_records_in_15s/ class="link black dim">
-One million records in 15 seconds
+<a href="https://www.linkedin.com/shareArticle?mini=true&url=https://beny23.github.io/posts/xz_backdoor_is_not_the_end_of_open_source/&title=XZ%20Backdoor:%20Not%20the%20End%20of%20Open%20Source" class="linkedin no-underline" aria-label="share on LinkedIn"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
 </a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-In this post, I&rsquo;d like to talk about optimisations that I recently used to provide a Scala Microservice that surfaced payment events. The events were held in an Oracle backend and the Microservice was in a docker container with (1 vCPU) allocated 512MB to the container and 256MB to the JVM that was running it. In this writing I&rsquo;m not going to talk about the Oracle optimisations to make the underlying query fly but rather would like to concentrate on the kinds of things that can make service code quick.
+</div>
+<h1 class="f1 athelas mt3 mb1">XZ Backdoor: Not the End of Open Source</h1>
+<time class="f6 mv4 dib tracked" datetime=2024-04-04T00:00:00Z>April 4, 2024</time>
+<span class="f6 mv4 dib tracked"> - 6 minutes read</span>
+<span class="f6 mv4 dib tracked"> - 1072 words</span>
+</header>
+<div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>When I stumbled across a <a href=https://www.openwall.com/lists/oss-security/2024/03/29/4>post</a> that an encryption library
+offers a potential backdoor to SSH connectivity on Good Friday, my first thought was: why is it always on a Friday that
+these things drop? And then my second one: oh bugger, here goes my weekend. Now, I won&rsquo;t go into the technical details,
+there are <a href=https://boehs.org/node/everything-i-know-about-the-xz-backdoor>many</a>,
+<a href=https://jfrog.com/blog/xz-backdoor-attack-cve-2024-3094-all-you-need-to-know/>many</a>,
+<a href=https://doublepulsar.com/inside-the-failed-attempt-to-backdoor-ssh-globally-that-got-caught-by-chance-bbfe628fafdd>many</a>,
+<a href=https://research.swtch.com/xz-script>many</a>
+better resources out there, but I can&rsquo;t help thinking that this would/should force the software industry to think.</p>
+<p>A scenario akin to the Baltimore bridge disaster was averted by the heroics of <a href=https://mastodon.social/@AndresFreundTec/112180083704606941>Andres Freund</a>
+a Microsoft engineer who was surprised to see the SSH performance go down and decided to investigate. We all
+owe this man a beer, otherwise this could have been so, so much worse:</p>
+<p><img src=/images/xz_backdoor_is_not_the_end_of_open_source_baltimore_bridge.jpg alt="Baltimore Bridge"></p>
+<p>If this hadn&rsquo;t been caught, potentially quite a few linux distributions would have had a backdoor. And considering that
+patching is important, this would have made it quite a few distributions across the globe, giving the attacker almost
+unprecedented access.</p>
+<p><img src=/images/xz_backdoor_is_not_the_end_of_open_source_scooby_doo.jpg alt="Scooby Doo">
+(credit <a href=https://mas.to/@swelljoe/112180840045810652>https://mas.to/@swelljoe/112180840045810652</a>)</p>
+<p>I too experienced a moment of panic:</p>
+<pre tabindex=0><code>% brew info xz
+==&gt; xz: stable 5.6.1 (bottled)
+General-purpose data compression with high compression ratio
+https://xz.tukaani.org/xz-utils/
+/opt/homebrew/Cellar/xz/5.6.1 (166 files, 2.7MB) *
+  Poured from bottle using the formulae.brew.sh API on 2024-03-14 at 15:35:10
+</code></pre><p>Thankfully, indications are that even though I had the backdoored lib on my machine, it wouldn&rsquo;t have been exploited. People
+using homebrew and Kali (oh the irony) were exposed to the vulnerable lib too, as this is a Remote Code Execution that
+needs to be combined with several triggers, I&rsquo;m banking on it not having rooted me.</p>
+<p>Now, this attack was possible because like so many open source projects, there was a sole maintainer that was
+providing support and updates for this library. Obligatory XKCD:</p>
+<p><img src=/images/xz_backdoor_is_not_the_end_of_open_source_modern_infra_xkcd.jpg alt="Modern Infra XKCD">
+(credit <a href=https://xkcd.com/2347/>https://xkcd.com/2347/</a>)</p>
+<p>Now, if Log4shell has taught us anything, maintaining an open source package that a lot of modern infrastructure depends
+on is a thankless task, not profitable and very often a labour of love. The maintainer was pressured into allowing access
+to someone else and is blameless in this (<a href=https://x.com/thegrugq/status/1774392858101039419>context</a>).</p>
+<p>Undoubtedly, as a result of this, a lot of security snakeoil salesmen will crop up that will promise us that SBOM
+solutions will fix all this and &ldquo;buy our product, we don&rsquo;t use open source&rdquo;. I&rsquo;ve seen evidence of this happening
+on LinkedIn already (intentionally not linking to it as I don&rsquo;t want to amplify). Let me describe why this is
+a lot of bollocks:</p>
+<h1 id=stop-using-open-source>Stop using open source?</h1>
+<p>Should we stop using open source? How would that look like? Let&rsquo;s say that every open source library we&rsquo;re using
+charges us $1 a month. This would solve the problem of maintainers not getting paid!</p>
+<p>Let&rsquo;s see how that works for your Javascript project with 3,000 transitive dependencies.</p>
+<p><img src=/images/xz_backdoor_is_not_the_end_of_open_source_npm_black_hole.jpg alt="NPM black hole"></p>
+<p>Besides from the fact that this would be quite expensive, just think of the administrative overhead of creating
+commercial relationships with 1,000 suppliers!</p>
+<p>I also think that a lot of open source maintainers wouldn&rsquo;t actually want that commercial relationship. The log4shell
+vulnerability has been full of stories of unwarranted expectation by businesses that
+<a href=https://dev.to/yawaramin/the-human-toll-of-log4j-maintenance-35ap>stuff needs to be fixed NOW</a>. Neither do the
+the tech giants want to pay more than they can get away with. You only have to have a look at the volunteers at
+<a href=https://x.com/FFmpeg/status/1775178803129602500>FFmpeg being told that an issue is high priority</a> from Microsoft
+without having a support contract in place.</p>
+<p><img src=/images/xz_backdoor_is_not_the_end_of_open_source_about_the_money.jpg alt="NPM black hole"></p>
+<p>Funny how, when open source companies do want to change their licence to monetise their work, tech giants are more
+than ready to fork projects and pour in resources. Like recently, <a href=https://techcrunch.com/2024/03/31/why-aws-google-and-oracle-are-backing-the-valkey-redis-fork/>Redis</a>.
+I don&rsquo;t think this is about supporting OpenSource software, but about providing SaaS solutions based on Open Source.
+<a href=https://www.mongodb.com/legal/licensing/server-side-public-license/faq>MongoDB</a> and
+<a href=https://www.hashicorp.com/license-faq>Hashicorp&rsquo;s terraform</a> are other examples where companies tightened
+the licence to protect itself from hyperscalers just eating their lunch.</p>
+<h1 id=lets-normalise-sponsoring>Let&rsquo;s normalise sponsoring</h1>
+<p>Lots of open source projects have maintainers. For example, when Lightbend handed over support of the
+<a href=https://www.playframework.com>Play Framework</a> to the community - to focus on their own paid offering, I presume -
+they struggled to keep funding for a single full-time developer. A lot of businesses and organisations rely
+it on to deliver software quick. I know, I was with <a href=https://beny23.github.io/posts/making_software_quickly/>one of them</a>.
+Sponsorship looks easy. Just go to <a href=https://opencollective.com/playframework>OpenCollective</a> and donate.
+But what was frustrating was how difficult it was to navigate the corporate accounting guidelines to get
+sponsorship off the ground. We couldn&rsquo;t do it via the credit card - the amount was too much. We couldn&rsquo;t get a purchase
+order, because it would have had to have gone out to tender. In the end, the vast amount of value that was
+provided that single OpenSource project was just used for free. I still feel rotten about that.</p>
+<h1 id=what-would-happen-if-open-source-died>What would happen if Open Source died?</h1>
+<p>For me one of the best things about open source is the visibility that it creates in how things work. If there is
+an issue, I can start debugging and can step into the library code. If I had to create a support request every time
+something went wrong, I&rsquo;d never be able to solve any problems. Or if I had to ensure a commercial relationship
+every time I wanted to ask for support.</p>
+<p>What would inevitably happen is that people would code their own libraries and frameworks again. And who wants that?
+I remember when every web project ended up people creating their own personalised framework &ldquo;to make things simpler&rdquo;
+which invariably ended up an unmaintainable, bloaty mess full of security holes. There&rsquo;s a reason why open source is
+a good thing, because people can (and should) submit pull requests to fix issues!</p>
+<p>Due to the immense usefulness of open source software, I ~am sure~ would hope that open source does NOT die.</p>
+<h1 id=next-steps>Next Steps:</h1>
+<ul>
+<li>Buy Andres Freund a beer next time you see him.</li>
+<li>Have an inventory of your open source dependencies and vulnerabilities AND keep reviewing.
+I know that&rsquo;s <a href=https://beny23.github.io/posts/curating_vulnerabilities/>not easy</a></li>
+<li>Don&rsquo;t demand fixes from open source maintainers. Try to help them and understand their situation.</li>
+<li>As a company, sponsor an open source project. It is in your interest that libraries are well supported. And don&rsquo;t
+expect an RFP process or purchase order.</li>
+<li>Have a hack day, where you look at some of the dependencies you&rsquo;re using and whether some of your developers could fix
+some outstanding issues. If you can&rsquo;t find an issue tracker, you probably shouldn&rsquo;t be using that dependency!</li>
+</ul>
+<b>Tags</b>
+<a href=https://beny23.github.io/tags/open-source/>open-source</a> <a href=https://beny23.github.io/tags/security/>security</a>
+<p>
+If you'd like to find more of my writing, why not follow me on
+<a href=https://twitter.com/giskard23 title="Twitter link" rel=noopener aria-label="follow on Twitter - Opens in a new window">Twitter</a> or
+<a href=https://infosec.exchange/@beny23 title="Mastodon link" rel=noopener aria-label="follow on Mastodon - Opens in a new window">Mastodon</a>?
+</p>
+<div class="mt6 instapaper_ignoref">
 </div>
 </div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/coerced_to_make_xerces_think/ class="link black dim">
-Coerced to make Xerces think
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-More and more I&rsquo;m thinking that XML is evil! This is the third part of my series on why, as a software engineer, it is very useful to think about the potentially dangerous combination of outdated libraries and XML.
-I recently carried out a review of the dependency scanning results CVE-2012-0881:
-Apache Xerces2 Java allows remote attackers to cause a denial of service (CPU consumption) via a crafted message to an XML service, which triggers hash table collisions.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/how_i_learned_to_stop_worrying_and_love_a_vulnerability/ class="link black dim">
-How I learned to stop worrying and love a vulnerability
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-Security specialists. Arghhh! They&rsquo;re all sitting in their &lsquo;ivory tower&rsquo; without anything better to do than to take a baseball bat to your hard work and tell you how you&rsquo;ve not considered some obscure vulnerability CVE-142341231/4234 in a library that you didn&rsquo;t even know existed. Not only that, there is definitely no way that you can deploy now, even when the product owner is breathing down your neck saying that nobody is going home until we&rsquo;ve fixed this!
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/hiding_xxe_in_spreadsheets/ class="link black dim">
-Hiding XXE in Spreadsheets
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-Recently I tried to poke holes in a service. I found myself laughing out loud. This was a vulnerability whereby modifying a SAML authentication while being rePOSTed via the browser allowed me to inject a malicious payload (see XML External Entity (XXE) Processing and XML External Entity (XXE) Prevention Cheat Sheet) that could be used to use up a service&rsquo;s memory and CPU. Health checks and automatic service restarts would have healed the service but it still would have allowed an attacker to mount a Denial of Service attack without needing a lot of requests.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/laughing_out_loud_malicious_auth/ class="link black dim">
-Laughing out loud - Malicious Reauthentication
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-Background I had found a vulnerability that made it is possible to insert maliciously crafted XML into the SAML payload that a reauthentication application returned to perform a Denial of Service (DoS) attack. The vulnerability came about due to the use of a out-of-date but still widely used library.
-The service could have been made to consume a lot of CPU and memory causing it respond very slowly if at all.
-</div>
-</div>
-</div>
-</div>
-</section>
-<ul class="pagination pagination-default">
-<li class=page-item>
-<a href=/posts/ aria-label=First class=page-link role=button><span aria-hidden=true>&#171;&#171;</span></a>
+<aside class="w-30-l mt6-l">
+<div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+<p class="f5 b mb3">Related</p>
+<ul class="pa0 list">
+<li class=mb2>
+<a href=/posts/on_weaponisation_of_open_source/>On the weaponisation of open source</a>
 </li>
-<li class=page-item>
-<a href=/posts/page/6/ aria-label=Previous class=page-link role=button><span aria-hidden=true>&#171;</span></a>
+<li class=mb2>
+<a href=/posts/cyber_manchester_2024/>Cyber Measures Up in Manchester</a>
 </li>
-<li class=page-item>
-<a href=/posts/page/3/ aria-label="Page 3" class=page-link role=button>3</a>
+<li class=mb2>
+<a href=/posts/appsec_loves_agile/>AppSec loves Agile</a>
 </li>
-<li class=page-item>
-<a href=/posts/page/4/ aria-label="Page 4" class=page-link role=button>4</a>
+<li class=mb2>
+<a href=/posts/bsides_ncl_2023/>BSides Newcastle 2023: Chaos for the future</a>
 </li>
-<li class=page-item>
-<a href=/posts/page/5/ aria-label="Page 5" class=page-link role=button>5</a>
+<li class=mb2>
+<a href=/posts/44_con_2023/>44CON 2023: It takes a Village</a>
 </li>
-<li class=page-item>
-<a href=/posts/page/6/ aria-label="Page 6" class=page-link role=button>6</a>
+<li class=mb2>
+<a href=/posts/bsides_leeds_2023/>BSides Leeds 2023: Get the basics right</a>
 </li>
-<li class="page-item active">
-<a aria-current=page aria-label="Page 7" class=page-link role=button>7</a>
+<li class=mb2>
+<a href=/posts/devops_enterprise_summit_2023_wednesday/>DevOps Enterprise Summit - airport culture</a>
 </li>
-<li class="page-item disabled">
-<a aria-disabled=true aria-label=Next class=page-link role=button tabindex=-1><span aria-hidden=true>&#187;</span></a>
+<li class=mb2>
+<a href=/posts/devops_enterprise_summit_2023_tuesday/>DevOps Enterprise Summit - simple paper cranes</a>
 </li>
-<li class="page-item disabled">
-<a aria-disabled=true aria-label=Last class=page-link role=button tabindex=-1><span aria-hidden=true>&#187;&#187;</span></a>
+<li class=mb2>
+<a href=/posts/automatic_dependency_updates/>The Case Against Automatic Dependency Updates</a>
 </li>
-</ul></article>
+<li class=mb2>
+<a href=/posts/harvesting_logs_for_fun_and_profit/>Harvesting Logs for Fun and Profit</a>
+</li>
+<li class=mb2>
+<a href=/posts/why_appsec_fails/>Why AppSec fails</a>
+</li>
+<li class=mb2>
+<a href=/posts/precision_munitions_for_denial_of_service/>Precision Munitions for Denial of Service</a>
+</li>
+<li class=mb2>
+<a href=/posts/curating_vulnerabilities/>Curating Dependency Vulnerabilities</a>
+</li>
+<li class=mb2>
+<a href=/posts/pwnkit_how_to_check_and_exploit/>Pwnkit: How to exploit and check</a>
+</li>
+<li class=mb2>
+<a href=/posts/one_plus_one_is_crash/>Exponential exploit: Why AppSec is hard</a>
+</li>
+</ul>
+</div>
+</aside>
+</article>
 </main>
 <footer class="bg-black bottom-0 w-100 pa3" role=contentinfo>
 <div class="flex justify-between">
