@@ -2,27 +2,33 @@
 <head>
 <meta charset=utf-8>
 <meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
-<title>Tales about Software Engineering</title>
+<title>Weakly Link 25/47 | Tales about Software Engineering</title>
 <meta name=viewport content="width=device-width,minimum-scale=1">
 <meta name=generator content="Hugo 0.92.0">
 <meta name=ROBOTS content="INDEX, FOLLOW">
 <link href=/dist/css/app.4fc0b62e4b82c997bb0041217cd6b979.css rel=stylesheet>
-<link href=/posts/index.xml rel=alternate type=application/rss+xml title="Tales about Software Engineering">
-<link href=/posts/index.xml rel=feed type=application/rss+xml title="Tales about Software Engineering">
-<meta property="og:title" content="Posts">
-<meta property="og:description" content="Writings about software: development and security">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://beny23.github.io/posts/">
-<meta itemprop=name content="Posts">
-<meta itemprop=description content="Writings about software: development and security"><meta name=twitter:card content="summary">
-<meta name=twitter:title content="Posts">
-<meta name=twitter:description content="Writings about software: development and security">
+<meta property="og:title" content="Weakly Link 25/47">
+<meta property="og:description" content="This week there have been some interesting bugs. Or interest in bugs.
+Bugs It was Cloudflare&rsquo;s turn to break the internet. As per usual, the transparency on display is rather cool. It was rather interesting that for once, the problem wasn&rsquo;t DNS or BGP, neither was it a cyberattack. Though indirectly, the threat of bots was responsible. As a subtle change in the handling of queries meant that the bot management system suddenly produced config files that were twice as large and that made them larger than the system could handle.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://beny23.github.io/posts/weakly_link_2025_47/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2025-11-23T00:00:00+00:00">
+<meta property="article:modified_time" content="2025-11-23T00:00:00+00:00">
+<meta itemprop=name content="Weakly Link 25/47">
+<meta itemprop=description content="This week there have been some interesting bugs. Or interest in bugs.
+Bugs It was Cloudflare&rsquo;s turn to break the internet. As per usual, the transparency on display is rather cool. It was rather interesting that for once, the problem wasn&rsquo;t DNS or BGP, neither was it a cyberattack. Though indirectly, the threat of bots was responsible. As a subtle change in the handling of queries meant that the bot management system suddenly produced config files that were twice as large and that made them larger than the system could handle."><meta itemprop=datePublished content="2025-11-23T00:00:00+00:00">
+<meta itemprop=dateModified content="2025-11-23T00:00:00+00:00">
+<meta itemprop=wordCount content="772">
+<meta itemprop=keywords content="weakly-link,"><meta name=twitter:card content="summary">
+<meta name=twitter:title content="Weakly Link 25/47">
+<meta name=twitter:description content="This week there have been some interesting bugs. Or interest in bugs.
+Bugs It was Cloudflare&rsquo;s turn to break the internet. As per usual, the transparency on display is rather cool. It was rather interesting that for once, the problem wasn&rsquo;t DNS or BGP, neither was it a cyberattack. Though indirectly, the threat of bots was responsible. As a subtle change in the handling of queries meant that the bot management system suddenly produced config files that were twice as large and that made them larger than the system could handle.">
 <link rel=me href=https://infosec.exchange/@beny23>
 <script data-goatcounter=https://beny23.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
 </head>
 <body class="ma0 avenir bg-near-white production">
-<header class="cover bg-top" style=background-image:url(https://beny23.github.io/images/background.png)>
-<div class=bg-black-60>
+<header class="cover bg-top" style=background-image:url(https://beny23.github.io/images/weakly_link_2025_47_title.jpg)>
+<div class="pb3-m pb6-l bg-black-60">
 <nav class="pv3 ph3 ph4-ns" role=navigation>
 <div class="flex-l justify-between items-center center">
 <a href=/ class="f3 fw2 hover-white no-underline white-90 dib">
@@ -66,195 +72,128 @@ Tags
 </div>
 </div>
 </nav>
-<div class="tc-l pv4 pv6-l ph3 ph4-ns">
-<h1 class="f2 f-subheadline-l fw2 white-90 mb0 lh-title">
-Posts
-</h1>
+<div class="tc-l pv6 ph3 ph4-ns">
+<h1 class="f2 f1-l fw2 white-90 mb0 lh-title">Weakly Link 25/47</h1>
 </div>
 </div>
 </header>
 <main class=pb7 role=main>
-<article class="pa3 pa4-ns nested-copy-line-height nested-img">
-<section class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy mid-gray"></section>
-<section class="flex-ns flex-wrap justify-around mt5">
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/advent_of_code_2021_day_13/ class="link black dim">
-Advent of code 2021: Day 13
+<article class="flex-l flex-wrap justify-between mw8 center ph3">
+<header class="mt4 w-100">
+<aside class="instapaper_ignoref b helvetica tracked">
+POSTS
+</aside>
+<div id=sharing class=mt3>
+<a href="https://www.facebook.com/sharer.php?u=https://beny23.github.io/posts/weakly_link_2025_47/" class="facebook no-underline" aria-label="share on Facebook"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M28.765 50.32h6.744V33.998h4.499l.596-5.624h-5.095l.007-2.816c0-1.466.14-2.253 2.244-2.253h2.812V17.68h-4.5c-5.405.0-7.307 2.729-7.307 7.317v3.377h-3.369v5.625h3.369V50.32zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd"/></svg>
 </a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-On day 13 of Advent of Code 2021 we had to do the impossible. We were folding a transparent piece of paper 12 times. Surely it isn&rsquo;t possible to fold paper more than 7 times, but we also have to remember that we&rsquo;re in a Santa submarine!
-The aim of the puzzle is to get a code by folding over a transparent sheet of paper which has got dots dotted all over.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/advent_of_code_2021_day_12/ class="link black dim">
-Advent of code 2021: Day 12
+<a href="https://twitter.com/share?url=https://beny23.github.io/posts/weakly_link_2025_47/&text=Weakly%20Link%2025/47" class="twitter no-underline" aria-label="share on Twitter"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
 </a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-For Advent of Code 2021 day 12 it took me a while to get going though for reasons unrelated to coding, Norovirus is not pleasant! So when I finally did the puzzle, I didn&rsquo;t find it as difficult as I thought it would be based on some of the messages on the #adventofcode channel. The puzzle started with
-With your submarine&rsquo;s subterranean subsystems subsisting suboptimally
-This deserves a medal in itself.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/advent_of_code_2021_day_11/ class="link black dim">
-Advent of code 2021: Day 11
+<a href="https://www.linkedin.com/shareArticle?mini=true&url=https://beny23.github.io/posts/weakly_link_2025_47/&title=Weakly%20Link%2025/47" class="linkedin no-underline" aria-label="share on LinkedIn"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
 </a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-Advent of Code 2021 day 11 felt a little bit like a repeat of Day 9. In both cases, we got a 2-dimensional map with single digit values. In case of day 9 it was a height map, this time round we&rsquo;ve got a 10x10 grid of bioluminescent Octopi. Each of those critters has an energy level that increases each round. Once that level goes past 9, it lets off a flash, which then imparts extra energy into the surrounding 8-legged creatures.
+</div>
+<h1 class="f1 athelas mt3 mb1">Weakly Link 25/47</h1>
+<time class="f6 mv4 dib tracked" datetime=2025-11-23T00:00:00Z>November 23, 2025</time>
+<span class="f6 mv4 dib tracked"> - 4 minutes read</span>
+<span class="f6 mv4 dib tracked"> - 772 words</span>
+</header>
+<div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>This week there have been some interesting bugs. Or interest in bugs.</p>
+<h1 id=bugs>Bugs</h1>
+<p>It was Cloudflare&rsquo;s turn to break the internet. As per usual, the
+<a href=https://blog.cloudflare.com/18-november-2025-outage/>transparency on display</a> is rather cool.
+It was rather interesting that for once, the problem wasn&rsquo;t DNS or BGP, neither was it
+a cyberattack. Though indirectly, the threat of bots was responsible. As a subtle change
+in the handling of queries meant that the bot management system suddenly produced config
+files that were twice as large and that made them larger than the system could handle.</p>
+<h1 id=talking-of-subtlety>Talking of subtlety</h1>
+<p>I stumbled across a great <a href=https://mastodon.gamedev.place/@TomF/115589875974658415>thread on mastodon</a>
+that illustrated how an interaction of the physics model in Half Life 2, a guard that stands too close
+to a door and a change in compiler handling floating point units can mean that the game never
+makes it past the famous intro sequence. Worse still, the bug travelled back in time and caused
+the original version to fail to run. Well worth a read.</p>
+<h1 id=reliability-is-hard>Reliability is hard</h1>
+<p>A rather long read is this <a href=https://authress.io/knowledge-base/articles/2025/11/01/how-we-prevent-aws-downtime-impacts>article by authress.io</a>
+on how they try to mitigate downtime impacts. It&rsquo;s an interesting read, but I wanted to highlight
+it for this graphic:</p>
+<p><img src=/images/weakly_link_2025_47_sea_of_blue.png alt="sea of blue"></p>
+<p>The amount of red inside the blue bar represents what 5 nines mean. 5 minutes and 15 seconds of downtime
+in a year. Yes, there is a solitary red dot inside the black dot. I still don&rsquo;t understand how
+some people can come in and demand 5 or 7 nines of reliability without really understanding what
+it means and how hard it is. I think that graphic goes a long way in illustrating that basic math.</p>
+<h1 id=third-party-components>Third party components</h1>
+<p>One of the interesting things about the authress piece is that they stress the importance of simplicity
+and reviewing third party components. Unfortunately, this works in two ways.
+<a href=https://thenewstack.io/ffmpeg-to-google-fund-us-or-stop-sending-bugs/>FFMPeg wants Google to stop sending bugs</a>.
+Well, not quite, they want to stop sending AI slop bugs. Or actually come up with some funding rather
+than just demanding fixes from volunteers. Open source is great, but the reliance of some companies
+on open software without giving much back is a bit frustrating. And no wonder that some maintainers
+burn out and then unwittingly hand over maintenance to scammers.</p>
+<h1 id=talking-of-scammers>Talking of Scammers</h1>
+<p>I thought this piece on <a href=https://pivot-to-ai.com/2025/11/07/the-futile-future-of-the-gigawatt-datacenter-by-nicholas-weaver/>the future of gigawatt datacentres</a>
+was quite thought-provoking. <a href=https://beny23.github.io/posts/weakly_link_2025_46/>Last week</a> I was sceptical that the
+benefit of the AI bubble was energy infrastructure. But Nicholas Weaver argues that the future of LLMs isn&rsquo;t
+in huge energy hungry models, but ones that would be a little less precise but a lot cheaper. And if
+a few Mac minis can be used for inference, would it not be logical to say that having massive
+white elephantine energy is not actually going to be that useful.</p>
+<h1 id=bubble-pop>Bubble Pop</h1>
+<p>Along the lines of bubbles, I thought <a href=https://thoughtfuleng.substack.com/p/dear-cto-its-not-2015-anymore>this piece</a>
+was quite thought-provoking:</p>
+<blockquote>
+<p>Engineering feels (rightly) that they aren’t understood and appreciated. The rest of
+the business feels (rightly) that they’re dealing with a withholding, black box.</p>
+</blockquote>
+<p>Engineers and Engineering Managers used to just have to care about Engineering and rake in
+obscene amounts of money (not that I&rsquo;m complaining). It&rsquo;s no longer about
+providing a nice place to work and protecting the ninja rockstars from such mundane things as
+building value. Explaining what engineering does while understanding the business is going
+to have to be skill for every engineer. And successful businesses will have to understand what
+engineering does. Not just think of bums on seats&mldr;</p>
+<h1 id=bureaucrazy>Bureaucrazy</h1>
+<p>When it comes to understanding business and untangling engineering, I thought the following piece
+by Eidur was rather cool: <a href=https://sonofalfred.substack.com/p/botox>Botox</a> talks about how creativity
+is about being able to think of something new. And the opposite of creativity is bureaucracy.</p>
+<blockquote>
+<p>In an ideal world, we would choose the relative amount of creativity and bureaucracy as appropriate
+for the situation, but this is very difficult due to The First Law of Humans:</p>
+</blockquote>
+<blockquote>
+<p>The bureaucrats always take over.</p>
+</blockquote>
+<p>I do also like the following sentiment:</p>
+<blockquote>
+<p>It does not matter if the dogma is a currently-fashionable one or something now-discredited, dogma
+always means that people have stopped thinking and creativity has died - it’s pure bureaucracy.
+Agile is not better than Waterfall when they’re both in the form of dogma.</p>
+</blockquote>
+<p>The solution? Stop thinking about technology in isolation. It&rsquo;s always about people and processes.</p>
+<h1 id=technology-in-isolation>Technology in Isolation</h1>
+<p>To finish off, let&rsquo;s look at an excellent piece on solving FizzBuzz. How complicated can you make it?
+I did <a href=https://beny23.github.io/posts/fizzbuzz_without_ifs/>something similar</a> a while back, but the mathematical
+geekery in <a href=https://susam.net/fizz-buzz-with-cosines.html>FizzBuzz with cosines</a> is pure joy!</p>
+<p>That was the weakly link, goodbye.</p>
+<b>Tags</b>
+<a href=https://beny23.github.io/tags/weakly-link/>weakly-link</a>
+<p>
+If you'd like to find more of my writing, why not follow me on
+<a href=https://bsky.app/profile/beny23.github.io title="BlueSky link" rel=noopener aria-label="follow on BlueSky - Opens in a new window">Bluesky</a> or
+<a href=https://infosec.exchange/@beny23 title="Mastodon link" rel=noopener aria-label="follow on Mastodon - Opens in a new window">Mastodon</a>?
+</p>
+<div class="mt6 instapaper_ignoref">
 </div>
 </div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/advent_of_code_2021_day_10/ class="link black dim">
-Advent of code 2021: Day 10
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-Day 10 of Advent of Code 2021 was all about mismatched brackets. And I think Haskell did rather well on this as I found the expressiveness arrived at a really concise solution. We&rsquo;re still in our Advent submarine and after mapping the floor on Day 9, we now discover lots of syntax errors in the submarine navigation system.
-The problem This puzzle was all about matching brackets, the input was like this:
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/my_take_on_engineering_room_1/ class="link black dim">
-Context and Lines - My Take on Engineering Room Ep 1
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-Dave Farley and Martin Fowler are two heavyweights when it comes to Software Development. As well as his latest and hugely anticipated book Modern Software Engineering, Dave wrote Continuous Delivery. Martin co-wrote the Agile Manifesto and Refactoring. All of which are hugely influential to large swathes of software engineers. So when both came together for Dave&rsquo;s new series on YouTube, the Engineering Room (sponsored by Equal Experts), it was bound to be very interesting.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/advent_of_code_2021_day_9/ class="link black dim">
-Advent of code 2021: Day 9
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-On day 9 of Advent of Code 2021 I arrived at two different solutions for parts one and two. That is to say the approach I took in part one turned out to be useless for part two, though I&rsquo;m pleased with both solutions. Unlike yesterday&rsquo;s which got a bit convoluted (Day 8).
-The problem This puzzle was all about looking at a height map and finding the lowest points. The input would look like so:
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/advent_of_code_2021_day_8/ class="link black dim">
-Advent of code 2021: Day 8
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-On day 8 Advent of Code 2021 adventure, part 1 lulled me into a false sense of security. It took longer to read the instructions than implementing the code. But then part 2 was back with a vengeance. Admittedly it would have been so much easier if I slowed down a bit and actually counted carefully. As it happened it was a good reminder that &ldquo;more haste, less speed&rdquo; applies to programming very much.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/advent_of_code_2021_day_7/ class="link black dim">
-Advent of code 2021: Day 7
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-On the 7th day of the submarine Advent of Code 2021 adventure, I felt like the problem was getting a bit easier than it had been of late. If anything I felt a touch suspicious on whether I had been missing anything. In previous days I had to reframe the problem statement a bit to make it efficient (Day 4, Day 5 and Day 5). Either that or I&rsquo;m starting to feel more comfortable with Haskell.
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/advent_of_code_2021_day_6/ class="link black dim">
-Advent of code 2021: Day 6
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-On the next day of Advent of Code 2021 there were two approaches to solving the problem. Brute force and ignorance, and stopping to think about it. After finding out that Haskell often forces me to having a think first on Day 4 and Day 5, I was looking forward to
-The problem This puzzle was all about lanternfish population - yes there was a submarine theme to this year!
-</div>
-</div>
-</div>
-</div>
-<div class="relative w-100 w-30-l mb4 bg-white"><div class="relative w-100 mb4 bg-white nested-copy-line-height">
-<div class="bg-white mb3 pa4 gray overflow-hidden">
-<span class="f6 db">Posts</span>
-<h1 class="f3 near-black">
-<a href=https://beny23.github.io/posts/advent_of_code_2021_day_5/ class="link black dim">
-Advent of code 2021: Day 5
-</a>
-</h1>
-<div class="nested-links f5 lh-copy nested-copy-line-height">
-Following from my efforts on Day 4 of Advent of Code 2021 I was encouraged to try writing up more of my attempts to teach myself Haskell while having fun trying to solve puzzles.
-The problem The exercise was concerned with drawing lines on a grid and finding intersections:
-An entry like 1,1 -> 1,3 covers points 1,1, 1,2, and 1,3. An entry like 9,7 -> 7,7 covers points 9,7, 8,7, and 7,7.
-</div>
-</div>
-</div>
-</div>
-</section>
-<ul class="pagination pagination-default">
-<li class=page-item>
-<a href=/posts/ aria-label=First class=page-link role=button><span aria-hidden=true>&#171;&#171;</span></a>
+<aside class="w-30-l mt6-l">
+<div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+<p class="f5 b mb3">Related</p>
+<ul class="pa0 list">
+<li class=mb2>
+<a href=/posts/weakly_link_2025_46/>Weakly Link 25/46</a>
 </li>
-<li class=page-item>
-<a href=/posts/page/6/ aria-label=Previous class=page-link role=button><span aria-hidden=true>&#171;</span></a>
+<li class=mb2>
+<a href=/posts/weakly_link_2025_45/>Weakly Link 25/45</a>
 </li>
-<li class=page-item>
-<a href=/posts/page/5/ aria-label="Page 5" class=page-link role=button>5</a>
-</li>
-<li class=page-item>
-<a href=/posts/page/6/ aria-label="Page 6" class=page-link role=button>6</a>
-</li>
-<li class="page-item active">
-<a aria-current=page aria-label="Page 7" class=page-link role=button>7</a>
-</li>
-<li class=page-item>
-<a href=/posts/page/8/ aria-label="Page 8" class=page-link role=button>8</a>
-</li>
-<li class=page-item>
-<a href=/posts/page/9/ aria-label="Page 9" class=page-link role=button>9</a>
-</li>
-<li class=page-item>
-<a href=/posts/page/8/ aria-label=Next class=page-link role=button><span aria-hidden=true>&#187;</span></a>
-</li>
-<li class=page-item>
-<a href=/posts/page/9/ aria-label=Last class=page-link role=button><span aria-hidden=true>&#187;&#187;</span></a>
-</li>
-</ul></article>
+</ul>
+</div>
+</aside>
+</article>
 </main>
 <footer class="bg-black bottom-0 w-100 pa3" role=contentinfo>
 <div class="flex justify-between">
