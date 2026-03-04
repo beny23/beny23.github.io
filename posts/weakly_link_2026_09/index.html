@@ -1,0 +1,303 @@
+<!doctype html><html lang=en-gb>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>Weakly Link 26/09 | Tales about Software Engineering</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=generator content="Hugo 0.92.0">
+<meta name=ROBOTS content="INDEX, FOLLOW">
+<link href=/dist/css/app.4fc0b62e4b82c997bb0041217cd6b979.css rel=stylesheet>
+<meta property="og:title" content="Weakly Link 26/09">
+<meta property="og:description" content="This week we&rsquo;re looking at how some of the traditional thinking on security (detect it, patch it, monitor it) is no longer quite cutting it. It is interesting how cyber threats have very much moved on from malware. In my opinion, the latest CrowdStrike threat report can be used to argue that security is not something that can be fixed by buying a shiny security tool. It&rsquo;s not a technology problem, it&rsquo;s a social (engineering) problem&mldr;">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://beny23.github.io/posts/weakly_link_2026_09/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2026-03-04T00:00:00+00:00">
+<meta property="article:modified_time" content="2026-03-04T00:00:00+00:00">
+<meta itemprop=name content="Weakly Link 26/09">
+<meta itemprop=description content="This week we&rsquo;re looking at how some of the traditional thinking on security (detect it, patch it, monitor it) is no longer quite cutting it. It is interesting how cyber threats have very much moved on from malware. In my opinion, the latest CrowdStrike threat report can be used to argue that security is not something that can be fixed by buying a shiny security tool. It&rsquo;s not a technology problem, it&rsquo;s a social (engineering) problem&mldr;"><meta itemprop=datePublished content="2026-03-04T00:00:00+00:00">
+<meta itemprop=dateModified content="2026-03-04T00:00:00+00:00">
+<meta itemprop=wordCount content="1496">
+<meta itemprop=keywords content="weakly-link,"><meta name=twitter:card content="summary">
+<meta name=twitter:title content="Weakly Link 26/09">
+<meta name=twitter:description content="This week we&rsquo;re looking at how some of the traditional thinking on security (detect it, patch it, monitor it) is no longer quite cutting it. It is interesting how cyber threats have very much moved on from malware. In my opinion, the latest CrowdStrike threat report can be used to argue that security is not something that can be fixed by buying a shiny security tool. It&rsquo;s not a technology problem, it&rsquo;s a social (engineering) problem&mldr;">
+<link rel=me href=https://infosec.exchange/@beny23>
+<script data-goatcounter=https://beny23.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
+</head>
+<body class="ma0 avenir bg-near-white production">
+<header class="cover bg-top" style=background-image:url(https://beny23.github.io/images/weakly_link_2026_09_title.png)>
+<div class="pb3-m pb6-l bg-black-60">
+<nav class="pv3 ph3 ph4-ns" role=navigation>
+<div class="flex-l justify-between items-center center">
+<a href=/ class="f3 fw2 hover-white no-underline white-90 dib">
+Tales about Software Engineering
+</a>
+<div class="flex-l items-center">
+<ul class="pl0 mr3">
+<li class="list f5 f4-ns fw4 dib pr3">
+<a class="hover-white no-underline white-90" href=/about/ title="About page">
+About
+</a>
+</li>
+<li class="list f5 f4-ns fw4 dib pr3">
+<a class="hover-white no-underline white-90" href=/posts/ title="Blog page">
+Blog
+</a>
+</li>
+<li class="list f5 f4-ns fw4 dib pr3">
+<a class="hover-white no-underline white-90" href=/talks/ title="Talks page">
+Talks
+</a>
+</li>
+<li class="list f5 f4-ns fw4 dib pr3">
+<a class="hover-white no-underline white-90" href=/tags/ title="Tags page">
+Tags
+</a>
+</li>
+</ul>
+<a href=https://stackoverflow.com/users/227140/beny23 target=_blank class="link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Stack Overflow link" rel=noopener aria-label="follow on Stack Overflow——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32"><path d="M12 0C5.373.0.0 5.373.0 12s5.373 12 12 12 12-5.373 12-12S18.627.0 12 0zm.869 5.903 3.114 4.567-.975.665-3.115-4.567.976-.665zm-2.812 2.585 4.84 2.838-.6 1.017-4.842-2.838.602-1.017zm-1.276 2.724 5.413 1.521-.291 1.077-5.428-1.458.306-1.14zm-.588 2.461 5.687.569-.103 1.12-5.691-.513.107-1.176zm-.169 2.16h5.835V17H8.024v-1.167zM16 19H6v-6h1v5h8v-5h1v6zm.195-8.602-.945-5.446 1.162-.202.947 5.446-1.164.202z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://www.linkedin.com/in/gerald-benischke-9811b663 target=_blank class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel=noopener aria-label="follow on LinkedIn——Opens in a new window"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://github.com/beny23 target=_blank class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel=noopener aria-label="follow on Github——Opens in a new window"><svg height="32" style="enable-background:new 0 0 512 512" viewBox="0 0 512 512" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M256 32C132.3 32 32 134.8 32 261.7c0 101.5 64.2 187.5 153.2 217.9 11.2 2.1 15.3-5 15.3-11.1.0-5.5-.2-19.9-.3-39.1-62.3 13.9-75.5-30.8-75.5-30.8-10.2-26.5-24.9-33.6-24.9-33.6-20.3-14.3 1.5-14 1.5-14 22.5 1.6 34.3 23.7 34.3 23.7 20 35.1 52.4 25 65.2 19.1 2-14.8 7.8-25 14.2-30.7-49.7-5.8-102-25.5-102-113.5.0-25.1 8.7-45.6 23-61.6-2.3-5.8-10-29.2 2.2-60.8.0.0 18.8-6.2 61.6 23.5 17.9-5.1 37-7.6 56.1-7.7 19 .1 38.2 2.6 56.1 7.7 42.8-29.7 61.5-23.5 61.5-23.5 12.2 31.6 4.5 55 2.2 60.8 14.3 16.1 23 36.6 23 61.6.0 88.2-52.4 107.6-102.3 113.3 8 7.1 15.2 21.1 15.2 42.5.0 30.7-.3 55.5-.3 63 0 6.1 4 13.3 15.4 11C415.9 449.1 480 363.1 480 261.7 480 134.8 379.7 32 256 32z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://infosec.exchange/@beny23 target=_blank class="link-transition mastodon link dib z-999 pt3 pt0-l mr1" title="Mastodon link" rel=noopener aria-label="follow on Mastodon——Opens in a new window"><svg height="32" style="enable-background:new 0 0 230 230" viewBox="0 0 230 230" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M211.80683 139.0875c-3.1825 16.36625-28.4925 34.2775-57.5625 37.74875-15.16 1.80875-30.0825 3.47125-45.99875 2.74125-26.0275-1.1925-46.565-6.2125-46.565-6.2125.0 2.53375.15625 4.94625.46875 7.2025 3.38375 25.68625 25.47 27.225 46.3925 27.9425 21.115.7225 39.91625-5.20625 39.91625-5.20625l.86875 19.09s-14.77 7.93125-41.08125 9.39c-14.50875.7975-32.52375-.365-53.50625-5.91875C9.23183 213.82 1.40558 165.31125.20808 116.09125c-.36375-14.61375-.14-28.39375-.14-39.91875.0-50.33 32.97625-65.0825 32.97625-65.0825C49.67058 3.45375 78.20308.2425 107.86433.0h.72875c29.66125.2425 58.21125 3.45375 74.8375 11.09.0.0 32.97625 14.7525 32.97625 65.0825.0.0.4125 37.13375-4.6 62.915" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/><path d="M65.68743 96.45938c0 9.01375-7.3075 16.32125-16.3225 16.32125-9.01375.0-16.32-7.3075-16.32-16.32125.0-9.01375 7.30625-16.3225 16.32-16.3225 9.015.0 16.3225 7.30875 16.3225 16.3225M124.52893 96.45938c0 9.01375-7.30875 16.32125-16.3225 16.32125s-16.32125-7.3075-16.32125-16.32125c0-9.01375 7.3075-16.3225 16.32125-16.3225 9.01375.0 16.3225 7.30875 16.3225 16.3225M183.36933 96.45938c0 9.01375-7.3075 16.32125-16.32125 16.32125s-16.32125-7.3075-16.32125-16.32125c0-9.01375 7.3075-16.3225 16.32125-16.3225s16.32125 7.30875 16.32125 16.3225" fill="#fff"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+</div>
+</div>
+</nav>
+<div class="tc-l pv6 ph3 ph4-ns">
+<h1 class="f2 f1-l fw2 white-90 mb0 lh-title">Weakly Link 26/09</h1>
+</div>
+</div>
+</header>
+<main class=pb7 role=main>
+<article class="flex-l flex-wrap justify-between mw8 center ph3">
+<header class="mt4 w-100">
+<aside class="instapaper_ignoref b helvetica tracked">
+POSTS
+</aside>
+<div id=sharing class=mt3>
+<a href="https://www.facebook.com/sharer.php?u=https://beny23.github.io/posts/weakly_link_2026_09/" class="facebook no-underline" aria-label="share on Facebook"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M28.765 50.32h6.744V33.998h4.499l.596-5.624h-5.095l.007-2.816c0-1.466.14-2.253 2.244-2.253h2.812V17.68h-4.5c-5.405.0-7.307 2.729-7.307 7.317v3.377h-3.369v5.625h3.369V50.32zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd"/></svg>
+</a>
+<a href="https://twitter.com/share?url=https://beny23.github.io/posts/weakly_link_2026_09/&text=Weakly%20Link%2026/09" class="twitter no-underline" aria-label="share on Twitter"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</a>
+<a href="https://www.linkedin.com/shareArticle?mini=true&url=https://beny23.github.io/posts/weakly_link_2026_09/&title=Weakly%20Link%2026/09" class="linkedin no-underline" aria-label="share on LinkedIn"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</a>
+</div>
+<h1 class="f1 athelas mt3 mb1">Weakly Link 26/09</h1>
+<time class="f6 mv4 dib tracked" datetime=2026-03-04T00:00:00Z>March 4, 2026</time>
+<span class="f6 mv4 dib tracked"> - 8 minutes read</span>
+<span class="f6 mv4 dib tracked"> - 1496 words</span>
+</header>
+<div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>This week we&rsquo;re looking at how some of the traditional thinking on security (detect it, patch it, monitor it)
+is no longer quite cutting it. It is interesting how cyber threats have very much moved on from malware.
+In my opinion, the latest CrowdStrike threat report can be used to argue that security is not something
+that can be fixed by buying a shiny security tool. It&rsquo;s not a technology problem, it&rsquo;s a social (engineering)
+problem&mldr;</p>
+<h1 id=crowdstrike-more-like-cloud-strike>CrowdStrike? More like Cloud Strike!</h1>
+<p>It&rsquo;s that time of the year again, when CrowdStrike releases their
+<a href=https://www.crowdstrike.com/en-us/blog/crowdstrike-2026-global-threat-report-findings/>Global Threat Report</a>.
+There were a few interesting nuggets in there for me. Was it the fact that the threat is increasing and attacks are
+on the rise? No, that&rsquo;s a given. It&rsquo;s a vendor report after all ;-). The &ldquo;27 seconds to breakout&rdquo; headline is, well,
+headline grabbing, but it&rsquo;s the underlying cause that&rsquo;s interesting. A lot more attacks happen without Malware.
+A lot more attacks happen using LOL. No, that&rsquo;s not Laughing Out Loud, but Living Off the Land. It is where attackers
+don&rsquo;t bring their own tooling, but just use what is available to them. And that is increasingly your own AI
+infrastructure. Why use your own model when you can use your victims model&mldr;</p>
+<p>The other interesting tidbits were that there was a 42% increase in zero-day vulnerabilities being used before
+they were published. I guess those would be minus days, I mean if you get hit by one of those, your mood will
+certainly turn negative&mldr; I&rsquo;ll get my coat.</p>
+<p>So what does this mean for security?</p>
+<ul>
+<li>Do you solely rely on vulnerability scanners to find attack points. Well, that might be too late already
+considering we&rsquo;re now dealing with minus days.</li>
+<li>Do you rely on human in the loop monitoring and alerting to stop attacks? Well, that might be too late because
+the attacker has already exfiltrated your data. The report mentions Chatty Spider (oh how I do hate those
+monikers) exfiltrated data within 4 minutes of gaining access.</li>
+<li>Do you rely on malware detection to alert you of attacks? Well, LOL. And the report mentions that attackers
+are increasingly targeting unmanaged devices or try to find gaps in the detection.</li>
+<li>Do you have a SOC that detects, alerts, investigates and responds? Well, by the time you investigate, it&rsquo;s might
+be too late already.</li>
+</ul>
+<p>So are we doomed? Well, let&rsquo;s put a positive spin on it. The technical controls are now so good that malware as
+an attack vector has been largely replaced with social engineering. Time and time again, the big attacks don&rsquo;t
+happen because someone picked the lock on your front door, but because you left 100 of your 50,000 keys for all to
+see and you adorned it with a sticky note on it that contains your alarm code. Or they walked round the back and
+through the open back door.</p>
+<p>I think that modelling threats, predicting where the weak points are and using defence in depth is going to
+be important. Have you got lots of different layers that mitigate what can come in and out. Are you looking
+at the supply chain? Do you know all the legacy IT on your estate?</p>
+<p>Oh and one more bit. Drucker said culture eats strategy for breakfast (well,
+<a href=https://andiroberts.com/leadership/culture-eats-strategy-for-breakfast-myth>he actually didn&rsquo;t</a> but let&rsquo;s not
+ruin a good quote). I think it is the same for cyber security. A good culture will beat technology. If security
+is a first-class citizen in your development process, your infrastructure design and your product plans, then
+it will become much harder for adversaries to slip through the net. If you view people as valuable assets
+in the fight against intrusions (and give them the tools to do it), I think it will go much much better than if
+there&rsquo;s a massive amount of mistrust between the security department and everyone else.</p>
+<p>Having said that, I&rsquo;m sure someone will leave an Excel spreadsheet with production passwords lying around
+somewhere, for the next big incident&mldr;</p>
+<h1 id=helldesk-software>Helldesk software</h1>
+<p>Funny I should say this, because our next link is about watchtowr finding some pretty <a href=https://labs.watchtowr.com/buy-a-help-desk-bundle-a-remote-access-solution-solarwinds-web-help-desk-pre-auth-rce-chain-s/>bad vulnerabilities in
+the SolarWinds Web Help Desk</a>.</p>
+<p>Yes, that SolarWinds. Why is it always security vendors that miss the basics? Having an attack vector that
+exploits deserialisation in internet exposed software shouldn&rsquo;t happen anymore these days. But it does,
+and it will again. Same reason why SQL injection is still on the OWASP top ten even after 30 years.</p>
+<p>It also must be frustrating for customers as the reasons why these things are vulnerable aren&rsquo;t new:</p>
+<blockquote>
+<p>Gather round, strap in, and prepare for another depressing journey of “all we wanted to do was reproduce an
+N-day, and here we are with 0-days”.</p>
+</blockquote>
+<blockquote>
+<p>Deserialization issues have plagued SolarWinds’ Web Help Desk - and have supposedly been “fixed” multiple
+times. But our opinion is that the public details surrounding these vulnerabilities have left much more to
+be desired.</p>
+</blockquote>
+<p>Seems like as software industry we are operating like this:</p>
+<ul>
+<li>Someone finds an issue</li>
+<li>We do the minimum to patch it but leave the design unchanged</li>
+<li>Someone else finds a related issue</li>
+<li>Nobody could have predicted this&mldr;</li>
+</ul>
+<p>And for anyone saying that AI will fix this, I think AI will just exacerbate the issue, after all we&rsquo;re collectively
+producing a lot more code, following a lot more of the existing patterns. If not done right, GenAI code
+is instant tech debt.</p>
+<h1 id=google-api-keys-are-safe-until-they-werent>Google API keys are safe. Until they weren&rsquo;t.</h1>
+<p>Talking of AI fixing this, here&rsquo;s a story by trufflesecurity on <a href=https://trufflesecurity.com/blog/google-api-keys-werent-secrets-but-then-gemini-changed-the-rules>how google shot themselves and developers
+in the foot</a>.</p>
+<blockquote>
+<p>Google spent over a decade telling developers that Google API keys (like those used in Maps, Firebase, etc.)
+are not secrets. But that&rsquo;s no longer true: Gemini accepts the same keys to access your private data. We scanned
+millions of websites and found nearly 3,000 Google API keys, originally deployed for public services like Google
+Maps, that now also authenticate to Gemini even though they were never intended for it. With a valid key, an
+attacker can access uploaded files, cached data, and charge LLM-usage to your account. Even Google themselves
+had old public API keys, which they thought were non-sensitive, that we could use to access Google’s internal
+Gemini.</p>
+</blockquote>
+<p>I guess that is a side effect of stuffing GenAI solutions into every product available. The fact that this
+silently happened to existing keys is more than a bit shit.</p>
+<h1 id=genai-is-also-good>GenAI is also good</h1>
+<p>I&rsquo;m not a fan of GenAI. I find it using it quite soulless and mind-numbing. But I cannot deny that it is good
+at repetitive tasks that can&rsquo;t be done by scripts. Give GenAI models a large data set and it will find interesting
+stuff. I think this is perfectly illustrated by <a href=https://www.mendral.com/blog/llms-are-good-at-sql>this post</a>
+by Andrea.</p>
+<blockquote>
+<p>Last week, our agent traced a flaky test to a dependency bump three weeks prior. It did this by writing its
+own SQL queries, scanning hundreds of millions of log lines across a dozen queries, and following a trail
+from job metadata to raw log output. The whole investigation took seconds.</p>
+</blockquote>
+<p>If we think about this, it makes a lot of sense. There are tons of examples in the GenAI model&rsquo;s training
+data on how to write good SQL queries. So it makes sense to use a generic language rather than specialised
+tooling for which there might be less training data, so the models will be a bit less sure on how to use them.</p>
+<p>This is also why I quite like to use API directly when using LLMs for investigations. (Yes, I do that
+on an industrial basis these days, because we&rsquo;re all &ldquo;AI first&rdquo;). The models are quite good at figuring
+out what to do on their own. I noticed that when I was using
+<a href=https://beny23.github.io/posts/make_it_so_genai_and_zap/>ZAP with OpenAPI and MCP</a> a while back. These days I
+tend to stay clear from MCP as the models seem to do a better job when they just have curl and schemas and
+a few general instructions, so they don&rsquo;t always have to work from first principles.</p>
+<p>There was one other bit in the post that made me think:</p>
+<blockquote>
+<p>Nobody puts &ldquo;we built a really good rate limiter&rdquo; on their landing page. But without fresh, queryable data,
+your agent can&rsquo;t answer the question that actually matters: did I break this, or was it already broken?</p>
+</blockquote>
+<p>The whole post was all about ingesting log data from GitHub, and building a good rate limiter enabled them
+to keep querying github without hitting long pauses due to eating all the requests per minute.</p>
+<h1 id=and-finally>And finally</h1>
+<p>In a delicious piece of irony, I note that Sam Altman has called <a href=https://www.theguardian.com/technology/2026/mar/03/openai-pentagon-ceo-sam-altman-chatgpt>the deal that OpenAI has entered with
+the Pentagon sloppy</a>.</p>
+<p>AI sloppy. Who&rsquo;d have thunk it. No prizes for guessing who did write that contract.</p>
+<h1 id=and-finally-finally>And finally finally</h1>
+<p><a href="https://vimeo.com/1168468796?fl=pl&fe=sh">This video</a> by the Norwegian Consumer Council explaining
+enshittification is gold. I am still chuckling thinking about it.</p>
+<p>That was the weakly link, goodbye.</p>
+<b>Tags</b>
+<a href=https://beny23.github.io/tags/weakly-link/>weakly-link</a>
+<p>
+If you'd like to find more of my writing, why not follow me on
+<a href=https://bsky.app/profile/beny23.github.io title="BlueSky link" rel=noopener aria-label="follow on BlueSky - Opens in a new window">Bluesky</a> or
+<a href=https://infosec.exchange/@beny23 title="Mastodon link" rel=noopener aria-label="follow on Mastodon - Opens in a new window">Mastodon</a>?
+</p>
+<div class="mt6 instapaper_ignoref">
+</div>
+</div>
+<aside class="w-30-l mt6-l">
+<div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+<p class="f5 b mb3">Related</p>
+<ul class="pa0 list">
+<li class=mb2>
+<a href=/posts/weakly_link_2026_08/>Weakly Link 26/08</a>
+</li>
+<li class=mb2>
+<a href=/posts/weakly_link_2026_07/>Weakly Link 26/07</a>
+</li>
+<li class=mb2>
+<a href=/posts/weakly_link_2026_06/>Weakly Link 26/06</a>
+</li>
+<li class=mb2>
+<a href=/posts/weakly_link_2026_05/>Weakly Link 26/05</a>
+</li>
+<li class=mb2>
+<a href=/posts/weakly_link_2026_04/>Weakly Link 26/04</a>
+</li>
+<li class=mb2>
+<a href=/posts/weakly_link_2026_03/>Weakly Link 26/03</a>
+</li>
+<li class=mb2>
+<a href=/posts/weakly_link_2026_02/>Weakly Link 26/02</a>
+</li>
+<li class=mb2>
+<a href=/posts/weakly_link_2026_01/>Weakly Link 26/01</a>
+</li>
+<li class=mb2>
+<a href=/posts/weakly_link_2025_52/>Weakly Link 25/52</a>
+</li>
+<li class=mb2>
+<a href=/posts/weakly_link_2025_51/>Weakly Link 25/51</a>
+</li>
+<li class=mb2>
+<a href=/posts/weakly_link_2025_50/>Weakly Link 25/50</a>
+</li>
+<li class=mb2>
+<a href=/posts/weakly_link_2025_49/>Weakly Link 25/49</a>
+</li>
+<li class=mb2>
+<a href=/posts/weakly_link_2025_48/>Weakly Link 25/48</a>
+</li>
+<li class=mb2>
+<a href=/posts/weakly_link_2025_47/>Weakly Link 25/47</a>
+</li>
+<li class=mb2>
+<a href=/posts/weakly_link_2025_46/>Weakly Link 25/46</a>
+</li>
+</ul>
+</div>
+</aside>
+</article>
+</main>
+<footer class="bg-black bottom-0 w-100 pa3" role=contentinfo>
+<div class="flex justify-between">
+<a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href=https://beny23.github.io/>
+&copy; Software Design Systems 2026
+</a>
+<div>
+<a href=https://stackoverflow.com/users/227140/beny23 target=_blank class="link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Stack Overflow link" rel=noopener aria-label="follow on Stack Overflow——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32"><path d="M12 0C5.373.0.0 5.373.0 12s5.373 12 12 12 12-5.373 12-12S18.627.0 12 0zm.869 5.903 3.114 4.567-.975.665-3.115-4.567.976-.665zm-2.812 2.585 4.84 2.838-.6 1.017-4.842-2.838.602-1.017zm-1.276 2.724 5.413 1.521-.291 1.077-5.428-1.458.306-1.14zm-.588 2.461 5.687.569-.103 1.12-5.691-.513.107-1.176zm-.169 2.16h5.835V17H8.024v-1.167zM16 19H6v-6h1v5h8v-5h1v6zm.195-8.602-.945-5.446 1.162-.202.947 5.446-1.164.202z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://www.linkedin.com/in/gerald-benischke-9811b663 target=_blank class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel=noopener aria-label="follow on LinkedIn——Opens in a new window"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://github.com/beny23 target=_blank class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel=noopener aria-label="follow on Github——Opens in a new window"><svg height="32" style="enable-background:new 0 0 512 512" viewBox="0 0 512 512" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M256 32C132.3 32 32 134.8 32 261.7c0 101.5 64.2 187.5 153.2 217.9 11.2 2.1 15.3-5 15.3-11.1.0-5.5-.2-19.9-.3-39.1-62.3 13.9-75.5-30.8-75.5-30.8-10.2-26.5-24.9-33.6-24.9-33.6-20.3-14.3 1.5-14 1.5-14 22.5 1.6 34.3 23.7 34.3 23.7 20 35.1 52.4 25 65.2 19.1 2-14.8 7.8-25 14.2-30.7-49.7-5.8-102-25.5-102-113.5.0-25.1 8.7-45.6 23-61.6-2.3-5.8-10-29.2 2.2-60.8.0.0 18.8-6.2 61.6 23.5 17.9-5.1 37-7.6 56.1-7.7 19 .1 38.2 2.6 56.1 7.7 42.8-29.7 61.5-23.5 61.5-23.5 12.2 31.6 4.5 55 2.2 60.8 14.3 16.1 23 36.6 23 61.6.0 88.2-52.4 107.6-102.3 113.3 8 7.1 15.2 21.1 15.2 42.5.0 30.7-.3 55.5-.3 63 0 6.1 4 13.3 15.4 11C415.9 449.1 480 363.1 480 261.7 480 134.8 379.7 32 256 32z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://infosec.exchange/@beny23 target=_blank class="link-transition mastodon link dib z-999 pt3 pt0-l mr1" title="Mastodon link" rel=noopener aria-label="follow on Mastodon——Opens in a new window"><svg height="32" style="enable-background:new 0 0 230 230" viewBox="0 0 230 230" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M211.80683 139.0875c-3.1825 16.36625-28.4925 34.2775-57.5625 37.74875-15.16 1.80875-30.0825 3.47125-45.99875 2.74125-26.0275-1.1925-46.565-6.2125-46.565-6.2125.0 2.53375.15625 4.94625.46875 7.2025 3.38375 25.68625 25.47 27.225 46.3925 27.9425 21.115.7225 39.91625-5.20625 39.91625-5.20625l.86875 19.09s-14.77 7.93125-41.08125 9.39c-14.50875.7975-32.52375-.365-53.50625-5.91875C9.23183 213.82 1.40558 165.31125.20808 116.09125c-.36375-14.61375-.14-28.39375-.14-39.91875.0-50.33 32.97625-65.0825 32.97625-65.0825C49.67058 3.45375 78.20308.2425 107.86433.0h.72875c29.66125.2425 58.21125 3.45375 74.8375 11.09.0.0 32.97625 14.7525 32.97625 65.0825.0.0.4125 37.13375-4.6 62.915" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/><path d="M65.68743 96.45938c0 9.01375-7.3075 16.32125-16.3225 16.32125-9.01375.0-16.32-7.3075-16.32-16.32125.0-9.01375 7.30625-16.3225 16.32-16.3225 9.015.0 16.3225 7.30875 16.3225 16.3225M124.52893 96.45938c0 9.01375-7.30875 16.32125-16.3225 16.32125s-16.32125-7.3075-16.32125-16.32125c0-9.01375 7.3075-16.3225 16.32125-16.3225 9.01375.0 16.3225 7.30875 16.3225 16.3225M183.36933 96.45938c0 9.01375-7.3075 16.32125-16.32125 16.32125s-16.32125-7.3075-16.32125-16.32125c0-9.01375 7.3075-16.3225 16.32125-16.3225s16.32125 7.30875 16.32125 16.3225" fill="#fff"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+</div>
+</div>
+</footer>
+<script src=/dist/js/app.3fc0f988d21662902933.js></script>
+</body>
+</html>
