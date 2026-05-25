@@ -1,0 +1,334 @@
+<!doctype html><html lang=en-gb>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>Weakly Link 26/19: Local Escalations | Tales about Software Engineering</title>
+<meta name=viewport content="width=device-width,minimum-scale=1">
+<meta name=generator content="Hugo 0.92.0">
+<meta name=ROBOTS content="INDEX, FOLLOW">
+<link href=/dist/css/app.4fc0b62e4b82c997bb0041217cd6b979.css rel=stylesheet>
+<meta property="og:title" content="Weakly Link 26/19: Local Escalations">
+<meta property="og:description" content="It&rsquo;s been a busy few weeks in security. You wait for ages for a local privilege escalation vulnerability and then two come along at the same time. We find out that just because it&rsquo;s rust, doesn&rsquo;t mean it&rsquo;s secure. GitHub security was bypassed and Gemini scored a perfect 10. Let&rsquo;s dive in.
+Copy Fail Copy Fail is probably something that if you&rsquo;ve been remotely interested in security you couldn&rsquo;t fail to miss.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://beny23.github.io/posts/weakly_link_2026_19/"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2026-05-12T00:00:00+00:00">
+<meta property="article:modified_time" content="2026-05-12T00:00:00+00:00">
+<meta itemprop=name content="Weakly Link 26/19: Local Escalations">
+<meta itemprop=description content="It&rsquo;s been a busy few weeks in security. You wait for ages for a local privilege escalation vulnerability and then two come along at the same time. We find out that just because it&rsquo;s rust, doesn&rsquo;t mean it&rsquo;s secure. GitHub security was bypassed and Gemini scored a perfect 10. Let&rsquo;s dive in.
+Copy Fail Copy Fail is probably something that if you&rsquo;ve been remotely interested in security you couldn&rsquo;t fail to miss."><meta itemprop=datePublished content="2026-05-12T00:00:00+00:00">
+<meta itemprop=dateModified content="2026-05-12T00:00:00+00:00">
+<meta itemprop=wordCount content="1329">
+<meta itemprop=keywords content="weakly-link,"><meta name=twitter:card content="summary">
+<meta name=twitter:title content="Weakly Link 26/19: Local Escalations">
+<meta name=twitter:description content="It&rsquo;s been a busy few weeks in security. You wait for ages for a local privilege escalation vulnerability and then two come along at the same time. We find out that just because it&rsquo;s rust, doesn&rsquo;t mean it&rsquo;s secure. GitHub security was bypassed and Gemini scored a perfect 10. Let&rsquo;s dive in.
+Copy Fail Copy Fail is probably something that if you&rsquo;ve been remotely interested in security you couldn&rsquo;t fail to miss.">
+<link rel=me href=https://infosec.exchange/@beny23>
+<script data-goatcounter=https://beny23.goatcounter.com/count async src=//gc.zgo.at/count.js></script>
+</head>
+<body class="ma0 avenir bg-near-white production">
+<header class="cover bg-top" style=background-image:url(https://beny23.github.io/images/weakly_link_2026_19_title.jpg)>
+<div class="pb3-m pb6-l bg-black-60">
+<nav class="pv3 ph3 ph4-ns" role=navigation>
+<div class="flex-l justify-between items-center center">
+<a href=/ class="f3 fw2 hover-white no-underline white-90 dib">
+Tales about Software Engineering
+</a>
+<div class="flex-l items-center">
+<ul class="pl0 mr3">
+<li class="list f5 f4-ns fw4 dib pr3">
+<a class="hover-white no-underline white-90" href=/about/ title="About page">
+About
+</a>
+</li>
+<li class="list f5 f4-ns fw4 dib pr3">
+<a class="hover-white no-underline white-90" href=/posts/ title="Blog page">
+Blog
+</a>
+</li>
+<li class="list f5 f4-ns fw4 dib pr3">
+<a class="hover-white no-underline white-90" href=/talks/ title="Talks page">
+Talks
+</a>
+</li>
+<li class="list f5 f4-ns fw4 dib pr3">
+<a class="hover-white no-underline white-90" href=/tags/ title="Tags page">
+Tags
+</a>
+</li>
+</ul>
+<a href=https://stackoverflow.com/users/227140/beny23 target=_blank class="link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Stack Overflow link" rel=noopener aria-label="follow on Stack Overflow——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32"><path d="M12 0C5.373.0.0 5.373.0 12s5.373 12 12 12 12-5.373 12-12S18.627.0 12 0zm.869 5.903 3.114 4.567-.975.665-3.115-4.567.976-.665zm-2.812 2.585 4.84 2.838-.6 1.017-4.842-2.838.602-1.017zm-1.276 2.724 5.413 1.521-.291 1.077-5.428-1.458.306-1.14zm-.588 2.461 5.687.569-.103 1.12-5.691-.513.107-1.176zm-.169 2.16h5.835V17H8.024v-1.167zM16 19H6v-6h1v5h8v-5h1v6zm.195-8.602-.945-5.446 1.162-.202.947 5.446-1.164.202z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://www.linkedin.com/in/gerald-benischke-9811b663 target=_blank class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel=noopener aria-label="follow on LinkedIn——Opens in a new window"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://github.com/beny23 target=_blank class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel=noopener aria-label="follow on Github——Opens in a new window"><svg height="32" style="enable-background:new 0 0 512 512" viewBox="0 0 512 512" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M256 32C132.3 32 32 134.8 32 261.7c0 101.5 64.2 187.5 153.2 217.9 11.2 2.1 15.3-5 15.3-11.1.0-5.5-.2-19.9-.3-39.1-62.3 13.9-75.5-30.8-75.5-30.8-10.2-26.5-24.9-33.6-24.9-33.6-20.3-14.3 1.5-14 1.5-14 22.5 1.6 34.3 23.7 34.3 23.7 20 35.1 52.4 25 65.2 19.1 2-14.8 7.8-25 14.2-30.7-49.7-5.8-102-25.5-102-113.5.0-25.1 8.7-45.6 23-61.6-2.3-5.8-10-29.2 2.2-60.8.0.0 18.8-6.2 61.6 23.5 17.9-5.1 37-7.6 56.1-7.7 19 .1 38.2 2.6 56.1 7.7 42.8-29.7 61.5-23.5 61.5-23.5 12.2 31.6 4.5 55 2.2 60.8 14.3 16.1 23 36.6 23 61.6.0 88.2-52.4 107.6-102.3 113.3 8 7.1 15.2 21.1 15.2 42.5.0 30.7-.3 55.5-.3 63 0 6.1 4 13.3 15.4 11C415.9 449.1 480 363.1 480 261.7 480 134.8 379.7 32 256 32z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://infosec.exchange/@beny23 target=_blank class="link-transition mastodon link dib z-999 pt3 pt0-l mr1" title="Mastodon link" rel=noopener aria-label="follow on Mastodon——Opens in a new window"><svg height="32" style="enable-background:new 0 0 230 230" viewBox="0 0 230 230" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M211.80683 139.0875c-3.1825 16.36625-28.4925 34.2775-57.5625 37.74875-15.16 1.80875-30.0825 3.47125-45.99875 2.74125-26.0275-1.1925-46.565-6.2125-46.565-6.2125.0 2.53375.15625 4.94625.46875 7.2025 3.38375 25.68625 25.47 27.225 46.3925 27.9425 21.115.7225 39.91625-5.20625 39.91625-5.20625l.86875 19.09s-14.77 7.93125-41.08125 9.39c-14.50875.7975-32.52375-.365-53.50625-5.91875C9.23183 213.82 1.40558 165.31125.20808 116.09125c-.36375-14.61375-.14-28.39375-.14-39.91875.0-50.33 32.97625-65.0825 32.97625-65.0825C49.67058 3.45375 78.20308.2425 107.86433.0h.72875c29.66125.2425 58.21125 3.45375 74.8375 11.09.0.0 32.97625 14.7525 32.97625 65.0825.0.0.4125 37.13375-4.6 62.915" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/><path d="M65.68743 96.45938c0 9.01375-7.3075 16.32125-16.3225 16.32125-9.01375.0-16.32-7.3075-16.32-16.32125.0-9.01375 7.30625-16.3225 16.32-16.3225 9.015.0 16.3225 7.30875 16.3225 16.3225M124.52893 96.45938c0 9.01375-7.30875 16.32125-16.3225 16.32125s-16.32125-7.3075-16.32125-16.32125c0-9.01375 7.3075-16.3225 16.32125-16.3225 9.01375.0 16.3225 7.30875 16.3225 16.3225M183.36933 96.45938c0 9.01375-7.3075 16.32125-16.32125 16.32125s-16.32125-7.3075-16.32125-16.32125c0-9.01375 7.3075-16.3225 16.32125-16.3225s16.32125 7.30875 16.32125 16.3225" fill="#fff"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+</div>
+</div>
+</nav>
+<div class="tc-l pv6 ph3 ph4-ns">
+<h1 class="f2 f1-l fw2 white-90 mb0 lh-title">Weakly Link 26/19: Local Escalations</h1>
+</div>
+</div>
+</header>
+<main class=pb7 role=main>
+<article class="flex-l flex-wrap justify-between mw8 center ph3">
+<header class="mt4 w-100">
+<aside class="instapaper_ignoref b helvetica tracked">
+POSTS
+</aside>
+<div id=sharing class=mt3>
+<a href="https://www.facebook.com/sharer.php?u=https://beny23.github.io/posts/weakly_link_2026_19/" class="facebook no-underline" aria-label="share on Facebook"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M28.765 50.32h6.744V33.998h4.499l.596-5.624h-5.095l.007-2.816c0-1.466.14-2.253 2.244-2.253h2.812V17.68h-4.5c-5.405.0-7.307 2.729-7.307 7.317v3.377h-3.369v5.625h3.369V50.32zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd"/></svg>
+</a>
+<a href="https://twitter.com/share?url=https://beny23.github.io/posts/weakly_link_2026_19/&text=Weakly%20Link%2026/19:%20Local%20Escalations" class="twitter no-underline" aria-label="share on Twitter"><svg height="32" style="enable-background:new 0 0 67 67" viewBox="0 0 67 67" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M37.167 22.283c-2.619.953-4.274 3.411-4.086 6.101l.063 1.038-1.048-.127c-3.813-.487-7.145-2.139-9.974-4.915l-1.383-1.377-.356 1.017c-.754 2.267-.272 4.661 1.299 6.271.838.89.649 1.017-.796.487-.503-.169-.943-.296-.985-.233-.146.149.356 2.076.754 2.839.545 1.06 1.655 2.097 2.871 2.712l1.027.487-1.215.021c-1.173.0-1.215.021-1.089.467.419 1.377 2.074 2.839 3.918 3.475l1.299.444-1.131.678c-1.676.976-3.646 1.526-5.616 1.568C19.775 43.256 19 43.341 19 43.405c0 .211 2.557 1.397 4.044 1.864 4.463 1.377 9.765.783 13.746-1.568 2.829-1.673 5.657-5 6.978-8.221.713-1.716 1.425-4.851 1.425-6.354.0-.975.063-1.102 1.236-2.267.692-.678 1.341-1.419 1.467-1.631.21-.403.188-.403-.88-.043-1.781.636-2.033.551-1.152-.402.649-.678 1.425-1.907 1.425-2.267.0-.063-.314.042-.671.233-.377.212-1.215.53-1.844.72l-1.131.361-1.027-.7c-.566-.381-1.361-.805-1.781-.932C39.766 21.902 38.131 21.944 37.167 22.283zM33 64C16.432 64 3 50.569 3 34S16.432 4 33 4s30 13.431 30 30S49.568 64 33 64z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</a>
+<a href="https://www.linkedin.com/shareArticle?mini=true&url=https://beny23.github.io/posts/weakly_link_2026_19/&title=Weakly%20Link%2026/19:%20Local%20Escalations" class="linkedin no-underline" aria-label="share on LinkedIn"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</a>
+</div>
+<h1 class="f1 athelas mt3 mb1">Weakly Link 26/19: Local Escalations</h1>
+<time class="f6 mv4 dib tracked" datetime=2026-05-12T00:00:00Z>May 12, 2026</time>
+<span class="f6 mv4 dib tracked"> - 7 minutes read</span>
+<span class="f6 mv4 dib tracked"> - 1329 words</span>
+</header>
+<div class="nested-copy-line-height lh-copy serif f4 nested-links nested-img mid-gray pr4-l w-two-thirds-l"><p>It&rsquo;s been a busy few weeks in security. You wait for ages for a local privilege escalation vulnerability and
+then two come along at the same time. We find out that just because it&rsquo;s rust, doesn&rsquo;t mean it&rsquo;s secure. GitHub
+security was bypassed and Gemini scored a perfect 10. Let&rsquo;s dive in.</p>
+<h1 id=copy-fail>Copy Fail</h1>
+<p>Copy Fail is probably something that if you&rsquo;ve been remotely interested in security you couldn&rsquo;t fail to miss.
+You copy? At it&rsquo;s core it is an impressive class of vulnerability that allows privilege escalation from a
+user account to root. And it does that by abusing a crypto function of the Linux kernel that is not often used.</p>
+<p>I&rsquo;ll reproduce the table from the <a href=https://copy.fail>blog post</a> - LPE stands for Local Privilege Escalation:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>TYPICAL LINUX LPE</th>
+<th>COPY FAIL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Race condition</td>
+<td>required</td>
+<td>none</td>
+</tr>
+<tr>
+<td>Per-distro offsets</td>
+<td>required</td>
+<td>none</td>
+</tr>
+<tr>
+<td>Reliability</td>
+<td>30–80% per attempt</td>
+<td>100%, single shot</td>
+</tr>
+<tr>
+<td>Affected window</td>
+<td>narrow kernel range</td>
+<td>2017 → 2026 (9 yrs)</td>
+</tr>
+</tbody>
+</table>
+<p>What is equally impressive is that this vulnerability is quite stealthy:</p>
+<blockquote>
+<p>The corruption is transient, though. Nothing is written back to disk: once the page is evicted
+(memory pressure, <code>echo 3 > /proc/sys/vm/drop_caches</code>) or the system reboots, the cache reloads clean
+from disk and hashes match again. A forensic image of the disk shows the unmodified file.</p>
+</blockquote>
+<p>So how much of a panic is it generating. Is it - and I&rsquo;m only saying this because it&rsquo;s the industry standard
+do I panic comparison - &ldquo;the next Log4Shell&rdquo;? Well, yes and no. It isn&rsquo;t something that is exploitable
+remotely. But it does mean that if someone can get a foothold, lateral movement probably is a lot easier.</p>
+<p>The fact that it is serious is underlined by the fact that Cloudflare
+<a href=https://blog.cloudflare.com/copy-fail-linux-vulnerability-mitigation/>blogged</a> (or should that be bragged?)
+about how they mitigated it. If anything it gives a really good write-up of how the vulnerability works.</p>
+<h1 id=dirty-frag>Dirty Frag</h1>
+<p>Ok, so because having one universal local privilege escalation vulnerability is never enough, <a href=https://www.wiz.io/blog/dirty-frag-linux-kernel-local-privilege-escalation-via-esp-and-rxrpc>a second
+one came along</a>.
+This one is called Dirty Frag, and it doesn&rsquo;t even have a patch yet.</p>
+<p>Again, an important class of bug in a second phase of an attack.</p>
+<h1 id=surely-ai-is-the-answer>Surely AI is the answer</h1>
+<p>So what to do about all this vulnerable code. In previous weeks we&rsquo;ve cast doubt over the hype
+that had been generated over the ability of Mythos to &ldquo;change everything&rdquo;. Daniel (him off curl fame) confirms
+that somewhat in this <a href=https://daniel.haxx.se/blog/2026/05/11/mythos-finds-a-curl-vulnerability/>blog post</a>
+by being a bit disappointed:</p>
+<blockquote>
+<p>The single confirmed vulnerability is going to end up a severity low CVE planned to get published in sync
+with our pending next curl release 8.21.0 in late June. The flaw is not going to make anyone grasp for
+breath. All details of that vulnerability will of course not get public before then, so you need to hold
+out for details on that.</p>
+</blockquote>
+<p>I do like that the blog post looks at two angles here, and I wholeheartedly agree with them both. Depending
+on whether you&rsquo;re an AI doomer or an AI booster, this is good or bad:</p>
+<blockquote>
+<p>My personal conclusion can however not end up with anything else than that the big hype around this model so
+far was primarily marketing. I see no evidence that this setup finds issues to any particular higher or
+more advanced degree than the other tools have done before Mythos.</p>
+</blockquote>
+<p>And conversely bad or good:</p>
+<blockquote>
+<p>But allow me to highlight and reiterate what I have said before: AI powered code analyzers are significantly
+better at finding security flaws and mistakes in source code than any traditional code analyzers did in the past.
+All modern AI models are good at this now.</p>
+</blockquote>
+<h1 id=lets-move-on-to-the-next-panacea>Let&rsquo;s move on to the next panacea</h1>
+<p>Anybody who knows anything in security will tell you that it is outrageous that in 2026 we&rsquo;re still dealing
+with memory safety issues. I mean, the Rust programming language with its borrow checker has been out for a while
+now. So what are we even doing, still writing Operating Systems, Drivers and Software in silly old
+C(++)? Are we mad?</p>
+<p><a href=https://uutils.github.io>uutils</a> is a rewrite of lots of core unix utilities in Rust. So it would make sense
+to adopt it, right?</p>
+<p>Well, maybe not. This <a href=https://seclists.org/oss-sec/2026/q2/332>seclists post</a> points to quite a large number
+of issues that make the Rust coreutils implementation rather less safe than more safe. I guess writing
+software is hard, and security is more than just memory safety.</p>
+<p>I guess, we&rsquo;re only too human to hope that we&rsquo;ll get that one true way of magically fixing security.</p>
+<h1 id=magic-fixes-you-say>Magic fixes you say?</h1>
+<p>I wonder how much of infrastructure and code runs on GitHub these days. So when the wiz kids (sorry) found
+<a href=https://www.wiz.io/blog/github-rce-vulnerability-cve-2026-3854>an injection vulnerability in GitHub&rsquo;s internals</a>
+it made me sit up:</p>
+<blockquote>
+<p>By exploiting an injection flaw in GitHub&rsquo;s internal protocol, any authenticated user could execute arbitrary
+commands on GitHub&rsquo;s backend servers with a single git push command - using nothing but a standard git client.</p>
+</blockquote>
+<p>This is a great reminder for the fact that securing systems is difficult because of how untrusted input often
+turns into trusted input just because it is an internal system. Simple and scary. Good thing everyone who is running
+GitHub Enterprise Server has patched it.</p>
+<blockquote>
+<p>GitHub Enterprise Server customers should upgrade immediately - at the time of this writing, our data
+indicates that 88% of instances are still vulnerable.</p>
+</blockquote>
+<p>Oops.</p>
+<p>What is interesting is that this research was made possible by GenAI.</p>
+<blockquote>
+<p>By leveraging AI-augmented tooling-particularly automated reverse engineering using IDA MCP-we were able to
+do what was previously too costly.</p>
+</blockquote>
+<p>Not because a human couldn&rsquo;t have done it, but because it was actually economical to get an AI to try to do
+reverse engineering at a scale.</p>
+<h1 id=ai-security-research>AI Security Research</h1>
+<p>So, 10 out of 10 for AI? That&rsquo;s good right? Weeell, not when it&rsquo;s CVSS 10. Take <a href=https://github.com/google-github-actions/run-gemini-cli/security/advisories/GHSA-wpqr-6v78-jr5g>this interesting bug
+report</a> on
+gemini cli:</p>
+<blockquote>
+<p>In previous versions, Gemini CLI running in CI environments (headless mode) automatically trusted workspace
+folders for the purpose of loading configuration and environment variables. This is potentially risky in
+situations where Gemini CLI runs on untrusted folders in headless mode (e.g. CI workflows that review
+user-submitted pull requests).</p>
+</blockquote>
+<p>Potentially risky is doing a lot of heavy lifting in there. Basically, if an untrusted user was able to
+submit a PR which includes a <code>.gemini/settings.json</code> in a workflow that includes <code>uses: google-github-actions/run-gemini-cli</code>
+then, gemini cli enabled a full supply-chain compromise.</p>
+<h1 id=so-what-to-do>So what to do?</h1>
+<p>I stumbled across this excellent repository containing the <a href=https://github.com/SystemsApproach>Systems Approach books</a>.
+The problems we&rsquo;ve talked about above are generally problems of interactions of components. Like in the
+wiz GitHub RCE, it was all about messing up the boundaries of trusted and untrusted input.</p>
+<p>Will I read it? Nah, I&rsquo;ll just point copilot at it and tell it to learn its lessons. That&rsquo;s how research works these
+days, no?</p>
+<h1 id=research>Research</h1>
+<p>To finish off a <a href=https://shkspr.mobi/blog/2026/05/ive-found-just-the-right-paper-for-my-bottom-hole-problem/>lovely story</a>
+by Terence about doing some &ldquo;important&rdquo; research which is to find out which real paper was use to create the fake
+newspaper in an episode of Bottom.</p>
+<p>Turns out, that there is a huge amount of information that isn&rsquo;t digital. So ChatGPT wouldn&rsquo;t have found it:</p>
+<blockquote>
+<p>So I contacted the fine people at Elmbridge Museum who were happy to rummage through their microfiche for me.
+I expect, much like Indiana Jones, the archivists had to knock down fake walls, find a mystic box containing
+the treasure, and then dodge various snakes and villains to retrieve the priceless artefact. Or they may have
+a well designed archival system which is a pleasure to use. I don&rsquo;t know.</p>
+</blockquote>
+<p>I guess it is important to remember that so much of human information is not digitised but is hiding away
+in dead-tree format or on microfiche. I wanted to add a punchy reference to the Library of Congress only having
+1% of its content digitised, but alas, copilot failed me, so you&rsquo;re just going to have to trust me on this&mldr;</p>
+<p>That was the weakly link, goodbye.</p>
+<b>Tags</b>
+<a href=https://beny23.github.io/tags/weakly-link/>weakly-link</a>
+<p>
+If you'd like to find more of my writing, why not follow me on
+<a href=https://bsky.app/profile/beny23.github.io title="BlueSky link" rel=noopener aria-label="follow on BlueSky - Opens in a new window">Bluesky</a> or
+<a href=https://infosec.exchange/@beny23 title="Mastodon link" rel=noopener aria-label="follow on Mastodon - Opens in a new window">Mastodon</a>?
+</p>
+<div class="mt6 instapaper_ignoref">
+</div>
+</div>
+<aside class="w-30-l mt6-l">
+<div class="bg-light-gray pa3 nested-list-reset nested-copy-line-height nested-links">
+<p class="f5 b mb3">Related</p>
+<ul class="pa0 list">
+<li class=mb2>
+<a href=/posts/weakly_link_2026_17/>Weakly Link 26/17: AI stutters</a>
+</li>
+<li class=mb2>
+<a href=/posts/weakly_link_2026_16/>Weakly Link 26/16 - Quantum Mythos Special</a>
+</li>
+<li class=mb2>
+<a href=/posts/weakly_link_2026_14/>Weakly Link 26/14</a>
+</li>
+<li class=mb2>
+<a href=/posts/weakly_link_2026_12/>Weakly Link 26/12</a>
+</li>
+<li class=mb2>
+<a href=/posts/weakly_link_2026_11/>Weakly Link 26/11</a>
+</li>
+<li class=mb2>
+<a href=/posts/weakly_link_2026_09/>Weakly Link 26/09</a>
+</li>
+<li class=mb2>
+<a href=/posts/weakly_link_2026_08/>Weakly Link 26/08</a>
+</li>
+<li class=mb2>
+<a href=/posts/weakly_link_2026_07/>Weakly Link 26/07</a>
+</li>
+<li class=mb2>
+<a href=/posts/weakly_link_2026_06/>Weakly Link 26/06</a>
+</li>
+<li class=mb2>
+<a href=/posts/weakly_link_2026_05/>Weakly Link 26/05</a>
+</li>
+<li class=mb2>
+<a href=/posts/weakly_link_2026_04/>Weakly Link 26/04</a>
+</li>
+<li class=mb2>
+<a href=/posts/weakly_link_2026_03/>Weakly Link 26/03</a>
+</li>
+<li class=mb2>
+<a href=/posts/weakly_link_2026_02/>Weakly Link 26/02</a>
+</li>
+<li class=mb2>
+<a href=/posts/weakly_link_2026_01/>Weakly Link 26/01</a>
+</li>
+<li class=mb2>
+<a href=/posts/weakly_link_2025_52/>Weakly Link 25/52</a>
+</li>
+</ul>
+</div>
+</aside>
+</article>
+</main>
+<footer class="bg-black bottom-0 w-100 pa3" role=contentinfo>
+<div class="flex justify-between">
+<a class="f4 fw4 hover-white no-underline white-70 dn dib-ns pv2 ph3" href=https://beny23.github.io/>
+&copy; Software Design Systems 2026
+</a>
+<div>
+<a href=https://stackoverflow.com/users/227140/beny23 target=_blank class="link-transition stackoverflow link dib z-999 pt3 pt0-l mr1" title="Stack Overflow link" rel=noopener aria-label="follow on Stack Overflow——Opens in a new window"><svg height="32" style="enable-background:new 0 0 67 67" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32"><path d="M12 0C5.373.0.0 5.373.0 12s5.373 12 12 12 12-5.373 12-12S18.627.0 12 0zm.869 5.903 3.114 4.567-.975.665-3.115-4.567.976-.665zm-2.812 2.585 4.84 2.838-.6 1.017-4.842-2.838.602-1.017zm-1.276 2.724 5.413 1.521-.291 1.077-5.428-1.458.306-1.14zm-.588 2.461 5.687.569-.103 1.12-5.691-.513.107-1.176zm-.169 2.16h5.835V17H8.024v-1.167zM16 19H6v-6h1v5h8v-5h1v6zm.195-8.602-.945-5.446 1.162-.202.947 5.446-1.164.202z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://www.linkedin.com/in/gerald-benischke-9811b663 target=_blank class="link-transition linkedin link dib z-999 pt3 pt0-l mr1" title="LinkedIn link" rel=noopener aria-label="follow on LinkedIn——Opens in a new window"><svg height="32" style="enable-background:new 0 0 65 65" viewBox="0 0 65 65" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M50.837 48.137V36.425c0-6.275-3.35-9.195-7.816-9.195-3.604.0-5.219 1.983-6.119 3.374V27.71h-6.79c.09 1.917.0 20.427.0 20.427h6.79V36.729c0-.609.044-1.219.224-1.655.49-1.22 1.607-2.483 3.482-2.483 2.458.0 3.44 1.873 3.44 4.618v10.929H50.837zM22.959 24.922c2.367.0 3.842-1.57 3.842-3.531-.044-2.003-1.475-3.528-3.797-3.528s-3.841 1.524-3.841 3.528c0 1.961 1.474 3.531 3.753 3.531H22.959zM34 64C17.432 64 4 50.568 4 34 4 17.431 17.432 4 34 4s30 13.431 30 30c0 16.568-13.432 30-30 30zM26.354 48.137V27.71h-6.789v20.427h6.789z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://github.com/beny23 target=_blank class="link-transition github link dib z-999 pt3 pt0-l mr1" title="Github link" rel=noopener aria-label="follow on Github——Opens in a new window"><svg height="32" style="enable-background:new 0 0 512 512" viewBox="0 0 512 512" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M256 32C132.3 32 32 134.8 32 261.7c0 101.5 64.2 187.5 153.2 217.9 11.2 2.1 15.3-5 15.3-11.1.0-5.5-.2-19.9-.3-39.1-62.3 13.9-75.5-30.8-75.5-30.8-10.2-26.5-24.9-33.6-24.9-33.6-20.3-14.3 1.5-14 1.5-14 22.5 1.6 34.3 23.7 34.3 23.7 20 35.1 52.4 25 65.2 19.1 2-14.8 7.8-25 14.2-30.7-49.7-5.8-102-25.5-102-113.5.0-25.1 8.7-45.6 23-61.6-2.3-5.8-10-29.2 2.2-60.8.0.0 18.8-6.2 61.6 23.5 17.9-5.1 37-7.6 56.1-7.7 19 .1 38.2 2.6 56.1 7.7 42.8-29.7 61.5-23.5 61.5-23.5 12.2 31.6 4.5 55 2.2 60.8 14.3 16.1 23 36.6 23 61.6.0 88.2-52.4 107.6-102.3 113.3 8 7.1 15.2 21.1 15.2 42.5.0 30.7-.3 55.5-.3 63 0 6.1 4 13.3 15.4 11C415.9 449.1 480 363.1 480 261.7 480 134.8 379.7 32 256 32z"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+<a href=https://infosec.exchange/@beny23 target=_blank class="link-transition mastodon link dib z-999 pt3 pt0-l mr1" title="Mastodon link" rel=noopener aria-label="follow on Mastodon——Opens in a new window"><svg height="32" style="enable-background:new 0 0 230 230" viewBox="0 0 230 230" width="32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M211.80683 139.0875c-3.1825 16.36625-28.4925 34.2775-57.5625 37.74875-15.16 1.80875-30.0825 3.47125-45.99875 2.74125-26.0275-1.1925-46.565-6.2125-46.565-6.2125.0 2.53375.15625 4.94625.46875 7.2025 3.38375 25.68625 25.47 27.225 46.3925 27.9425 21.115.7225 39.91625-5.20625 39.91625-5.20625l.86875 19.09s-14.77 7.93125-41.08125 9.39c-14.50875.7975-32.52375-.365-53.50625-5.91875C9.23183 213.82 1.40558 165.31125.20808 116.09125c-.36375-14.61375-.14-28.39375-.14-39.91875.0-50.33 32.97625-65.0825 32.97625-65.0825C49.67058 3.45375 78.20308.2425 107.86433.0h.72875c29.66125.2425 58.21125 3.45375 74.8375 11.09.0.0 32.97625 14.7525 32.97625 65.0825.0.0.4125 37.13375-4.6 62.915" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/><path d="M65.68743 96.45938c0 9.01375-7.3075 16.32125-16.3225 16.32125-9.01375.0-16.32-7.3075-16.32-16.32125.0-9.01375 7.30625-16.3225 16.32-16.3225 9.015.0 16.3225 7.30875 16.3225 16.3225M124.52893 96.45938c0 9.01375-7.30875 16.32125-16.3225 16.32125s-16.32125-7.3075-16.32125-16.32125c0-9.01375 7.3075-16.3225 16.32125-16.3225 9.01375.0 16.3225 7.30875 16.3225 16.3225M183.36933 96.45938c0 9.01375-7.3075 16.32125-16.32125 16.32125s-16.32125-7.3075-16.32125-16.32125c0-9.01375 7.3075-16.3225 16.32125-16.3225s16.32125 7.30875 16.32125 16.3225" fill="#fff"/></svg>
+<span class=new-window><svg height="8" style="enable-background:new 0 0 1000 1000" viewBox="0 0 1e3 1e3" width="8" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M598 128h298v298h-86V274L392 692l-60-60 418-418H598v-86zM810 810V512h86v298c0 46-40 86-86 86H214c-48 0-86-40-86-86V214c0-46 38-86 86-86h298v86H214v596h596z" style="fill-rule:evenodd;clip-rule:evenodd;fill:"/></svg>
+</span></a>
+</div>
+</div>
+</footer>
+<script src=/dist/js/app.3fc0f988d21662902933.js></script>
+</body>
+</html>
